@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/loadTabFileButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:text="@string/LoadTabFile"
+        android:textSize="10sp" />
+
+    <EditText
+        android:id="@+id/songField"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/loadTabFileButton"
+        android:layout_marginLeft="0dp"
+        android:layout_toRightOf="@+id/loadTabFileButton"
+        android:ems="10"
+        android:textSize="10sp" >
+
+        <requestFocus />
+    </EditText>
+
+    <ListView
+        android:id="@+id/instructionsList"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_below="@+id/trackChooser"
+        android:layout_toLeftOf="@+id/nextMeasButton"
+        android:layout_toRightOf="@+id/prevMeasButton"
+        android:entries="@array/empty_instruct"
+        android:textSize="10sp"
+        tools:listitem="@android:layout/simple_list_item_1" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/loadTabFileButton"
+        android:layout_below="@+id/loadTabFileButton"
+        android:layout_marginTop="17dp"
+        android:text="@string/ChooseTrack"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/prevMeasButton"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignBottom="@+id/instructionsList"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/trackChooser"
+        android:text="@string/back"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/nextMeasButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/instructionsList"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/trackChooser"
+        android:text="@string/forward"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/toggleModesButton"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/playSampleButton"
+        android:layout_below="@+id/songField"
+        android:layout_toRightOf="@+id/trackChooser"
+        android:text="@string/ToggleModes"
+        android:textSize="10sp" />
+
+    <Spinner
+        android:id="@+id/trackChooser"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_marginLeft="27dp"
+        android:layout_toRightOf="@+id/textView1"
+        android:textSize="10sp"
+        tools:listitem="@android:layout/simple_spinner_item" />
+
+    <Button
+        android:id="@+id/playSampleButton"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/instructionsList"
+        android:layout_below="@+id/songField"
+        android:layout_toRightOf="@+id/toggleModesButton"
+        android:text="@string/PlayMeasure"
+        android:textSize="10sp" />
+
+</RelativeLayout>
