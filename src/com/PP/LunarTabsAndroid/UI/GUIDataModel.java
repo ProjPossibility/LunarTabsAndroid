@@ -1,34 +1,57 @@
 package com.PP.LunarTabsAndroid.UI;
+import java.io.Serializable;
 import java.util.*;
 
+import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.LunarTabsAndroid.FileOp.FileOp;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.tuxguitar.TuxGuitarUtil;
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGMeasure;
 import com.tuxguitar.song.models.TGSong;
 import com.tuxguitar.song.models.TGTrack;
 
-public class GUIDataModel {
+public class GUIDataModel implements Serializable {
 	
 	//Presentation model params
 	protected String filePath;
+	protected String fileName;
 	protected TGSong song;
 	protected int trackNum;
+	protected List<String> tracksList;		
 	protected List<List<String>> measureInst;
 	protected List<List<String>> sfInst;
 	protected int currentMeas;
 	protected boolean verbose;
-	
-	/**
-	 * Constructor
-	 */
-	public GUIDataModel() {
+
+	//singleton
+	protected GUIDataModel() {
 		song = null;
 		trackNum = -1;
 		currentMeas = -1;
+		filePath = null;
+		fileName = null;
+		tracksList = null;
 		verbose = false;
 	}
+	protected static GUIDataModel instance = null;
+	public static GUIDataModel getInstance() {
+		if(instance==null) {
+			instance = FileOp.readModel(FileOp.SAVE_PATH + FileOp.GUI_MODEL_FILE);
+			if(instance==null) {
+				instance = new GUIDataModel();
+			}
+		}
+		return instance;
+	}
+	
+	/**
+	 * Serialize instance to file
+	 */
+	public void saveInstance() {
+		FileOp.writeModel(instance, FileOp.SAVE_PATH + FileOp.GUI_MODEL_FILE);
+	}
+	
 		
 	/**
 	 * Is on percussion track
@@ -173,5 +196,33 @@ public class GUIDataModel {
 	 */
 	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
+	}
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * @param fileName the fileName to set
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	/**
+	 * @return the tracksList
+	 */
+	public List<String> getTracksList() {
+		return tracksList;
+	}
+
+	/**
+	 * @param tracksList the tracksList to set
+	 */
+	public void setTracksList(List<String> tracksList) {
+		this.tracksList = tracksList;
 	}	
 }

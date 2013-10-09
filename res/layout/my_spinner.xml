@@ -4,4 +4,6 @@
   android:singleLine="true"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
-  android:textSize="10sp"/>
+  android:background="@color/white"
+  android:textColor="@color/black"        
+  android:textSize="20sp"/>

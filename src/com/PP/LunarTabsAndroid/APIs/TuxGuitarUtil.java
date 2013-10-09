@@ -1,5 +1,6 @@
-package com.tuxguitar;
+package com.PP.LunarTabsAndroid.APIs;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,7 +10,7 @@ import java.util.*;
 
 import android.media.MediaPlayer;
 
-import com.PP.LunarTabsAndroid.APIs.MediaPlayerAPI;
+import com.PP.LunarTabsAndroid.FileOp.FileOp;
 import com.tuxguitar.io.base.TGSongLoader;
 import com.tuxguitar.io.gtp.GP4OutputStream;
 import com.tuxguitar.io.gtp.GTPSettings;
@@ -24,19 +25,31 @@ import com.tuxguitar.song.models.TGTrack;
 import com.tuxguitar.song.models.TGVoice;
 
 public class TuxGuitarUtil {
-		
-	public static void playClip(String file, int m0, int mf,int track) {
+	
+	public static void cleanUp(String dirPath) {
+		try {
+			File f1 = new File(dirPath + FileOp.TEMP_GP4);
+			f1.delete();
+			File f2 = new File(dirPath + FileOp.TEMP_MID);
+			f2.delete();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void playClip(String file, String dirPath, int m0, int mf,int track) {
 		try {
 			
-			//write midi file for measure
+			//write MIDI file for measure
 			TGSong song = TuxGuitarUtil.loadSong(file);
 			TGSong newSong = TuxGuitarUtil.extractMeasures(song, track,m0, mf);
-			TuxGuitarUtil.exportToGP4("/storage/sdcard0/Download/test.gp4", newSong);		
-			TGSong s3 = TuxGuitarUtil.loadSong("/storage/sdcard0/Download/test.gp4");			
-			TuxGuitarUtil.exportToMidi("/storage/sdcard0/Download/test.mid", s3);
+			TuxGuitarUtil.exportToGP4(dirPath + FileOp.TEMP_GP4, newSong);		
+			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOp.TEMP_GP4);			
+			TuxGuitarUtil.exportToMidi(dirPath + FileOp.TEMP_MID, s3);
 			
 			//play
-			MediaPlayerAPI.getInstance().play("/storage/sdcard0/Download/test.mid");
+			MediaPlayerAPI.getInstance().play(dirPath + FileOp.TEMP_MID);
 			
 			/*
 			Sequence sequence = MidiSystem.getSequence(new File("test.mid"));

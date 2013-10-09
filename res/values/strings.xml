@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	
-    <string name="app_name">Lunar Tabs (Tablet Version)</string>
+    <string name="app_name">Lunar Tabs</string>
 	<string name="LoadTabFile">Load Tab File</string>
 	<string name="ChooseTrack">Choose Track: </string>
 	<string name="GenerateInstructions">Generate Instructions</string>
@@ -23,9 +23,10 @@
     <string name="action_settings">test</string>
     <string name="back">Previous\n Measure</string>
     <string name="forward">Next\n Measure</string>
+    <string name="back_acc">Previous Measure</string>
+    <string name="forward_acc">Next Measure</string>
     <string name="ToggleModes">Toggle Modes</string>
     <string name="PlayMeasure">Play Sample</string>
-    
     <string name="daidalos_hello">Hello World!</string>
     <string name="daidalos_app_name">aFileDialog</string>
     <color name="daidalos_gray">#888</color>
@@ -44,6 +45,7 @@
     <string name="daidalos_confirm_create_file">The file \'$file_name\' do not exists, are you sure that you want to create it?</string>
     <string name="daidalos_confirm_select_folder">Are you sure that you want to select the folder \'$file_name\'?</string>
     <string name="daidalos_confirm_create_folder">The folder \'$file_name\' do not exists, are you sure that you want to create it?</string>
-    
+    <color name="black">#000000</color>    
+    <color name="white">#ffffff</color>    
     
 </resources>

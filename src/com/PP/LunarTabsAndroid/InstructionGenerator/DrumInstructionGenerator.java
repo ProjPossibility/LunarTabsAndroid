@@ -2,8 +2,8 @@ package com.PP.LunarTabsAndroid.InstructionGenerator;
 
 import java.util.List;
 
+import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstrumentModels.DrumModel;
-import com.tuxguitar.TuxGuitarUtil;
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGNote;
 

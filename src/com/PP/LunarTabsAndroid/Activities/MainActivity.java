@@ -1,16 +1,22 @@
 package com.PP.LunarTabsAndroid.Activities;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
+import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.LunarTabsAndroid.FileOp.FileOp;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
 import com.daidalos.afiledialog.FileChooserDialog;
 import com.example.lunartabsandroid.R;
-import com.tuxguitar.TuxGuitarUtil;
 import com.tuxguitar.song.models.TGSong;
 
+import android.graphics.Color;
 import android.location.Address;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -40,10 +46,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected EditText fileField;
 	protected Spinner trackChooser;
 	protected ListView instructionsList;
-	
-	//Data model
-	protected GUIDataModel dataModel;
-		
+				
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -68,15 +71,57 @@ public class MainActivity extends Activity implements OnClickListener {
         prevMeasButton.setOnClickListener(this);
         nextMeasButton.setOnClickListener(this);
         
+        //colors
+        loadTabFileButton.setBackgroundColor(Color.WHITE);
+        loadTabFileButton.setTextColor(Color.BLACK);
+        toggleModesButton.setBackgroundColor(Color.WHITE);
+        toggleModesButton.setTextColor(Color.BLACK);
+        playSampleButton.setBackgroundColor(Color.WHITE);
+        playSampleButton.setTextColor(Color.BLACK);
+        prevMeasButton.setBackgroundColor(Color.WHITE);
+        prevMeasButton.setTextColor(Color.BLACK);
+        nextMeasButton.setBackgroundColor(Color.WHITE);
+        nextMeasButton.setTextColor(Color.BLACK);
+        instructionsList.setBackgroundColor(Color.WHITE);
+//        fileField.setBackgroundColor(Color.WHITE);
+//        fileField.setTextColor(Color.BLACK);
+        
         //enable APIs
         TextToSpeechAPI.init(this);
         
-        //init data model
-        dataModel = new GUIDataModel();
-        
         //cosmetic
         fileField.setEnabled(false);
-                
+        
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+        //reinit GUI from file (if exists)
+        reinitGUIFromFile();		
+	}
+	
+	public void reinitGUIFromFile() {
+		GUIDataModel dataModel = GUIDataModel.getInstance();
+		if(dataModel.getFileName()!=null && !dataModel.getFileName().trim().equals("")) {
+			fileField.setText(dataModel.getFileName());
+		}
+		if(dataModel.getSong()!=null) {
+			populateTrackOptions();
+		}
+		if(dataModel.getSong()!=null && dataModel.getTrackNum()!=-1) {
+			trackChooser.setSelection(dataModel.getTrackNum());
+		}
+		if(dataModel.getCurrentMeas()!=-1 && dataModel.getSfInst()!=null && dataModel.getMeasureInst()!=null) {
+			if(!dataModel.isOnPercussionTrack()) {
+				if(dataModel.isVerbose()) {
+					populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));					
+				}
+				else {
+					populateInstructionPane(dataModel.getMeasureInst().get(dataModel.getCurrentMeas()));
+				}
+			}
+		}
 	}
 
 	@Override
@@ -98,13 +143,15 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 	
-	public void playSample() {		
+	public void playSample() {	
+		GUIDataModel dataModel = GUIDataModel.getInstance();
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentMeas()>=0 && dataModel.getTrackNum()>=0) {
-			TuxGuitarUtil.playClip(dataModel.getFilePath(), dataModel.getCurrentMeas(), dataModel.getCurrentMeas(),dataModel.getTrackNum());		
+			TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOp.SAVE_PATH, dataModel.getCurrentMeas(), dataModel.getCurrentMeas(),dataModel.getTrackNum());		
 		}
 	}
 	
 	public void toggleModes() {
+		GUIDataModel dataModel=  GUIDataModel.getInstance();
 		if(!dataModel.isOnPercussionTrack()) {
 			if(dataModel.isVerbose()) {
 				populateInstructionPane(dataModel.getMeasureInst().get(dataModel.getCurrentMeas()));
@@ -118,6 +165,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 	
 	public void nextMeasure() {
+		GUIDataModel dataModel = GUIDataModel.getInstance();
 		if(dataModel.getCurrentMeas() < (dataModel.getMeasureInst().size()-1)) {
 			dataModel.setCurrentMeas(dataModel.getCurrentMeas()+1);
 			if(dataModel.isVerbose()) {
@@ -130,6 +178,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 	
 	public void prevMeasure() {
+		GUIDataModel dataModel = GUIDataModel.getInstance();
 		if(dataModel.getCurrentMeas() > 0) {
 			dataModel.setCurrentMeas(dataModel.getCurrentMeas()-1);
 			if(dataModel.isVerbose()) {
@@ -143,12 +192,21 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	public void loadInstructions() {
 		
+		//get model
+		GUIDataModel dataModel = GUIDataModel.getInstance();
+		
 		//generate instructions
 		dataModel.genInstructions();
 		
-		//populate instructions pane with first measure
-		dataModel.setCurrentMeas(0);
-		populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));
+		//populate instructions pane with current measure
+		if(dataModel.getCurrentMeas() < dataModel.getSfInst().size()) {
+			if(dataModel.isVerbose()) {
+				populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));				
+			}
+			else {
+				populateInstructionPane(dataModel.getMeasureInst().get(dataModel.getCurrentMeas()));								
+			}
+		}
 	}
 	
 	public void populateInstructionPane(List<String> instructions) {
@@ -171,17 +229,26 @@ public class MainActivity extends Activity implements OnClickListener {
 	             try {
 	            	 
 		             //populate GUI with selection	             
-		             fileField.setText(file.getPath());	            	 
+		             fileField.setText(file.getName());
 	            	 
 	            	 //load song and store in gui data model
 	            	 TGSong song = TuxGuitarUtil.loadSong(file.getPath());
+	            	 GUIDataModel dataModel = GUIDataModel.getInstance();
 	            	 dataModel.setFilePath(file.getPath());
+		             dataModel.setFileName(file.getName());	            	 
 	            	 if(song!=null) {
 	            		 dataModel.setSong(song);
 	            	 }
 	            	 
 	            	 //populate tracks
 	            	 populateTrackOptions();
+	            	 
+	             	//set first index selected and load instructions
+	             	if(dataModel.getTracksList().size() >0) {
+	             		dataModel.setTrackNum(0);
+	             		dataModel.setCurrentMeas(0);
+	         			loadInstructions();				    		
+	             	}	            	 
 	            	 
 	            	 //notify user that track successfully loaded
 	            	 TextToSpeechAPI.speak(SpeechConst.FILE_LOADED);
@@ -197,12 +264,36 @@ public class MainActivity extends Activity implements OnClickListener {
 	
     public void populateTrackOptions() {
     	
-        //populate options in list
-        List<String> tracksList = new ArrayList<String>();
+    	//load data model
+    	GUIDataModel dataModel = GUIDataModel.getInstance();
+    	
+        //populate options in list. Avoid duplicates.
+        ArrayList<String> tracksList = new ArrayList<String>();
+        Map<String,Integer> tracksDD = new HashMap<String,Integer>();
+        Set<String> multipleEntries = new HashSet<String>();
         TGSong songLoaded = dataModel.getSong();
         if(songLoaded!=null && songLoaded.countTracks() > 0) {
         	for(int x=0; x < songLoaded.countTracks(); x++) {
-        		tracksList.add(songLoaded.getTrack(x).getName());
+        		String trackHash = songLoaded.getTrack(x).getName().trim().toLowerCase();
+        		if(tracksDD.containsKey(trackHash)) {
+        			int newCnt = tracksDD.get(trackHash) + 1;
+        			tracksDD.put(trackHash, newCnt);
+        			multipleEntries.add(trackHash);
+        		}
+        		else {
+        			tracksDD.put(trackHash, 1);
+        		}
+        	}
+        	for(int x=(songLoaded.countTracks()-1); x>=0; x--) {
+        		String trackHash = songLoaded.getTrack(x).getName().trim().toLowerCase();
+        		String trackName = songLoaded.getTrack(x).getName().trim();
+        		if(multipleEntries.contains(trackHash)) {
+        			tracksList.add(0,trackName + " (" + tracksDD.get(trackHash) + ")");
+        			tracksDD.put(trackHash, tracksDD.get(trackHash)-1);
+        		}
+        		else {
+        			tracksList.add(0,trackName);        			
+        		}
         	}
         }
     	ArrayAdapter<String> a_opts = new ArrayAdapter<String>(this, R.layout.my_spinner,tracksList);
@@ -212,7 +303,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				dataModel.setTrackNum(arg2);
+				GUIDataModel.getInstance().setTrackNum(arg2);
 				loadInstructions();				
 			}
 			@Override
@@ -220,10 +311,7 @@ public class MainActivity extends Activity implements OnClickListener {
     		
     	});
     	
-    	//set first index selected and load instructions
-    	if(tracksList.size() >0) {
-    		dataModel.setTrackNum(0);
-			loadInstructions();				    		
-    	}
+    	//store
+    	GUIDataModel.getInstance().setTracksList(tracksList);
     }	
 }

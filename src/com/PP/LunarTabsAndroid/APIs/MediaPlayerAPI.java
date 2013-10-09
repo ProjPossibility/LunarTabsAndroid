@@ -22,6 +22,9 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 		return instance;
 	}
 	
+	//state
+	protected String lastFilePath = null;
+	
 	public void play(String filePath) {
 		try {
 			File f = new File(filePath);
@@ -30,6 +33,7 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 			mediaPlayer.setDataSource(fd);
 			mediaPlayer.prepare();
 			mediaPlayer.start();
+			lastFilePath = filePath;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -38,8 +42,14 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
+		
+		//clear memory of media player
 //		mp.release();
 		mp.reset();
+		
+		//delete temporary files
+		if(lastFilePath!=null) {
+			TuxGuitarUtil.cleanUp(lastFilePath);
+		}
 	}
-	
 }
