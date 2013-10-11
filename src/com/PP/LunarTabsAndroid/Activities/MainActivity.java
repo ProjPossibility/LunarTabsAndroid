@@ -10,6 +10,7 @@ import java.util.Set;
 import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.FileOp.FileOp;
+import com.PP.LunarTabsAndroid.UI.AccListView;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
 import com.daidalos.afiledialog.FileChooserDialog;
@@ -43,9 +44,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected Button playSampleButton;
 	protected Button prevMeasButton;
 	protected Button nextMeasButton;
-	protected EditText fileField;
+	protected TextView fileField;
 	protected Spinner trackChooser;
-	protected ListView instructionsList;
+	protected AccListView instructionsList;
 				
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,9 @@ public class MainActivity extends Activity implements OnClickListener {
         playSampleButton = (Button) findViewById(R.id.playSampleButton);
         prevMeasButton = (Button) findViewById(R.id.prevMeasButton);
         nextMeasButton = (Button) findViewById(R.id.nextMeasButton);
-        fileField = (EditText) findViewById(R.id.songField);
+        fileField = (TextView) findViewById(R.id.songField);
         trackChooser = (Spinner) findViewById(R.id.trackChooser);
-        instructionsList = (ListView) findViewById(R.id.instructionsList);
+        instructionsList = (AccListView) findViewById(R.id.instructionsList);
         
         //register listeners
         loadTabFileButton.setOnClickListener(this);
@@ -89,9 +90,15 @@ public class MainActivity extends Activity implements OnClickListener {
         //enable APIs
         TextToSpeechAPI.init(this);
         
-        //cosmetic
-        fileField.setEnabled(false);
+        //clean up
+        TuxGuitarUtil.cleanUp(FileOp.SAVE_PATH);
         
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		TuxGuitarUtil.cleanUp(FileOp.SAVE_PATH);
 	}
 	
 	@Override
@@ -105,6 +112,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		GUIDataModel dataModel = GUIDataModel.getInstance();
 		if(dataModel.getFileName()!=null && !dataModel.getFileName().trim().equals("")) {
 			fileField.setText(dataModel.getFileName());
+			fileField.setContentDescription(dataModel.getFileName());
 		}
 		if(dataModel.getSong()!=null) {
 			populateTrackOptions();
@@ -229,13 +237,16 @@ public class MainActivity extends Activity implements OnClickListener {
 	             try {
 	            	 
 		             //populate GUI with selection	             
-		             fileField.setText(file.getName());
+//		             fileField.setText(file.getName());
+//	            	 fileField.setContentDescription(file.getName());
 	            	 
 	            	 //load song and store in gui data model
 	            	 TGSong song = TuxGuitarUtil.loadSong(file.getPath());
+	            	 fileField.setText(song.getName());
+	            	 fileField.setContentDescription(song.getName());
 	            	 GUIDataModel dataModel = GUIDataModel.getInstance();
 	            	 dataModel.setFilePath(file.getPath());
-		             dataModel.setFileName(file.getName());	            	 
+		             dataModel.setFileName(song.getName());	            	 
 	            	 if(song!=null) {
 	            		 dataModel.setSong(song);
 	            	 }

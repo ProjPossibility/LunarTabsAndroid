@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 
+import com.PP.LunarTabsAndroid.FileOp.FileOp;
+
 import android.media.MediaPlayer;
 
 public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
@@ -21,10 +23,7 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 		}
 		return instance;
 	}
-	
-	//state
-	protected String lastFilePath = null;
-	
+		
 	public void play(String filePath) {
 		try {
 			File f = new File(filePath);
@@ -33,7 +32,6 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 			mediaPlayer.setDataSource(fd);
 			mediaPlayer.prepare();
 			mediaPlayer.start();
-			lastFilePath = filePath;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -48,8 +46,6 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 		mp.reset();
 		
 		//delete temporary files
-		if(lastFilePath!=null) {
-			TuxGuitarUtil.cleanUp(lastFilePath);
-		}
+		TuxGuitarUtil.cleanUp(FileOp.SAVE_PATH);
 	}
 }

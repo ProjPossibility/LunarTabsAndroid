@@ -1,39 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/black"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-	android:background="@color/black"    
     tools:context=".MainActivity" >
 
     <Button
-        android:id="@+id/loadTabFileButton"        
+        android:id="@+id/loadTabFileButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="0dp"
+        android:contentDescription="@string/LoadTabFile"
         android:text="@string/LoadTabFile"
-		android:contentDescription="@string/LoadTabFile"       
         android:textSize="15sp" />
 
-    <EditText
-        android:id="@+id/songField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/loadTabFileButton"
-        android:layout_marginLeft="0dp"
-        android:layout_toRightOf="@+id/loadTabFileButton"
-        android:ems="10"
-        android:textSize="15sp" >
-        <requestFocus />
-    </EditText>
-
-    <ListView
+    <com.PP.LunarTabsAndroid.UI.AccListView
         android:id="@+id/instructionsList"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
@@ -41,11 +30,10 @@
         android:layout_below="@+id/trackChooser"
         android:layout_toLeftOf="@+id/nextMeasButton"
         android:layout_toRightOf="@+id/prevMeasButton"
+        android:contentDescription=""
         android:entries="@array/empty_instruct"
         android:textSize="15sp"
-        tools:listitem="@android:layout/simple_list_item_1" >
-
-    </ListView>
+        tools:listitem="@android:layout/simple_list_item_1" />
 
     <TextView
         android:id="@+id/textView1"
@@ -65,10 +53,10 @@
         android:layout_height="150dp"
         android:layout_alignBottom="@+id/instructionsList"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="5dp"        
         android:layout_below="@+id/trackChooser"
+        android:layout_marginRight="5dp"
+        android:contentDescription="@string/back_acc"
         android:text="@string/back"
-		android:contentDescription="@string/back_acc"        
         android:textSize="15sp" />
 
     <Button
@@ -77,10 +65,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/instructionsList"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="5dp"                
         android:layout_below="@+id/trackChooser"
+        android:layout_marginLeft="5dp"
+        android:contentDescription="@string/forward_acc"
         android:text="@string/forward"
-		android:contentDescription="@string/forward_acc"  
         android:textSize="15sp" />
 
     <Button
@@ -88,11 +76,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/trackChooser"
-        android:layout_below="@+id/songField"
         android:layout_marginLeft="30dp"
         android:layout_toRightOf="@+id/trackChooser"
+        android:contentDescription="@string/ToggleModes"
         android:text="@string/ToggleModes"
-		android:contentDescription="@string/ToggleModes"          
         android:textSize="15sp" />
 
     <Spinner
@@ -100,9 +87,9 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textView1"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/textView1"
-        android:layout_marginBottom="5dp"                        
         android:textSize="15sp"
         tools:listitem="@android:layout/simple_spinner_item" />
 
@@ -111,13 +98,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/instructionsList"
+        android:layout_alignBottom="@+id/trackChooser"
         android:layout_alignRight="@+id/nextMeasButton"
-        android:layout_below="@+id/songField"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/toggleModesButton"
-        android:layout_alignBottom="@+id/trackChooser"        
+        android:contentDescription="@string/PlayMeasure"
         android:text="@string/PlayMeasure"
-		android:contentDescription="@string/PlayMeasure"          
         android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/songField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/loadTabFileButton"
+        android:layout_alignRight="@+id/playSampleButton"
+        android:layout_toRightOf="@+id/loadTabFileButton"
+        android:layout_marginLeft="15dp"        
+        android:background="@color/black"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="25sp" />
 
 </RelativeLayout>
