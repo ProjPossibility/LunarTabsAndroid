@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.SeqSeg;
+package com.PP.LunarTabsAndroid.IntelliSeg.Crochemore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
