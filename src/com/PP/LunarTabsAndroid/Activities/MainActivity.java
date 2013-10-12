@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.FileOp.FileOp;
 import com.PP.LunarTabsAndroid.UI.AccListView;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
@@ -91,14 +91,14 @@ public class MainActivity extends Activity implements OnClickListener {
         TextToSpeechAPI.init(this);
         
         //clean up
-        TuxGuitarUtil.cleanUp(FileOp.SAVE_PATH);
+        TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
         
 	}
 	
 	@Override
 	public void onStop() {
 		super.onStop();
-		TuxGuitarUtil.cleanUp(FileOp.SAVE_PATH);
+		TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
 	}
 	
 	@Override
@@ -154,7 +154,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void playSample() {	
 		GUIDataModel dataModel = GUIDataModel.getInstance();
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentMeas()>=0 && dataModel.getTrackNum()>=0) {
-			TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOp.SAVE_PATH, dataModel.getCurrentMeas(), dataModel.getCurrentMeas(),dataModel.getTrackNum());		
+			TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, dataModel.getCurrentMeas(), dataModel.getCurrentMeas(),dataModel.getTrackNum());		
 		}
 	}
 	

@@ -10,7 +10,6 @@ import java.util.*;
 
 import android.media.MediaPlayer;
 
-import com.PP.LunarTabsAndroid.FileOp.FileOp;
 import com.tuxguitar.io.base.TGSongLoader;
 import com.tuxguitar.io.gtp.GP4OutputStream;
 import com.tuxguitar.io.gtp.GTPSettings;
@@ -28,9 +27,9 @@ public class TuxGuitarUtil {
 	
 	public static void cleanUp(String dirPath) {
 		try {
-			File f1 = new File(dirPath + FileOp.TEMP_GP4);
+			File f1 = new File(dirPath + FileOpAPI.TEMP_GP4);
 			f1.delete();
-			File f2 = new File(dirPath + FileOp.TEMP_MID);
+			File f2 = new File(dirPath + FileOpAPI.TEMP_MID);
 			f2.delete();
 		}
 		catch(Exception e) {
@@ -44,12 +43,12 @@ public class TuxGuitarUtil {
 			//write MIDI file for measure
 			TGSong song = TuxGuitarUtil.loadSong(file);
 			TGSong newSong = TuxGuitarUtil.extractMeasures(song, track,m0, mf);
-			TuxGuitarUtil.exportToGP4(dirPath + FileOp.TEMP_GP4, newSong);		
-			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOp.TEMP_GP4);			
-			TuxGuitarUtil.exportToMidi(dirPath + FileOp.TEMP_MID, s3);
+			TuxGuitarUtil.exportToGP4(dirPath + FileOpAPI.TEMP_GP4, newSong);		
+			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOpAPI.TEMP_GP4);			
+			TuxGuitarUtil.exportToMidi(dirPath + FileOpAPI.TEMP_MID, s3);
 			
 			//play
-			MediaPlayerAPI.getInstance().play(dirPath + FileOp.TEMP_MID);
+			MediaPlayerAPI.getInstance().play(dirPath + FileOpAPI.TEMP_MID);
 			
 			/*
 			Sequence sequence = MidiSystem.getSequence(new File("test.mid"));

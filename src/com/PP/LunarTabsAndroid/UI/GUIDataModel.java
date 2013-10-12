@@ -2,8 +2,8 @@ package com.PP.LunarTabsAndroid.UI;
 import java.io.Serializable;
 import java.util.*;
 
+import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.FileOp.FileOp;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
 import com.tuxguitar.song.models.TGBeat;
@@ -37,7 +37,7 @@ public class GUIDataModel implements Serializable {
 	protected static GUIDataModel instance = null;
 	public static GUIDataModel getInstance() {
 		if(instance==null) {
-			instance = FileOp.readModel(FileOp.SAVE_PATH + FileOp.GUI_MODEL_FILE);
+			instance = FileOpAPI.readModel(FileOpAPI.SAVE_PATH + FileOpAPI.GUI_MODEL_FILE);
 			if(instance==null) {
 				instance = new GUIDataModel();
 			}
@@ -49,7 +49,7 @@ public class GUIDataModel implements Serializable {
 	 * Serialize instance to file
 	 */
 	public void saveInstance() {
-		FileOp.writeModel(instance, FileOp.SAVE_PATH + FileOp.GUI_MODEL_FILE);
+		FileOpAPI.writeModel(instance, FileOpAPI.SAVE_PATH + FileOpAPI.GUI_MODEL_FILE);
 	}
 	
 		

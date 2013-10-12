@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.FileOp;
+package com.PP.LunarTabsAndroid.APIs;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import android.os.Environment;
 
-public class FileOp {
+public class FileOpAPI {
 	
 	//global storage path
 	public static final String SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 
-import com.PP.LunarTabsAndroid.FileOp.FileOp;
 
 import android.media.MediaPlayer;
 
@@ -46,6 +45,6 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 		mp.reset();
 		
 		//delete temporary files
-		TuxGuitarUtil.cleanUp(FileOp.SAVE_PATH);
+		TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
 	}
 }
