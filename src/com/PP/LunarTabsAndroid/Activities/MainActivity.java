@@ -174,7 +174,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	public void nextMeasure() {
 		GUIDataModel dataModel = GUIDataModel.getInstance();
-		if(dataModel.getCurrentMeas() < (dataModel.getMeasureInst().size()-1)) {
+		if(dataModel.getSong()!=null && dataModel.getSfInst()!=null && dataModel.getSfInst().size()>0 && dataModel.getCurrentMeas() < (dataModel.getMeasureInst().size()-1)) {
 			dataModel.setCurrentMeas(dataModel.getCurrentMeas()+1);
 			if(dataModel.isVerbose()) {
 				populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));
@@ -187,7 +187,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	public void prevMeasure() {
 		GUIDataModel dataModel = GUIDataModel.getInstance();
-		if(dataModel.getCurrentMeas() > 0) {
+		if(dataModel.getSong()!=null && dataModel.getSfInst()!=null && dataModel.getSfInst().size()>0 && dataModel.getCurrentMeas() > 0) {
 			dataModel.setCurrentMeas(dataModel.getCurrentMeas()-1);
 			if(dataModel.isVerbose()) {
 				populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));				

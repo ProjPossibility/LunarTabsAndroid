@@ -88,6 +88,7 @@ public class GUIDataModel implements Serializable {
 				TGBeat b = (TGBeat)beats.get(x);
 				if(track.isPercussionTrack()) {
 					i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b);
+					i2 = i1;
 				}
 				else {
 					i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
