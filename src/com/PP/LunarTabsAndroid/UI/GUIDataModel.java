@@ -6,6 +6,8 @@ import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
+import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.AbstractSegmenter;
+import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.Segment;
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGMeasure;
 import com.tuxguitar.song.models.TGSong;
@@ -19,16 +21,16 @@ public class GUIDataModel implements Serializable {
 	protected TGSong song;
 	protected int trackNum;
 	protected List<String> tracksList;		
-	protected List<List<String>> measureInst;
-	protected List<List<String>> sfInst;
-	protected int currentMeas;
+	protected List<Segment> instSegments;
+	protected int currentSegment;
 	protected boolean verbose;
+	protected AbstractSegmenter segmenter;
 
 	//singleton
 	protected GUIDataModel() {
 		song = null;
 		trackNum = -1;
-		currentMeas = -1;
+		currentSegment = -1;
 		filePath = null;
 		fileName = null;
 		tracksList = null;
@@ -70,36 +72,12 @@ public class GUIDataModel implements Serializable {
 		if(song==null || trackNum==-1 || song.countTracks()==0) {
 			return;
 		}
-		
-		//rtn
-		measureInst = new ArrayList<List<String>>();
-		sfInst = new ArrayList<List<String>>();
-		
-		//load beats
+				
+		//get track
 		TGTrack track  = TuxGuitarUtil.getTrack(song,trackNum);
-		List<TGMeasure> measures = TuxGuitarUtil.getMeasures(track);
-		for(TGMeasure measure : measures) {
-			List<String> measInst = new ArrayList<String>();
-			List<String> sfI = new ArrayList<String>();
-			List beats = measure.getBeats();
-			for(int x=0; x < beats.size(); x++) {
-				String i1="";
-				String i2="";
-				TGBeat b = (TGBeat)beats.get(x);
-				if(track.isPercussionTrack()) {
-					i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b);
-					i2 = i1;
-				}
-				else {
-					i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
-					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
-				}
-				measInst.add(i1);
-				sfI.add(i2);
-			}
-			measureInst.add(measInst);
-			sfInst.add(sfI);
-		}
+		
+		//generate segments based on segmenter
+		instSegments = segmenter.segment(track);
 	}
 		
 	/**
@@ -130,20 +108,6 @@ public class GUIDataModel implements Serializable {
 	}
 
 	/**
-	 * @return the measureInst
-	 */
-	public List<List<String>> getMeasureInst() {
-		return measureInst;
-	}
-
-	/**
-	 * @param measureInst the measureInst to set
-	 */
-	public void setMeasureInst(List<List<String>> measureInst) {
-		this.measureInst = measureInst;
-	}
-
-	/**
 	 * @return the filePath
 	 */
 	public String getFilePath() {
@@ -158,31 +122,17 @@ public class GUIDataModel implements Serializable {
 	}
 
 	/**
-	 * @return the sfInst
+	 * @return the currentSegment
 	 */
-	public List<List<String>> getSfInst() {
-		return sfInst;
+	public int getCurrentSegment() {
+		return currentSegment;
 	}
 
 	/**
-	 * @param sfInst the sfInst to set
+	 * @param currentSegment the currentSegment to set
 	 */
-	public void setSfInst(List<List<String>> sfInst) {
-		this.sfInst = sfInst;
-	}
-
-	/**
-	 * @return the currentMeas
-	 */
-	public int getCurrentMeas() {
-		return currentMeas;
-	}
-
-	/**
-	 * @param currentMeas the currentMeas to set
-	 */
-	public void setCurrentMeas(int currentMeas) {
-		this.currentMeas = currentMeas;
+	public void setCurrentSegment(int currentSegment) {
+		this.currentSegment = currentSegment;
 	}
 
 	/**
@@ -225,5 +175,33 @@ public class GUIDataModel implements Serializable {
 	 */
 	public void setTracksList(List<String> tracksList) {
 		this.tracksList = tracksList;
+	}
+
+	/**
+	 * @return the instSegments
+	 */
+	public List<Segment> getInstSegments() {
+		return instSegments;
+	}
+
+	/**
+	 * @param instSegments the instSegments to set
+	 */
+	public void setInstSegments(List<Segment> instSegments) {
+		this.instSegments = instSegments;
+	}
+
+	/**
+	 * @return the segmenter
+	 */
+	public AbstractSegmenter getSegmenter() {
+		return segmenter;
+	}
+
+	/**
+	 * @param segmenter the segmenter to set
+	 */
+	public void setSegmenter(AbstractSegmenter segmenter) {
+		this.segmenter = segmenter;
 	}	
 }

@@ -57,7 +57,7 @@
         android:layout_marginRight="5dp"
         android:contentDescription="@string/back_acc"
         android:text="@string/back"
-        android:textSize="15sp" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/nextMeasButton"
@@ -69,7 +69,7 @@
         android:layout_marginLeft="5dp"
         android:contentDescription="@string/forward_acc"
         android:text="@string/forward"
-        android:textSize="15sp" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/toggleModesButton"

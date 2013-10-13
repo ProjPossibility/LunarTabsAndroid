@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	
     <string name="app_name">Lunar Tabs</string>
 	<string name="LoadTabFile">Load Tab File</string>
 	<string name="ChooseTrack">Choose Track: </string>
 	<string name="GenerateInstructions">Generate Instructions</string>
 	<string name="BAT">Breakfast_at_Tiffanys.gpx</string>
-    <string-array name="instruments">
-        <item>Guitars</item>
+	<string name="SectionIncrement">Set Section Increment</string>
+	<string name="GoTo">Go To Section</string>
+    <string-array name="MeasureIncChoices">
+        <item>1 Measure</item>
+        <item>2 Measures</item>
+        <item>3 Measures</item>
+        <item>4 Measures</item>
+        <item>5 Measures</item>
+        <item>10 Measures</item>        
     </string-array>
-    <string-array name="instruct">
-        <item>G-Sharp Dom7 chord, eighth note.</item>
-        <item>G-Sharp Dom7 chord, eighth note.</item>
-        <item>G-Sharp Dom7 chord, sixteenth note.</item>
-        <item>G-Sharp Dom7 chord, eighth note.</item>
-    </string-array>
+    <integer-array name="MeasureIncArr">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>10</item>        
+    </integer-array>
     <string-array name="empty_instruct">
         <item></item>
         <item></item>
         <item></item>
     </string-array>   
     <string name="action_settings">test</string>
-    <string name="back">Previous\n Measure</string>
-    <string name="forward">Next\n Measure</string>
-    <string name="back_acc">Previous Measure</string>
-    <string name="forward_acc">Next Measure</string>
+    <string name="back">&lt;</string>
+    <string name="forward">&gt;</string>
+    <string name="back_acc">Previous Section</string>
+    <string name="forward_acc">Next Section</string>
     <string name="ToggleModes">Toggle Modes</string>
     <string name="PlayMeasure">Play Sample</string>
     <string name="daidalos_hello">Hello World!</string>
@@ -46,6 +54,5 @@
     <string name="daidalos_confirm_select_folder">Are you sure that you want to select the folder \'$file_name\'?</string>
     <string name="daidalos_confirm_create_folder">The folder \'$file_name\' do not exists, are you sure that you want to create it?</string>
     <color name="black">#000000</color>    
-    <color name="white">#ffffff</color>    
-    
+    <color name="white">#ffffff</color>        
 </resources>

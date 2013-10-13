@@ -3,7 +3,7 @@ package com.PP.LunarTabsAndroid.IntelliSeg.LBDM;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.PP.LunarTabsAndroid.IntelliSeg.Util.Segment;
+import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.Segment;
 
 public class LBDM {
 	

@@ -10,6 +10,10 @@ import java.util.Set;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.LunarTabsAndroid.Dialogs.MeasureIncrementDialog;
+import com.PP.LunarTabsAndroid.Dialogs.SelectSectionDialog;
+import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.Segment;
+import com.PP.LunarTabsAndroid.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
 import com.PP.LunarTabsAndroid.UI.AccListView;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
@@ -33,6 +37,9 @@ import android.widget.TextView;
 import android.app.Activity;
 import android.app.Dialog;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -84,8 +91,9 @@ public class MainActivity extends Activity implements OnClickListener {
         nextMeasButton.setBackgroundColor(Color.WHITE);
         nextMeasButton.setTextColor(Color.BLACK);
         instructionsList.setBackgroundColor(Color.WHITE);
-//        fileField.setBackgroundColor(Color.WHITE);
-//        fileField.setTextColor(Color.BLACK);
+        
+        //set up segmenter
+        GUIDataModel.getInstance().setSegmenter(new MeasureIncrementSegmenter());
         
         //enable APIs
         TextToSpeechAPI.init(this);
@@ -105,10 +113,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onResume() {
 		super.onResume();
         //reinit GUI from file (if exists)
-        reinitGUIFromFile();		
+        refreshGUI();		
 	}
 	
-	public void reinitGUIFromFile() {
+	/**
+	 * Refresh GUI based on current data model (either from file or in memory).
+	 */
+	public void refreshGUI() {
 		GUIDataModel dataModel = GUIDataModel.getInstance();
 		if(dataModel.getFileName()!=null && !dataModel.getFileName().trim().equals("")) {
 			fileField.setText(dataModel.getFileName());
@@ -120,14 +131,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		if(dataModel.getSong()!=null && dataModel.getTrackNum()!=-1) {
 			trackChooser.setSelection(dataModel.getTrackNum());
 		}
-		if(dataModel.getCurrentMeas()!=-1 && dataModel.getSfInst()!=null && dataModel.getMeasureInst()!=null) {
-			if(!dataModel.isOnPercussionTrack()) {
-				if(dataModel.isVerbose()) {
-					populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));					
-				}
-				else {
-					populateInstructionPane(dataModel.getMeasureInst().get(dataModel.getCurrentMeas()));
-				}
+		if(dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {
+			if(dataModel.isVerbose()) {
+				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());					
+			}
+			else {
+				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());
 			}
 		}
 	}
@@ -153,49 +162,82 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	public void playSample() {	
 		GUIDataModel dataModel = GUIDataModel.getInstance();
-		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentMeas()>=0 && dataModel.getTrackNum()>=0) {
-			TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, dataModel.getCurrentMeas(), dataModel.getCurrentMeas(),dataModel.getTrackNum());		
+		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0) {
+			Segment cSeg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
+			TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, cSeg.getStart(),cSeg.getEnd(),dataModel.getTrackNum());		
 		}
+    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    	}
+    	else {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    	}		
 	}
 	
 	public void toggleModes() {
 		GUIDataModel dataModel=  GUIDataModel.getInstance();
-		if(!dataModel.isOnPercussionTrack()) {
-			if(dataModel.isVerbose()) {
-				populateInstructionPane(dataModel.getMeasureInst().get(dataModel.getCurrentMeas()));
-				dataModel.setVerbose(false);
-			}
-			else {
-				populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));
-				dataModel.setVerbose(true);
+		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0) {		
+			if(!dataModel.isOnPercussionTrack()) {
+				if(dataModel.isVerbose()) {
+					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());
+					dataModel.setVerbose(false);
+				}
+				else {
+					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());
+					dataModel.setVerbose(true);
+				}
 			}
 		}
+    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    	}
+    	else {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    	}		
 	}
 	
 	public void nextMeasure() {
 		GUIDataModel dataModel = GUIDataModel.getInstance();
-		if(dataModel.getSong()!=null && dataModel.getSfInst()!=null && dataModel.getSfInst().size()>0 && dataModel.getCurrentMeas() < (dataModel.getMeasureInst().size()-1)) {
-			dataModel.setCurrentMeas(dataModel.getCurrentMeas()+1);
+		if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getCurrentSegment() < (dataModel.getInstSegments().size()-1)) {
+			dataModel.setCurrentSegment(dataModel.getCurrentSegment()+1);
 			if(dataModel.isVerbose()) {
-				populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));
+				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());
 			}
 			else {
-				populateInstructionPane(dataModel.getMeasureInst().get(dataModel.getCurrentMeas()));				
+				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());				
 			}
 		}
+		else if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getCurrentSegment() == (dataModel.getInstSegments().size()-1)) {
+			TextToSpeechAPI.speak(SpeechConst.ERROR_LAST_SECTION);
+		}
+    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    	}
+    	else {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    	}		
 	}
 	
 	public void prevMeasure() {
 		GUIDataModel dataModel = GUIDataModel.getInstance();
-		if(dataModel.getSong()!=null && dataModel.getSfInst()!=null && dataModel.getSfInst().size()>0 && dataModel.getCurrentMeas() > 0) {
-			dataModel.setCurrentMeas(dataModel.getCurrentMeas()-1);
+		if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 && dataModel.getCurrentSegment() > 0) {
+			dataModel.setCurrentSegment(dataModel.getCurrentSegment()-1);
 			if(dataModel.isVerbose()) {
-				populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));				
+				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());				
 			}
 			else {
-				populateInstructionPane(dataModel.getMeasureInst().get(dataModel.getCurrentMeas()));								
+				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());								
 			}
-		}		
+		}
+		else if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getCurrentSegment() == 0) {
+			TextToSpeechAPI.speak(SpeechConst.ERROR_FIRST_SECTION);
+		}
+    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    	}
+    	else {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    	}
 	}
 	
 	public void loadInstructions() {
@@ -207,12 +249,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		dataModel.genInstructions();
 		
 		//populate instructions pane with current measure
-		if(dataModel.getCurrentMeas() < dataModel.getSfInst().size()) {
+		if(dataModel.getCurrentSegment() < dataModel.getInstSegments().size()) {
 			if(dataModel.isVerbose()) {
-				populateInstructionPane(dataModel.getSfInst().get(dataModel.getCurrentMeas()));				
+				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());				
 			}
 			else {
-				populateInstructionPane(dataModel.getMeasureInst().get(dataModel.getCurrentMeas()));								
+				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());								
 			}
 		}
 	}
@@ -236,7 +278,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	             //attempt file load and populate tracks
 	             try {
 	            	 
-		             //populate GUI with selection	             
+		             //populate GUI with selection       
 //		             fileField.setText(file.getName());
 //	            	 fileField.setContentDescription(file.getName());
 	            	 
@@ -257,7 +299,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	             	//set first index selected and load instructions
 	             	if(dataModel.getTracksList().size() >0) {
 	             		dataModel.setTrackNum(0);
-	             		dataModel.setCurrentMeas(0);
+	             		dataModel.setCurrentSegment(0);
 	         			loadInstructions();				    		
 	             	}	            	 
 	            	 
@@ -325,4 +367,55 @@ public class MainActivity extends Activity implements OnClickListener {
     	//store
     	GUIDataModel.getInstance().setTracksList(tracksList);
     }	
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }    
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.SecIncMenuItem:
+            	showSelectIncDialog();
+                return true;
+            case R.id.GoToMenuItem:
+            	showSelectSectionDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    public void showSelectIncDialog() {
+    	GUIDataModel dataModel = GUIDataModel.getInstance();    	
+    	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {    	
+    		MeasureIncrementDialog m = new MeasureIncrementDialog(this);
+    		m.show(getFragmentManager(), "LOZ");    	
+    	}
+    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    	}
+    	else {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    	}
+    	
+    }
+    
+    public void showSelectSectionDialog() {
+    	GUIDataModel dataModel = GUIDataModel.getInstance();
+    	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {
+        	SelectSectionDialog m = new SelectSectionDialog(this);
+        	m.show(getFragmentManager(), "LOZ");    		
+    	}
+    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    	}
+    	else {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    	}
+    }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/SecIncMenuItem"
+          android:title="@string/SectionIncrement" />
+    <item android:id="@+id/GoToMenuItem"
+          android:title="@string/GoTo" />
+</menu>
