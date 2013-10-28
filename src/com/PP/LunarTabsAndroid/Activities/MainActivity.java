@@ -42,6 +42,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 
 public class MainActivity extends Activity implements OnClickListener {
 	
@@ -51,7 +52,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected Button playSampleButton;
 	protected Button prevMeasButton;
 	protected Button nextMeasButton;
-	protected TextView fileField;
+//	protected TextView fileField;
 	protected Spinner trackChooser;
 	protected AccListView instructionsList;
 				
@@ -60,6 +61,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 		//init stuff
 		super.onCreate(savedInstanceState);
+//		this.requestWindowFeature(Window.FEATURE_NO_TITLE);		
 		setContentView(R.layout.activity_main);
 		
 		//load components
@@ -68,7 +70,7 @@ public class MainActivity extends Activity implements OnClickListener {
         playSampleButton = (Button) findViewById(R.id.playSampleButton);
         prevMeasButton = (Button) findViewById(R.id.prevMeasButton);
         nextMeasButton = (Button) findViewById(R.id.nextMeasButton);
-        fileField = (TextView) findViewById(R.id.songField);
+//        fileField = (TextView) findViewById(R.id.songField);
         trackChooser = (Spinner) findViewById(R.id.trackChooser);
         instructionsList = (AccListView) findViewById(R.id.instructionsList);
         
@@ -122,8 +124,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void refreshGUI() {
 		GUIDataModel dataModel = GUIDataModel.getInstance();
 		if(dataModel.getFileName()!=null && !dataModel.getFileName().trim().equals("")) {
-			fileField.setText(dataModel.getFileName());
-			fileField.setContentDescription(dataModel.getFileName());
+//			fileField.setText(dataModel.getFileName());
+//			fileField.setContentDescription(dataModel.getFileName());
 		}
 		if(dataModel.getSong()!=null) {
 			populateTrackOptions();
@@ -284,8 +286,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	            	 
 	            	 //load song and store in gui data model
 	            	 TGSong song = TuxGuitarUtil.loadSong(file.getPath());
-	            	 fileField.setText(song.getName());
-	            	 fileField.setContentDescription(song.getName());
+//	            	 fileField.setText(song.getName());
+//	            	 fileField.setContentDescription(song.getName());
 	            	 GUIDataModel dataModel = GUIDataModel.getInstance();
 	            	 dataModel.setFilePath(file.getPath());
 		             dataModel.setFileName(song.getName());	            	 
