@@ -49,7 +49,7 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 				TGNote singleNote = notes.get(0);
 				int string = singleNote.getString();
 				int fret = singleNote.getValue();
-				return GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ", " + getDurationInstruction(beat) + ".";
+				return GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ". " + getDurationInstruction(beat) + ".";
 			}
 		}
 	}
@@ -72,7 +72,7 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 				int string = note.getString();
 				int fret = note.getValue();
 				
-				//keep from crashing
+				//keep from crashing if some crazy high note
 				if(string >= langMod.length)
 					string = langMod.length-1;
 				if(fret >= langMod.length)
@@ -80,6 +80,66 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 				
 				//create instruction
 				instruction = instruction + " " + langMod[string] + " string, " + langMod[fret] + " fret. ";
+			}
+			
+			//add duration
+			instruction = instruction + getDurationInstruction(beat);
+			
+			//rtn
+			return instruction;		
+		}
+	}
+	
+	/*
+	 * Generates instructions using condensed form.
+	 */
+	public String getCondensedInstruction(TGBeat beat) {
+		if(beat.isRestBeat()) {
+			return getDurationInstruction(beat);
+		}
+		else {
+			
+			//init frets array
+			int[] frets = new int[6];
+			for(int x=0; x < 6; x++) {
+				frets[x] = -1;
+			}
+			
+			//loop for notes
+			List<TGNote> notes = TuxGuitarUtil.getNotesForBeat(beat);
+			for(TGNote note : notes) {
+				
+				//get string, fret
+				int string = note.getString();
+				int fret = note.getValue();
+				
+				//keep from crashing if some crazy high note
+				if(string >= langMod.length)
+					string = langMod.length-1;
+				if(fret >= langMod.length)
+					fret = langMod.length - 1;
+				
+				//store
+				frets[string-1] = fret;				
+			}
+			
+			String instruction="";
+			for(int x=5; x >= 0; x--) {
+				
+				//display modifier
+				if(frets[x]==-1) {
+					instruction = instruction + "-";
+				}
+				else {
+					instruction = instruction + frets[x];
+				}
+				
+				if(x==0) {
+					instruction = instruction + ". ";
+				}
+				else {
+					instruction = instruction  + ",";
+				}
 			}
 			
 			//add duration

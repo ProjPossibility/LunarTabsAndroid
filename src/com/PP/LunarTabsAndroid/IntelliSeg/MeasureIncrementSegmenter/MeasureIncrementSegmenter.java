@@ -65,7 +65,8 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 				}
 				else {
 					i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
-					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
+//					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
+					i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);					
 				}
 				chordInst.add(i1);
 				sfI.add(i2);

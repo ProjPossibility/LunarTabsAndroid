@@ -12,6 +12,7 @@ import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.Dialogs.MeasureIncrementDialog;
 import com.PP.LunarTabsAndroid.Dialogs.SelectSectionDialog;
+import com.PP.LunarTabsAndroid.InstrumentModels.ChordDB;
 import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
 import com.PP.LunarTabsAndroid.UI.AccListView;
@@ -103,6 +104,10 @@ public class MainActivity extends Activity implements OnClickListener {
         //clean up
         TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
         
+        //Chord DB initialize
+        ChordDB.getInstance();
+//        ChordDBGenerator.getInstance().debugDump();
+        
 	}
 	
 	@Override
@@ -181,11 +186,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0) {		
 			if(!dataModel.isOnPercussionTrack()) {
 				if(dataModel.isVerbose()) {
-					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());
-					dataModel.setVerbose(false);
+					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());
+					dataModel.setVerbose(false);					
 				}
 				else {
-					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());
+					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());
 					dataModel.setVerbose(true);
 				}
 			}
