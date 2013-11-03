@@ -31,6 +31,8 @@
     <string name="action_settings">test</string>
     <string name="back">&lt;</string>
     <string name="forward">&gt;</string>
+    <string name="up">Up</string>
+    <string name="down">Down</string>    
     <string name="back_acc">Previous Section</string>
     <string name="forward_acc">Next Section</string>
     <string name="ToggleModes">Toggle Modes</string>

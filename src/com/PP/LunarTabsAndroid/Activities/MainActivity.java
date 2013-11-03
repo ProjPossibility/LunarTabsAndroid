@@ -53,6 +53,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected Button playSampleButton;
 	protected Button prevMeasButton;
 	protected Button nextMeasButton;
+	protected Button upButton;
+	protected Button downButton;
 //	protected TextView fileField;
 	protected Spinner trackChooser;
 	protected AccListView instructionsList;
@@ -71,6 +73,8 @@ public class MainActivity extends Activity implements OnClickListener {
         playSampleButton = (Button) findViewById(R.id.playSampleButton);
         prevMeasButton = (Button) findViewById(R.id.prevMeasButton);
         nextMeasButton = (Button) findViewById(R.id.nextMeasButton);
+        upButton = (Button) findViewById(R.id.upButton);
+        downButton = (Button) findViewById(R.id.downButton);
 //        fileField = (TextView) findViewById(R.id.songField);
         trackChooser = (Spinner) findViewById(R.id.trackChooser);
         instructionsList = (AccListView) findViewById(R.id.instructionsList);
@@ -81,6 +85,8 @@ public class MainActivity extends Activity implements OnClickListener {
         playSampleButton.setOnClickListener(this);
         prevMeasButton.setOnClickListener(this);
         nextMeasButton.setOnClickListener(this);
+        upButton.setOnClickListener(this);
+        downButton.setOnClickListener(this);
         
         //colors
         loadTabFileButton.setBackgroundColor(Color.WHITE);
@@ -93,7 +99,12 @@ public class MainActivity extends Activity implements OnClickListener {
         prevMeasButton.setTextColor(Color.BLACK);
         nextMeasButton.setBackgroundColor(Color.WHITE);
         nextMeasButton.setTextColor(Color.BLACK);
+        upButton.setBackgroundColor(Color.WHITE);
+        upButton.setTextColor(Color.BLACK);
+        downButton.setBackgroundColor(Color.WHITE);
+        downButton.setTextColor(Color.BLACK);
         instructionsList.setBackgroundColor(Color.WHITE);
+        
         
         //set up segmenter
         GUIDataModel.getInstance().setSegmenter(new MeasureIncrementSegmenter());
