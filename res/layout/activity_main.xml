@@ -26,7 +26,8 @@
     <Button
         android:id="@+id/prevMeasButton"
         android:layout_width="wrap_content"
-        android:layout_height="130sp"
+        android:layout_height="150sp"
+        android:layout_alignBottom="@+id/linearLayout1"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/loadTabFileButton"
         android:layout_marginRight="5sp"
@@ -38,7 +39,7 @@
         android:id="@+id/nextMeasButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/upButton"
+        android:layout_alignBottom="@+id/linearLayout1"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/prevMeasButton"
         android:layout_marginLeft="5sp"
@@ -87,38 +88,42 @@
         android:id="@+id/instructionsList"
         android:layout_width="wrap_content"
         android:layout_height="150sp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_marginBottom="5sp"        
         android:layout_alignTop="@+id/prevMeasButton"
         android:layout_toLeftOf="@+id/nextMeasButton"
         android:layout_toRightOf="@+id/prevMeasButton"
         android:entries="@array/empty_instruct"
         android:textSize="15sp"
         tools:listitem="@android:layout/simple_list_item_1" >
-
     </com.PP.LunarTabsAndroid.UI.AccListView>
 
-    <Button
-        android:id="@+id/upButton"
+    <LinearLayout
+        android:id="@+id/linearLayout1"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/prevMeasButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/prevMeasButton"
-        android:layout_below="@+id/prevMeasButton"
-        android:layout_marginTop="5sp"
-        android:text="@string/up"
-        android:textSize="15sp" />
+        android:layout_toRightOf="@+id/prevMeasButton"
+        android:layout_toLeftOf="@+id/nextMeasButton"
+        android:layout_alignParentBottom="true">
 
-   <Button
-       android:id="@+id/downButton"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_alignLeft="@+id/nextMeasButton"
-       android:layout_alignParentBottom="true"
-       android:layout_alignRight="@+id/nextMeasButton"
-       android:layout_below="@+id/nextMeasButton"
-       android:layout_marginTop="5sp"
-       android:text="@string/down"
-       android:textSize="15sp" />
+        <Button
+            android:id="@+id/upButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0sp"
+            android:text="@string/up"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/downButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"            
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5sp"
+            android:text="@string/down"
+            android:textSize="15sp" />
         
+    </LinearLayout>
+
 </RelativeLayout>
