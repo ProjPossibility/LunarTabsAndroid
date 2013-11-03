@@ -22,96 +22,87 @@
         android:contentDescription="@string/LoadTabFile"
         android:text="@string/LoadTabFile"
         android:textSize="15sp" />
-
-    <Button
-        android:id="@+id/prevMeasButton"
-        android:layout_width="wrap_content"
-        android:layout_height="150sp"
-        android:layout_alignBottom="@+id/linearLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/loadTabFileButton"
-        android:layout_marginRight="5sp"
-        android:contentDescription="@string/back_acc"
-        android:text="@string/back"
-        android:textSize="30sp" />
-
-    <Button
-        android:id="@+id/nextMeasButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/linearLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/prevMeasButton"
-        android:layout_marginLeft="5sp"
-        android:contentDescription="@string/forward_acc"
-        android:text="@string/forward"
-        android:textSize="30sp" />
-
+    
     <Spinner
         android:id="@+id/trackChooser"
-        android:layout_width="200sp"
+        android:layout_marginLeft="5sp"        
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/instructionsList"
+        android:layout_alignBottom="@+id/loadTabFileButton"
+        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/loadTabFileButton"
-        android:layout_marginBottom="5sp"
-        android:layout_marginLeft="5sp"
         android:layout_toRightOf="@+id/loadTabFileButton"
         android:textSize="15sp"
         tools:listitem="@android:layout/simple_spinner_item" />
-
-    <Button
-        android:id="@+id/playSampleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/instructionsList"
-        android:layout_alignRight="@+id/nextMeasButton"
-        android:layout_marginBottom="5sp"
-        android:layout_marginLeft="5sp"
-        android:contentDescription="@string/PlayMeasure"
-        android:text="@string/PlayMeasure"
-        android:textSize="15sp" />
-
-    <Button
-        android:id="@+id/toggleModesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/instructionsList"
-        android:layout_marginBottom="5sp"
-        android:layout_marginLeft="5sp"
-        android:layout_toLeftOf="@+id/playSampleButton"
-        android:layout_toRightOf="@+id/trackChooser"
-        android:contentDescription="@string/ToggleModes"
-        android:text="@string/ToggleModes"
-        android:textSize="15sp" />
-
+    
     <com.PP.LunarTabsAndroid.UI.AccListView
         android:id="@+id/instructionsList"
         android:layout_width="wrap_content"
-        android:layout_height="150sp"
-        android:layout_above="@+id/linearLayout1"
-        android:layout_marginBottom="5sp"        
-        android:layout_alignTop="@+id/prevMeasButton"
-        android:layout_toLeftOf="@+id/nextMeasButton"
-        android:layout_toRightOf="@+id/prevMeasButton"
+        android:layout_height="400sp"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/loadTabFileButton"
         android:entries="@array/empty_instruct"
         android:textSize="15sp"
+        android:layout_marginBottom="5sp"               
         tools:listitem="@android:layout/simple_list_item_1" >
-    </com.PP.LunarTabsAndroid.UI.AccListView>
 
+    </com.PP.LunarTabsAndroid.UI.AccListView>
+    
     <LinearLayout
-        android:id="@+id/linearLayout1"        
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/prevMeasButton"
-        android:layout_toLeftOf="@+id/nextMeasButton"
-        android:layout_alignParentBottom="true">
+        android:layout_above="@+id/linearLayout1"
+        android:layout_marginBottom="5sp"       
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+    
+	    <Button
+	        android:id="@+id/toggleModesButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"            
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="5sp"
+	        android:contentDescription="@string/ToggleModes"
+	        android:text="@string/ToggleModes"
+	        android:textSize="15sp" />
+	    
+	    <Button
+	        android:id="@+id/playSampleButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"            
+	        android:layout_height="wrap_content"
+	        android:contentDescription="@string/PlayMeasure"
+	        android:text="@string/PlayMeasure"
+	        android:textSize="15sp" />
 
+    </LinearLayout>
+	    
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+    
+    	<Button
+        	android:id="@+id/prevMeasButton"
+            android:layout_height="wrap_content"        	
+            android:layout_width="0dp"
+            android:layout_weight="0.5"            
+       	 	android:layout_marginRight="5sp"
+        	android:contentDescription="@string/back_acc"
+        	android:text="@string/back"
+        	android:textSize="15sp" />
+        
         <Button
             android:id="@+id/upButton"
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0sp"
             android:text="@string/up"
             android:textSize="15sp" />
 
@@ -123,6 +114,16 @@
             android:layout_marginLeft="5sp"
             android:text="@string/down"
             android:textSize="15sp" />
+
+    	<Button
+        	android:id="@+id/nextMeasButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"            
+        	android:layout_height="wrap_content"
+        	android:layout_marginLeft="5sp"
+        	android:contentDescription="@string/forward_acc"
+        	android:text="@string/forward"
+        	android:textSize="15sp" />
         
     </LinearLayout>
 

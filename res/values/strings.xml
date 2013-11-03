@@ -27,6 +27,10 @@
         <item></item>
         <item></item>
         <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>   
     <string name="action_settings">test</string>
     <string name="back">&lt;</string>
