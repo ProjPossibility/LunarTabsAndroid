@@ -7,6 +7,10 @@
 	<string name="BAT">Breakfast_at_Tiffanys.gpx</string>
 	<string name="SectionIncrement">Set Section Increment</string>
 	<string name="GoTo">Go To Section</string>
+	<string name="EnableStompMode">Enable Stomp Mode</string>
+	<string name="DisableStompMode">Disable Stomp Mode</string>
+	<string name="StopModeText">Place the phone down on the floor next to your feet. Sit comfortably with the guitar in your hands. In stomp mode, when you want to go to the next playing instruction, just stomp in front of the phone to create nearby vibration that is picked up as motion spikes by the accelerometer. DO NOT STOMP ON YOUR PHONE. Best results are on carpet or with the phone placed on a towel on a hard floor. When you are ready, please OK.</string>
+	<string name="OK">OK</string>
     <string-array name="MeasureIncChoices">
         <item>1 Measure</item>
         <item>2 Measures</item>
@@ -31,12 +35,15 @@
         <item></item>
         <item></item>
         <item></item>
+        <item></item>
     </string-array>   
     <string name="action_settings">test</string>
-    <string name="back">&lt;</string>
-    <string name="forward">&gt;</string>
-    <string name="up">Up</string>
-    <string name="down">Down</string>    
+    <string name="back">&#8592;</string>
+    <string name="forward">&#8594;</string>
+    <string name="up">&#8593;</string>
+    <string name="down">&#8595;</string>    
+    <string name="up_acc">Previous Instruction</string>
+    <string name="down_acc">Next Instruction</string>
     <string name="back_acc">Previous Section</string>
     <string name="forward_acc">Next Section</string>
     <string name="ToggleModes">Toggle Modes</string>
@@ -60,5 +67,6 @@
     <string name="daidalos_confirm_select_folder">Are you sure that you want to select the folder \'$file_name\'?</string>
     <string name="daidalos_confirm_create_folder">The folder \'$file_name\' do not exists, are you sure that you want to create it?</string>
     <color name="black">#000000</color>    
-    <color name="white">#ffffff</color>        
+    <color name="white">#ffffff</color>  
+	<color name="background_holo_light">#ff00ddff</color>      
 </resources>

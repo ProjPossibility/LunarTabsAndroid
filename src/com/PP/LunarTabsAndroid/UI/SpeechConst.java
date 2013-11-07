@@ -11,5 +11,8 @@ public class SpeechConst {
 	public static String ERROR_NO_FILE_LOADED = "Error: No Tab File Loaded. Please load a tab file first.";
 	public static String ERROR_FIRST_SECTION = "Error: You are at the beginning of the track. No previous section.";
 	public static String ERROR_LAST_SECTION = "Error: You are at the end of the track. No more sections.";
-
+	
+	//feedback on changing instructions
+	public static String ERROR_NO_PREV_INST = "No previous instructions in section.";
+	public static String ERROR_NO_NEXT_INST = "No more instructions in section.";
 }

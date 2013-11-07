@@ -4,4 +4,6 @@
           android:title="@string/SectionIncrement" />
     <item android:id="@+id/GoToMenuItem"
           android:title="@string/GoTo" />
+    <item android:id="@+id/StompModeMenuItem"
+          android:title="@string/EnableStompMode" />
 </menu>

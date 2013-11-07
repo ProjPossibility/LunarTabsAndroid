@@ -44,6 +44,7 @@ public class MeasureIncrementDialog extends DialogFragment {
 	    			m.setIncrement(newInc);
 	    			dataModel.genInstructions();
 	    			dataModel.setCurrentSegment(0);
+	    			dataModel.clearSelectedInstructionIndex();	    			
 	            	parent.refreshGUI();	    			
 	    		}
 	    		catch(Exception e) {

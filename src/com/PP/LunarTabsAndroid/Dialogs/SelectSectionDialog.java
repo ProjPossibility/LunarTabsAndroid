@@ -47,6 +47,7 @@ public class SelectSectionDialog extends DialogFragment {
 	    		try {
 	    			GUIDataModel dataModel = GUIDataModel.getInstance();
 	    			dataModel.setCurrentSegment(which);
+	    			dataModel.clearSelectedInstructionIndex();
 	            	parent.refreshGUI();	    			
 	    		}
 	    		catch(Exception e) {

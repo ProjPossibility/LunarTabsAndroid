@@ -23,6 +23,7 @@ public class GUIDataModel implements Serializable {
 	protected List<String> tracksList;		
 	protected List<Segment> instSegments;
 	protected int currentSegment;
+	protected int selectedInstructionIndex;	
 	protected boolean verbose;
 	protected AbstractSegmenter segmenter;
 
@@ -35,6 +36,7 @@ public class GUIDataModel implements Serializable {
 		fileName = null;
 		tracksList = null;
 		verbose = false;
+		selectedInstructionIndex = -1;
 	}
 	protected static GUIDataModel instance = null;
 	public static GUIDataModel getInstance() {
@@ -203,5 +205,23 @@ public class GUIDataModel implements Serializable {
 	 */
 	public void setSegmenter(AbstractSegmenter segmenter) {
 		this.segmenter = segmenter;
+	}
+
+	/**
+	 * @return the selectedInstructionIndex
+	 */
+	public int getSelectedInstructionIndex() {
+		return selectedInstructionIndex;
+	}
+
+	/**
+	 * @param selectedInstructionIndex the selectedInstructionIndex to set
+	 */
+	public void setSelectedInstructionIndex(int selectedInstructionIndex) {
+		this.selectedInstructionIndex = selectedInstructionIndex;
 	}	
+	
+	public void clearSelectedInstructionIndex() {
+		this.selectedInstructionIndex = -1;
+	}
 }

@@ -15,6 +15,9 @@ import com.PP.LunarTabsAndroid.Dialogs.SelectSectionDialog;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordDB;
 import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
+import com.PP.LunarTabsAndroid.Metronome.Metronome;
+import com.PP.LunarTabsAndroid.StompDetector.StompDetector;
+import com.PP.LunarTabsAndroid.StompDetector.StompDetectorImpl;
 import com.PP.LunarTabsAndroid.UI.AccListView;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
@@ -26,6 +29,8 @@ import android.graphics.Color;
 import android.location.Address;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -58,6 +63,9 @@ public class MainActivity extends Activity implements OnClickListener {
 //	protected TextView fileField;
 	protected Spinner trackChooser;
 	protected AccListView instructionsList;
+	
+	//stomp detector
+	protected StompDetector stomper;
 				
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +83,9 @@ public class MainActivity extends Activity implements OnClickListener {
         nextMeasButton = (Button) findViewById(R.id.nextMeasButton);
         upButton = (Button) findViewById(R.id.upButton);
         downButton = (Button) findViewById(R.id.downButton);
-//        fileField = (TextView) findViewById(R.id.songField);
         trackChooser = (Spinner) findViewById(R.id.trackChooser);
         instructionsList = (AccListView) findViewById(R.id.instructionsList);
-        
+                
         //register listeners
         loadTabFileButton.setOnClickListener(this);
         toggleModesButton.setOnClickListener(this);
@@ -103,8 +110,10 @@ public class MainActivity extends Activity implements OnClickListener {
         upButton.setTextColor(Color.BLACK);
         downButton.setBackgroundColor(Color.WHITE);
         downButton.setTextColor(Color.BLACK);
-        instructionsList.setBackgroundColor(Color.WHITE);
         
+        //init components
+        int hilightColor = getResources().getColor(R.color.background_holo_light);        
+        instructionsList.init(hilightColor,Color.WHITE);
         
         //set up segmenter
         GUIDataModel.getInstance().setSegmenter(new MeasureIncrementSegmenter());
@@ -119,8 +128,14 @@ public class MainActivity extends Activity implements OnClickListener {
         ChordDB.getInstance();
 //        ChordDBGenerator.getInstance().debugDump();
         
+        //Stomp detector
+//        stomper = new StompDetectorImpl(this);
+        
+//        Metronome m = new Metronome();
+ //       m.play();
+        
 	}
-	
+		
 	@Override
 	public void onStop() {
 		super.onStop();
@@ -133,15 +148,14 @@ public class MainActivity extends Activity implements OnClickListener {
         //reinit GUI from file (if exists)
         refreshGUI();		
 	}
-	
+		
 	/**
 	 * Refresh GUI based on current data model (either from file or in memory).
 	 */
 	public void refreshGUI() {
 		GUIDataModel dataModel = GUIDataModel.getInstance();
 		if(dataModel.getFileName()!=null && !dataModel.getFileName().trim().equals("")) {
-//			fileField.setText(dataModel.getFileName());
-//			fileField.setContentDescription(dataModel.getFileName());
+			this.setTitle(dataModel.getFileName().trim());
 		}
 		if(dataModel.getSong()!=null) {
 			populateTrackOptions();
@@ -150,13 +164,23 @@ public class MainActivity extends Activity implements OnClickListener {
 			trackChooser.setSelection(dataModel.getTrackNum());
 		}
 		if(dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {
+			
+			//populate instructions
+			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());			
 			if(dataModel.isVerbose()) {
-				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());					
+				populateInstructionPane(c_seg.getSfInst());					
 			}
 			else {
-				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());
+				populateInstructionPane(c_seg.getChordInst());
 			}
+			
+			//set title
+			this.setTitle(dataModel.getFileName().trim() + " (M" + (c_seg.getStart()+1) + "-" + (c_seg.getEnd()+1) + ")");			
+						
 		}
+		
+		//refresh instructions list
+		instructionsList.refreshGUI();
 	}
 
 	@Override
@@ -167,20 +191,120 @@ public class MainActivity extends Activity implements OnClickListener {
 		else if(v.getId()==toggleModesButton.getId()) {
 			toggleModes();
 		}
+		else if(v.getId()==playSampleButton.getId()) {
+			playSample();
+		}		
 		else if(v.getId()==prevMeasButton.getId()) {
 			prevMeasure();
 		}
 		else if(v.getId()==nextMeasButton.getId()) {
 			nextMeasure();
 		}
-		else if(v.getId()==playSampleButton.getId()) {
-			playSample();
+		else if(v.getId()==upButton.getId()) {
+			prevInstruction();
+		}		
+		else if(v.getId()==downButton.getId()) {
+			nextInstruction();
+		}				
+	}
+	
+	public void prevInstruction() {
+		GUIDataModel dataModel = GUIDataModel.getInstance();
+		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null &&
+		dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && 
+		dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 &&
+		dataModel.getCurrentSegment()>=0 &&
+		dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst().size()>0) {
+			
+			//update index and perform click
+      	  	int selectedInstructionIndex = GUIDataModel.getInstance().getSelectedInstructionIndex();			
+			if(selectedInstructionIndex >= 0) {
+				
+				//decrement instruction index
+				selectedInstructionIndex--;
+				
+				//perform click on GUI
+				instructionsList.programmaticSelect(selectedInstructionIndex);
+				
+				//find and read instruction
+				if(selectedInstructionIndex >= 0) {
+					String c_inst = null;
+					Segment cSeg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());				
+					if(dataModel.isVerbose()) {
+						c_inst = cSeg.getSfInst().get(selectedInstructionIndex);
+					}
+					else {
+						c_inst = cSeg.getChordInst().get(selectedInstructionIndex);					
+					}
+					if(c_inst!=null) {
+						TextToSpeechAPI.speak(c_inst);
+					}
+				}
+			}
+			else {
+				//no previous instruction
+	    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_PREV_INST);				
+			}			
 		}
+    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+    		//no data in section
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    	}
+    	else {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    	}				
+	}
+	
+	public void nextInstruction() {
+		GUIDataModel dataModel = GUIDataModel.getInstance();
+		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null &&
+		dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && 
+		dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 &&
+		dataModel.getCurrentSegment()>=0 &&
+		dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst().size()>0) {
+			
+			//update index and perform click
+			Segment cSeg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
+			int numInst = cSeg.getChordInst().size();
+      	  	int selectedInstructionIndex = GUIDataModel.getInstance().getSelectedInstructionIndex();			
+			if(selectedInstructionIndex < (numInst-1)) {
+				
+				//increment instruction
+				selectedInstructionIndex++;
+				
+				//perform click on GUI
+				instructionsList.programmaticSelect(selectedInstructionIndex);
+				
+				//find and read instruction
+				String c_inst = null;
+				if(dataModel.isVerbose()) {
+					c_inst = cSeg.getSfInst().get(selectedInstructionIndex);
+				}
+				else {
+					c_inst = cSeg.getChordInst().get(selectedInstructionIndex);					
+				}
+				if(c_inst!=null) {
+					TextToSpeechAPI.speak(c_inst);
+				}
+				
+			}
+			else {
+				//no previous instruction
+	    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_NEXT_INST);				
+			}			
+		}
+    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+    		//no data in section
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    	}
+    	else {
+    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    	}				
 	}
 	
 	public void playSample() {	
 		GUIDataModel dataModel = GUIDataModel.getInstance();
-		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0) {
+		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0) {
 			Segment cSeg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
 			TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, cSeg.getStart(),cSeg.getEnd(),dataModel.getTrackNum());		
 		}
@@ -197,11 +321,35 @@ public class MainActivity extends Activity implements OnClickListener {
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0) {		
 			if(!dataModel.isOnPercussionTrack()) {
 				if(dataModel.isVerbose()) {
+					
+					//populate instructions
 					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());
+					
+					//read currently selected instruction
+					if(dataModel.getSelectedInstructionIndex() >= 0) {
+						instructionsList.programmaticSelect(dataModel.getSelectedInstructionIndex());
+						List<String> inst = dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst();
+						String instr = inst.get(dataModel.getSelectedInstructionIndex());
+						TextToSpeechAPI.speak(instr);
+					}
+										
+					//flip stored flag
 					dataModel.setVerbose(false);					
 				}
 				else {
+					
+					//populate instructions
 					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());
+
+					//read currently selected instruction
+					if(dataModel.getSelectedInstructionIndex() >= 0) {
+						instructionsList.programmaticSelect(dataModel.getSelectedInstructionIndex());						
+						List<String> inst = dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst();
+						String instr = inst.get(dataModel.getSelectedInstructionIndex());
+						TextToSpeechAPI.speak(instr);
+					}
+					
+					//flip stored flag
 					dataModel.setVerbose(true);
 				}
 			}
@@ -224,6 +372,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			else {
 				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());				
 			}
+			GUIDataModel.getInstance().clearSelectedInstructionIndex();
+			instructionsList.refreshGUI();
+			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());							
+			this.setTitle(dataModel.getFileName().trim() + " (M" + (c_seg.getStart()+1) + "-" + (c_seg.getEnd()+1) + ")");			
+			
 		}
 		else if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getCurrentSegment() == (dataModel.getInstSegments().size()-1)) {
 			TextToSpeechAPI.speak(SpeechConst.ERROR_LAST_SECTION);
@@ -246,6 +399,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			else {
 				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());								
 			}
+			GUIDataModel.getInstance().clearSelectedInstructionIndex();
+			instructionsList.refreshGUI();			
+			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());							
+			this.setTitle(dataModel.getFileName().trim() + " (M" + (c_seg.getStart()+1) + "-" + (c_seg.getEnd()+1) + ")");			
 		}
 		else if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getCurrentSegment() == 0) {
 			TextToSpeechAPI.speak(SpeechConst.ERROR_FIRST_SECTION);
@@ -275,6 +432,10 @@ public class MainActivity extends Activity implements OnClickListener {
 				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());								
 			}
 		}
+		GUIDataModel.getInstance().clearSelectedInstructionIndex();
+		instructionsList.refreshGUI();		
+		Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());							
+		this.setTitle(dataModel.getFileName().trim() + " (M" + (c_seg.getStart()+1) + "-" + (c_seg.getEnd()+1) + ")");					
 	}
 	
 	public void populateInstructionPane(List<String> instructions) {
@@ -314,13 +475,20 @@ public class MainActivity extends Activity implements OnClickListener {
 	            	 //populate tracks
 	            	 populateTrackOptions();
 	            	 
-	             	//set first index selected and load instructions
+	             	//set first segment selected and load instructions
 	             	if(dataModel.getTracksList().size() >0) {
+	             		
+	             		//set params
 	             		dataModel.setTrackNum(0);
 	             		dataModel.setCurrentSegment(0);
+	             		
+		             	//enable instructions list
+		             	instructionsList.setHilightEnabled(true);
+	             		
+		             	//perform load and show on GUI
 	         			loadInstructions();				    		
 	             	}	            	 
-	            	 
+	             		            	 
 	            	 //notify user that track successfully loaded
 	            	 TextToSpeechAPI.speak(SpeechConst.FILE_LOADED);
 	             }
@@ -403,9 +571,61 @@ public class MainActivity extends Activity implements OnClickListener {
             case R.id.GoToMenuItem:
             	showSelectSectionDialog();
                 return true;
+            case R.id.StompModeMenuItem:
+            	stompModeDialog(item);
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    public void stompModeDialog(MenuItem item) {
+    	
+    	//tab file must be loaded for stomper
+    	GUIDataModel dataModel = GUIDataModel.getInstance();
+		if(dataModel.getSong()!=null && dataModel.getTrackNum() >=0) {
+    	
+	    	//enable stomper if not active
+	    	if(!stomper.isEnabled()) {
+	    		
+	    		//show stomper enabled dialog
+				final Dialog dialog = new Dialog(this);
+				dialog.setContentView(R.layout.stomper_dialog_layout);
+				dialog.setTitle("Stomp Mode");	 
+				Button dialogButton = (Button) dialog.findViewById(R.id.OK_BUTTON);
+				dialogButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						
+			    		//enable stomper
+			    		stomper.start();						
+			    		
+			    		//close dialog
+						dialog.dismiss();
+					}
+				});	 
+				dialog.show();	    		    		
+				
+				//change text on menu item
+				String new_title = getResources().getString(R.string.DisableStompMode);
+				item.setTitle(new_title);				
+				
+	    	}	    	
+	    	else if(stomper.isEnabled()) {
+	    		
+	    		//stop stomper
+	    		stomper.stop();
+	    		
+	    		//change text on menu item
+				String new_title = getResources().getString(R.string.EnableStompMode);
+				item.setTitle(new_title);					    		
+	    	}
+	    	
+		}
+		else {
+			TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+		}
+    	
     }
     
     public void showSelectIncDialog() {
