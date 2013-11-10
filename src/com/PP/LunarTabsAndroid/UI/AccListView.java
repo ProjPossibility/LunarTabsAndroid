@@ -1,7 +1,8 @@
 package com.PP.LunarTabsAndroid.UI;
 
+import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
+
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -9,8 +10,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 public class AccListView extends ListView {
 	
@@ -45,6 +45,11 @@ public class AccListView extends ListView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
             	
+            	//insert activator delay into stt for finishing explore by touch speaking.
+            	if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
+            		WordActivatorAPI.getInstance().disableFor(SpeechConst.ACTIVATOR_DELAY);
+            	}
+            	
             	//debug
             	Log.d("CLICKED", "SEL: " + position + 
             			" NumCHILD: " + parent.getChildCount()
@@ -58,10 +63,20 @@ public class AccListView extends ListView {
 	            	//set selection in gui model
 	            	GUIDataModel.getInstance().setSelectedInstructionIndex(position);
 	            	            	
-	            	//blank out all child views
+	            	//blank out all child views and set accessible corrections
 	            	for(int x=0; x < parent.getChildCount(); x++) {
+	            		
+	            		//color
 	            		View child = parent.getChildAt(x);
 	            		child.setBackgroundColor(bgColor);
+	            		
+	    	    		//make accessible text corrections
+	    	    		if(child instanceof TextView) {
+	    	    			TextView tx = (TextView) child;
+	    	    			tx.setContentDescription(
+	    	    					InstructionContentDescription.makeAccessibleInstruction(
+	    	    							tx.getText().toString()));
+	    	    		}
 	            	}
 	            	            	
 	            	//highlight selected
@@ -75,15 +90,27 @@ public class AccListView extends ListView {
 		
 		//scroll policy
         this.setOnScrollListener(new OnScrollListener(){
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            @Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             	
             	//if enabled, do update.
             	if(hilightEnabled) {
             		
-	            	//on start of scroll, clear all highlighting
+	            	//on start of scroll, clear all highlighting and accessible text correction
 	            	for(int x=0; x < view.getChildCount(); x++) {
+	            		
+	            		//clear hilighting
 	            		View child = view.getChildAt(x);
 	            		child.setBackgroundColor(bgColor);
+	            		
+	    	    		//make accessible text corrections
+	    	    		if(child instanceof TextView) {
+	    	    			TextView tx = (TextView) child;
+	    	    			tx.setContentDescription(
+	    	    					InstructionContentDescription.makeAccessibleInstruction(
+	    	    							tx.getText().toString()));
+	    	    		}
+	            		
 	            	}            	            	
 	            	
 	            	//figure out whether we need to re-highlight the selected thing.
@@ -98,7 +125,8 @@ public class AccListView extends ListView {
 	          	  
 	            }
             }
-            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            @Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {}
             
           });
 	}
@@ -108,7 +136,7 @@ public class AccListView extends ListView {
 	public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
 		event.getText().clear();
 	}
-	
+		
 	/**
 	 * Performs manual refreshes list selection.
 	 */
@@ -117,10 +145,20 @@ public class AccListView extends ListView {
 		//if enabled, do update.
 		if(hilightEnabled) {
 			
-			//clear all list view selections
+			//clear all list view selections and set accessible text
 	    	for(int x=0; x < this.getChildCount(); x++) {
+	    		
+	    		//color text
 	    		View child = this.getChildAt(x);
 	    		child.setBackgroundColor(bgColor);
+	    		
+	    		//make accessible text corrections
+	    		if(child instanceof TextView) {
+	    			TextView tx = (TextView) child;
+	    			tx.setContentDescription(
+	    					InstructionContentDescription.makeAccessibleInstruction(
+	    							tx.getText().toString()));
+	    		}
 	    	}
 	    	
 	    	//figure out whether we need to re-highlight the selected thing.

@@ -168,6 +168,7 @@ public class FileChooserActivity extends Activity implements FileChooser {
         
         // Add a listener for when a file is selected.
         core.addListener(new FileChooserCore.OnFileSelectedListener() {
+			@Override
 			public void onFileSelected(File folder, String name) {
 				// Pass the data through an intent.
 				Intent intent = new Intent();
@@ -179,6 +180,7 @@ public class FileChooserActivity extends Activity implements FileChooser {
                 setResult(RESULT_OK, intent);
                 finish();				
 			}
+			@Override
 			public void onFileSelected(File file) {
 				// Pass the data through an intent.
 				Intent intent = new Intent();
@@ -208,16 +210,19 @@ public class FileChooserActivity extends Activity implements FileChooser {
     
     // ----- FileChooser methods ----- //
     
+	@Override
 	public LinearLayout getRootLayout() {
 		View root = this.findViewById(R.id.rootLayout); 
 		return (root instanceof LinearLayout)? (LinearLayout)root : null;
 	}
 
+	@Override
 	public Context getContext() {
 		//return this.getBaseContext();
 		return this;
 	}
 	
+	@Override
 	public void setCurrentFolderName(String name) {
 		this.setTitle(name);
 	}

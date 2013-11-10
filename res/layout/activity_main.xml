@@ -16,9 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="5sp"
-        android:layout_marginLeft="0sp"
-        android:layout_marginTop="0sp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
         android:contentDescription="@string/LoadTabFile"
         android:text="@string/LoadTabFile"
         android:textSize="15sp" />
@@ -30,7 +30,7 @@
         android:layout_alignBottom="@+id/loadTabFileButton"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/loadTabFileButton"
-        android:layout_marginLeft="5sp"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/loadTabFileButton"
         android:textSize="15sp"
         tools:listitem="@android:layout/simple_spinner_item" />
@@ -38,12 +38,12 @@
     <com.PP.LunarTabsAndroid.UI.AccListView
         android:id="@+id/instructionsList"
         android:layout_width="wrap_content"
-        android:layout_height="350sp"
+        android:layout_height="350dp"
 		android:choiceMode="singleChoice"        
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/loadTabFileButton"
-        android:layout_marginBottom="5sp"
+        android:layout_marginBottom="5dp"
         android:entries="@array/empty_instruct"
         android:textSize="15sp"
         tools:listitem="@android:layout/simple_list_item_1" >
@@ -81,7 +81,7 @@
 	        android:layout_width="0dp"
 	        android:layout_weight="0.4"
 		    android:layout_height="match_parent"
-		    android:layout_marginLeft="5sp"
+		    android:layout_marginLeft="5dp"
 			android:gravity="center_vertical|center_horizontal">
 	
 	        <Button
@@ -98,8 +98,8 @@
 		        android:id="@+id/LRButtonPane"
 	            android:layout_height="0dp"
 	            android:layout_weight="0.5"
-			    android:layout_marginTop="5sp"        
-			    android:layout_marginBottom="5sp"        
+			    android:layout_marginTop="5dp"        
+			    android:layout_marginBottom="5dp"        
 	        	android:layout_width="wrap_content">
 	        
 		        <Button

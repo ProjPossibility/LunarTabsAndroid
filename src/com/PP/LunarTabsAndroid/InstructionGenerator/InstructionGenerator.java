@@ -2,9 +2,6 @@ package com.PP.LunarTabsAndroid.InstructionGenerator;
 
 import java.util.*;
 
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
-import com.PP.LunarTabsAndroid.InstrumentModels.GuitarModel;
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGDuration;
 import com.tuxguitar.song.models.TGNote;

@@ -147,6 +147,7 @@ class FileChooserCore {
 	 * Implementation of the click listener for when the add button is clicked.
 	 */
 	private View.OnClickListener addButtonClickListener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 			// Get the current context.
 			Context context = v.getContext();
@@ -172,6 +173,7 @@ class FileChooserCore {
 
 			// Set the 'ok' and 'cancel' buttons.
 			alert.setPositiveButton(posButton, new DialogInterface.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String fileName = input.getText().toString();
 					// Verify if a value has been entered.
@@ -182,6 +184,7 @@ class FileChooserCore {
 				}
 			});
 			alert.setNegativeButton(negButton, new DialogInterface.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do nothing, automatically the dialog is going to be closed.
 				}
@@ -196,6 +199,7 @@ class FileChooserCore {
 	 * Implementation of the click listener for when the ok button is clicked.
 	 */
 	private View.OnClickListener okButtonClickListener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 			// Notify the listeners.
 			FileChooserCore.this.notifyListeners(FileChooserCore.this.currentFolder, null);
@@ -206,6 +210,7 @@ class FileChooserCore {
 	 * Implementation of the click listener for when a file item is clicked.
 	 */
 	private FileItem.OnFileClickListener fileItemClickListener = new FileItem.OnFileClickListener() {
+		@Override
 		public void onClick(FileItem source) {
 			// Verify if the item is a folder.
 			File file = source.getFile();
@@ -298,6 +303,7 @@ class FileChooserCore {
 			// Set the message and the 'yes' and 'no' buttons.
 			alert.setMessage( message );
 			alert.setPositiveButton(posButton, new DialogInterface.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Notify to listeners.
 					for(int i=0; i<FileChooserCore.this.listeners.size(); i++) {
@@ -310,6 +316,7 @@ class FileChooserCore {
 				}
 			});
 			alert.setNegativeButton(negButton, new DialogInterface.OnClickListener() {
+				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
 					// Do nothing, automatically the dialog is going to be closed.
 				}

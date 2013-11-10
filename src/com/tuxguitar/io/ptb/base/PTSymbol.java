@@ -16,6 +16,7 @@ public class PTSymbol implements PTComponent{
 		this.endNumber = endNumber;
 	}
 	
+	@Override
 	public PTComponent getClone(){
 		PTSymbol symbol = new PTSymbol();
 		symbol.setEndNumber( getEndNumber() );

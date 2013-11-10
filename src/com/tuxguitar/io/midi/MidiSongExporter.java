@@ -17,19 +17,23 @@ public class MidiSongExporter implements TGSongExporter{
 		settings = new MidiSettings();
 	}
 	
+	@Override
 	public String getExportName() {
 		return "Midi";
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("Midi","*.mid;*.midi");
 	}
 	
+	@Override
 	public boolean configure(boolean setDefaults) {
 		this.settings = (MidiSettings.getDefaults());
 		return (this.settings != null);
 	}
 	
+	@Override
 	public void exportSong(OutputStream stream, TGSong song) {
 		TGSongManager manager = new TGSongManager();
 		manager.setSong(song);

@@ -29,6 +29,7 @@ public class PTPosition {
 	
 	public void sort(){
 		Collections.sort( getComponents(), new Comparator() {
+			@Override
 			public int compare(Object o1, Object o2) {
 				if( o1 instanceof PTDirection ){
 					return 1;

@@ -48,6 +48,7 @@ public class PTDirection implements PTComponent{
 		return this.repeat;
 	}
 	
+	@Override
 	public PTComponent getClone(){
 		return new PTDirection( getDirection() , getActiveSymbol(), getRepeat() );
 	}

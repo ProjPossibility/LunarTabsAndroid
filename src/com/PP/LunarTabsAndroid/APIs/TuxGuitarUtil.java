@@ -8,8 +8,6 @@ import java.io.FileOutputStream;
 
 import java.util.*;
 
-import android.media.MediaPlayer;
-
 import com.tuxguitar.io.base.TGSongLoader;
 import com.tuxguitar.io.gtp.GP4OutputStream;
 import com.tuxguitar.io.gtp.GTPSettings;

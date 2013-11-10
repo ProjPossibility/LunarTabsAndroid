@@ -213,6 +213,7 @@ public class FileItem extends LinearLayout {
 	 */
 	private View.OnClickListener clickListener = new View.OnClickListener() {
 		
+		@Override
 		public void onClick(View v) {
 			// Verify if the item can be selected.
 			if(FileItem.this.selectable) {

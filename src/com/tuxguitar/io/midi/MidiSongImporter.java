@@ -30,19 +30,23 @@ public class MidiSongImporter implements TGSongImporter{
 		super();
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("Midi","*.mid;*.midi");
 	}
 	
+	@Override
 	public String getImportName() {
 		return "Midi";
 	}
 	
+	@Override
 	public boolean configure(boolean setDefaults){
 		this.settings = (MidiSettings.getDefaults());
 		return (this.settings != null);
 	}
 	
+	@Override
 	public TGSong importSong(TGFactory factory,InputStream stream) throws TGFileFormatException {
 		try {
 			if(this.settings == null){

@@ -47,10 +47,12 @@ public class GP3InputStream extends GTPInputStream {
 		super(settings, SUPPORTED_VERSIONS);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 3","*.gp3");
 	}
 	
+	@Override
 	public TGSong readSong() throws GTPFormatException, IOException {
 		readVersion();
 		if (!isSupportedVersion(getVersion())) {

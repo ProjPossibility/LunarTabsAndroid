@@ -45,10 +45,12 @@ public class GP4InputStream extends GTPInputStream {
 		super(settings, SUPPORTED_VERSIONS);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 4","*.gp4");
 	}
 	
+	@Override
 	public TGSong readSong() throws IOException, GTPFormatException {
 		readVersion();
 		if (!isSupportedVersion(getVersion())) {

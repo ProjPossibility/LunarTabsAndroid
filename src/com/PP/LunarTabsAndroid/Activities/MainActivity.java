@@ -7,39 +7,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
+import com.PP.IntelliSeg.Abstract.Segment;
+import com.PP.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
 import com.PP.LunarTabsAndroid.Dialogs.MeasureIncrementDialog;
 import com.PP.LunarTabsAndroid.Dialogs.SelectSectionDialog;
+import com.PP.LunarTabsAndroid.Dialogs.VoiceActionsDialog;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordDB;
-import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.Segment;
-import com.PP.LunarTabsAndroid.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
-import com.PP.LunarTabsAndroid.Metronome.Metronome;
-import com.PP.LunarTabsAndroid.StompDetector.StompDetector;
-import com.PP.LunarTabsAndroid.StompDetector.StompDetectorImpl;
 import com.PP.LunarTabsAndroid.UI.AccListView;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.InstructionContentDescription;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
+import com.PP.StompDetector.InstructionStomp;
+import com.PP.StompDetector.StompDetector;
 import com.daidalos.afiledialog.FileChooserDialog;
 import com.example.lunartabsandroid.R;
+import com.root.gast.speech.activation.SpeechActivationListener;
+import com.root.gast.speech.activation.WordActivator;
 import com.tuxguitar.song.models.TGSong;
 
 import android.graphics.Color;
-import android.location.Address;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
 import android.app.Activity;
 import android.app.Dialog;
 import android.util.Log;
@@ -48,9 +45,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity implements OnClickListener, SpeechActivationListener {
 	
 	//components
 	protected Button loadTabFileButton;
@@ -66,7 +62,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	//stomp detector
 	protected StompDetector stomper;
-				
+							
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -128,12 +124,14 @@ public class MainActivity extends Activity implements OnClickListener {
         ChordDB.getInstance();
 //        ChordDBGenerator.getInstance().debugDump();
         
+        //enable voice commands
+        WordActivatorAPI.getInstance().init(SpeechConst.voiceCommands, this);
+        
         //Stomp detector
-//        stomper = new StompDetectorImpl(this);
-        
-//        Metronome m = new Metronome();
- //       m.play();
-        
+        stomper = new InstructionStomp(this);
+//        stomper = new MetronomeStomp(this);
+//        stomper.setUntrigger_delay(0);
+//        stomper.start();
 	}
 		
 	@Override
@@ -237,7 +235,8 @@ public class MainActivity extends Activity implements OnClickListener {
 						c_inst = cSeg.getChordInst().get(selectedInstructionIndex);					
 					}
 					if(c_inst!=null) {
-						TextToSpeechAPI.speak(c_inst);
+						TextToSpeechAPI.speak(
+								InstructionContentDescription.makeAccessibleInstruction(c_inst));
 					}
 				}
 			}
@@ -284,12 +283,13 @@ public class MainActivity extends Activity implements OnClickListener {
 					c_inst = cSeg.getChordInst().get(selectedInstructionIndex);					
 				}
 				if(c_inst!=null) {
-					TextToSpeechAPI.speak(c_inst);
+					TextToSpeechAPI.speak(
+							InstructionContentDescription.makeAccessibleInstruction(c_inst));
 				}
 				
 			}
 			else {
-				//no previous instruction
+				//no next instruction
 	    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_NEXT_INST);				
 			}			
 		}
@@ -325,32 +325,35 @@ public class MainActivity extends Activity implements OnClickListener {
 					//populate instructions
 					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());
 					
+					//flip stored flag
+					dataModel.setVerbose(false);										
+					
 					//read currently selected instruction
 					if(dataModel.getSelectedInstructionIndex() >= 0) {
 						instructionsList.programmaticSelect(dataModel.getSelectedInstructionIndex());
 						List<String> inst = dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst();
 						String instr = inst.get(dataModel.getSelectedInstructionIndex());
-						TextToSpeechAPI.speak(instr);
+						TextToSpeechAPI.speak(
+								InstructionContentDescription.makeAccessibleInstruction(instr));
 					}
 										
-					//flip stored flag
-					dataModel.setVerbose(false);					
 				}
 				else {
 					
 					//populate instructions
 					populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst());
 
+					//flip stored flag
+					dataModel.setVerbose(true);
+					
 					//read currently selected instruction
 					if(dataModel.getSelectedInstructionIndex() >= 0) {
 						instructionsList.programmaticSelect(dataModel.getSelectedInstructionIndex());						
 						List<String> inst = dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst();
 						String instr = inst.get(dataModel.getSelectedInstructionIndex());
-						TextToSpeechAPI.speak(instr);
-					}
-					
-					//flip stored flag
-					dataModel.setVerbose(true);
+						TextToSpeechAPI.speak(
+								InstructionContentDescription.makeAccessibleInstruction(instr));
+					}					
 				}
 			}
 		}
@@ -449,7 +452,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		dialog.setFilter(".*gp1|.*gp2|.*gp3|.*gp4|.*gp5|.*gpx|.*ptb");
 	    dialog.show();
 	    dialog.addListener(new FileChooserDialog.OnFileSelectedListener() {
-	         public void onFileSelected(Dialog source, File file) {
+	         @Override
+			public void onFileSelected(Dialog source, File file) {
 	        	 
 	        	 //stuff
 	             source.hide();
@@ -497,7 +501,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	            	 TextToSpeechAPI.speak(SpeechConst.ERROR_FILE_NOT_LOADED);
 	             }	             
 	         }
-	         public void onFileSelected(Dialog source, File folder, String name) {}
+	         @Override
+			public void onFileSelected(Dialog source, File folder, String name) {}
 	     });		    
 	}
 	
@@ -574,9 +579,33 @@ public class MainActivity extends Activity implements OnClickListener {
             case R.id.StompModeMenuItem:
             	stompModeDialog(item);
             	return true;
+            case R.id.VoiceActionsMenuItem:
+            	voiceActionsDialog(item);
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    public void voiceActionsDialog(MenuItem menuItem) {
+    	if(!GUIDataModel.getInstance().isVoiceActionsEnabled()) {
+    		
+    		//show dialog for voice actions
+        	VoiceActionsDialog m = new VoiceActionsDialog(menuItem);
+        	m.show(getFragmentManager(), "LOZ");   		
+        	
+    	}
+    	else {
+    		
+    		//stop voice actions
+     	   GUIDataModel.getInstance().setVoiceActionsEnabled(false);
+     	   WordActivatorAPI.getInstance().stopListening();
+    		
+    		//relabel menu item
+     	   String new_title = getResources().getString(R.string.EnableVoiceActions);
+     	   menuItem.setTitle(new_title);
+    		
+    	}
     }
     
     public void stompModeDialog(MenuItem item) {
@@ -625,7 +654,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		else {
 			TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
 		}
-    	
     }
     
     public void showSelectIncDialog() {
@@ -640,7 +668,6 @@ public class MainActivity extends Activity implements OnClickListener {
     	else {
     		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
     	}
-    	
     }
     
     public void showSelectSectionDialog() {
@@ -656,4 +683,31 @@ public class MainActivity extends Activity implements OnClickListener {
     		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
     	}
     }
+    
+    /**
+     * Voice Activator callback
+     */
+	@Override
+	public void activated(boolean success, String wordHeard) {
+		Log.d("ACTIVATED", wordHeard);
+		if(wordHeard.equalsIgnoreCase("toggle")) {
+			this.toggleModesButton.performClick();
+		}
+		else if(wordHeard.equalsIgnoreCase("play")) {
+			this.playSampleButton.performClick();
+		}
+		else if(wordHeard.equalsIgnoreCase("next")) {
+			this.nextMeasButton.performClick();
+		}
+		else if(wordHeard.equalsIgnoreCase("back")) {
+			this.prevMeasButton.performClick();
+		}
+		else if(wordHeard.equalsIgnoreCase("up")) {
+			this.upButton.performClick();
+		}
+		else if(wordHeard.equalsIgnoreCase("down")) {
+			this.downButton.performClick();
+			
+		}
+	}
 }

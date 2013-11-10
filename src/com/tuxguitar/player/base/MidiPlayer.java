@@ -165,6 +165,7 @@ public class MidiPlayer{
 			this.setRunning(true);
 			this.getSequencer().start();
 			new Thread(new Runnable() {
+				@Override
 				public synchronized void run() {
 					try {
 						MidiPlayer.this.lock.lock();

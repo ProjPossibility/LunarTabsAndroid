@@ -34,12 +34,14 @@ public class PTInputStream implements TGInputStreamBase{
 		super();
 	}
 	
+	@Override
 	public void init(TGFactory factory,InputStream stream){
 		this.version = null;
 		this.stream = stream;
 		this.parser = new PTSongParser(factory);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("PowerTab","*.ptb");
 	}
@@ -48,6 +50,7 @@ public class PTInputStream implements TGInputStreamBase{
 		return (version.equals(PTB_VERSION));
 	}
 	
+	@Override
 	public boolean isSupportedVersion(){
 		try{
 			readVersion();
@@ -65,6 +68,7 @@ public class PTInputStream implements TGInputStreamBase{
 		}
 	}
 	
+	@Override
 	public TGSong readSong() throws IOException{
 		this.readVersion();
 		if (!isSupportedVersion(this.version)) {

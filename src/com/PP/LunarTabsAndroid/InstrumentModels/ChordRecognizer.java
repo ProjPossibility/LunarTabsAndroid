@@ -1,8 +1,6 @@
 package com.PP.LunarTabsAndroid.InstrumentModels;
 import java.util.*;
 
-import android.util.Log;
-
 import com.tuxguitar.song.models.TGNote;
 
 public class ChordRecognizer {

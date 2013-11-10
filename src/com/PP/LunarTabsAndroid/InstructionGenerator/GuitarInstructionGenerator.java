@@ -36,6 +36,7 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 	/*
 	 * Get play instruction
 	 */
+	@Override
 	public String getPlayInstruction(TGBeat beat) {
 		if(beat.isRestBeat()) {
 			return getDurationInstruction(beat);

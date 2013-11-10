@@ -2,14 +2,10 @@ package com.PP.LunarTabsAndroid.UI;
 import java.io.Serializable;
 import java.util.*;
 
+import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
+import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.AbstractSegmenter;
-import com.PP.LunarTabsAndroid.IntelliSeg.Abstract.Segment;
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGMeasure;
 import com.tuxguitar.song.models.TGSong;
 import com.tuxguitar.song.models.TGTrack;
 
@@ -26,6 +22,7 @@ public class GUIDataModel implements Serializable {
 	protected int selectedInstructionIndex;	
 	protected boolean verbose;
 	protected AbstractSegmenter segmenter;
+	protected boolean voiceActionsEnabled;
 
 	//singleton
 	protected GUIDataModel() {
@@ -37,6 +34,7 @@ public class GUIDataModel implements Serializable {
 		tracksList = null;
 		verbose = false;
 		selectedInstructionIndex = -1;
+		voiceActionsEnabled = false;
 	}
 	protected static GUIDataModel instance = null;
 	public static GUIDataModel getInstance() {
@@ -223,5 +221,19 @@ public class GUIDataModel implements Serializable {
 	
 	public void clearSelectedInstructionIndex() {
 		this.selectedInstructionIndex = -1;
+	}
+
+	/**
+	 * @return the voiceActionsEnabled
+	 */
+	public boolean isVoiceActionsEnabled() {
+		return voiceActionsEnabled;
+	}
+
+	/**
+	 * @param voiceActionsEnabled the voiceActionsEnabled to set
+	 */
+	public void setVoiceActionsEnabled(boolean voiceActionsEnabled) {
+		this.voiceActionsEnabled = voiceActionsEnabled;
 	}
 }

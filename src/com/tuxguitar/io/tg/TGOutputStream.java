@@ -51,18 +51,22 @@ public class TGOutputStream extends TGStream implements TGOutputStreamBase{
 	
 	private DataOutputStream dataOutputStream;
 	
+	@Override
 	public boolean isSupportedExtension(String extension) {
 		return (extension.toLowerCase().equals(TG_FORMAT_EXTENSION));
 	}
 	
+	@Override
 	public void init(TGFactory factory,OutputStream stream) {
 		this.dataOutputStream = new DataOutputStream(stream);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("TuxGuitar","*.tg");
 	}
 	
+	@Override
 	public void writeSong(TGSong song) throws IOException{
 		this.writeVersion();
 		this.write(song);

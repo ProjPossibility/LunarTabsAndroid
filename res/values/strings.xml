@@ -10,6 +10,12 @@
 	<string name="EnableStompMode">Enable Stomp Mode</string>
 	<string name="DisableStompMode">Disable Stomp Mode</string>
 	<string name="StopModeText">Place the phone down on the floor next to your feet. Sit comfortably with the guitar in your hands. In stomp mode, when you want to go to the next playing instruction, just stomp in front of the phone to create nearby vibration that is picked up as motion spikes by the accelerometer. DO NOT STOMP ON YOUR PHONE. Best results are on carpet or with the phone placed on a towel on a hard floor. When you are ready, please OK.</string>
+	<string name="EnableVoiceActions">Enable Voice Actions</string>
+	<string name="DisableVoiceActions">Disable Voice Actions</string>	
+	<string name="VoiceActionsTitle">Voice Actions</string>		
+	<string name="VoiceActionsYes">Enable Voice Actions?</string>
+	<string name="VoiceActionsNo">Cancel</string>							
+	<string name="VoiceActionsText">By enabling voice actions, you can automate the application with voice commands. The following voice commands are available when enabled: up, down, next, back, toggle, play.</string>			
 	<string name="OK">OK</string>
     <string-array name="MeasureIncChoices">
         <item>1 Measure</item>

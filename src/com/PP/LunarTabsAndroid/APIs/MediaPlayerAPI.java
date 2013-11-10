@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+
 
 import android.media.MediaPlayer;
 
@@ -25,9 +27,15 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 		
 	public void play(String filePath) {
 		try {
+			
+			//load file
 			File f = new File(filePath);
 			FileInputStream fis = new FileInputStream(f);
 			FileDescriptor fd = fis.getFD();
+			
+			//disable stt
+			
+			//play
 			mediaPlayer.setDataSource(fd);
 			mediaPlayer.prepare();
 			mediaPlayer.start();
@@ -46,5 +54,8 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 		
 		//delete temporary files
 		TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
+		
+		//re-enable stt
+		
 	}
 }

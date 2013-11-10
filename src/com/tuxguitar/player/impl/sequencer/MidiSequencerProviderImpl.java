@@ -15,6 +15,7 @@ public class MidiSequencerProviderImpl implements MidiSequencerProvider{
 		super();
 	}
 	
+	@Override
 	public List listSequencers() throws MidiPlayerException {
 		if(this.sequencers == null){
 			this.sequencers = new ArrayList();
@@ -23,6 +24,7 @@ public class MidiSequencerProviderImpl implements MidiSequencerProvider{
 		return this.sequencers;
 	}
 	
+	@Override
 	public void closeAll() throws MidiPlayerException {
 		Iterator it = listSequencers().iterator();
 		while(it.hasNext()){

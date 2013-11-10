@@ -1,9 +1,13 @@
 package com.PP.LunarTabsAndroid.APIs;
 
+import java.util.HashMap;
 import java.util.Locale;
+
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
 /**
@@ -11,7 +15,7 @@ import android.util.Log;
  * @author prateek
  *
  */
-public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
+public class TextToSpeechAPI implements TextToSpeech.OnInitListener {	
 	
 	//fields
 	protected TextToSpeech tts;
@@ -34,7 +38,16 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 	 */
 	public static void speak(String text) {
 		if(instance!=null && instance.tts!=null && text!=null && !text.trim().equals((""))) {
-    		instance.tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+			
+			//turn of stt (if currently running)
+			if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
+				WordActivatorAPI.getInstance().stopListening();
+			}
+			
+			//turn on tts
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,text);			
+    		instance.tts.speak(text, TextToSpeech.QUEUE_FLUSH, params);
 		}
 	}
 
@@ -44,7 +57,29 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 			int result = tts.setLanguage(Locale.US);
 			if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
 				Log.e("TTS", "This Language is not supported");
-			}  
+			}
+			instance.tts.setOnUtteranceProgressListener(new UtteranceProgressListener()
+	        {
+	            @Override
+	            public void onDone(String utteranceId)
+	            {
+	            	
+	            	//restart stt (if currently user enabled)
+	            	Log.d("END", "FINISHED: " + utteranceId);
+	    			if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
+	    				WordActivatorAPI.getInstance().start();                	
+	    			}
+	            }
+	
+	            @Override
+	            public void onError(String utteranceId){}
+	
+	            @Override
+	            public void onStart(String utteranceId)
+	            {
+	            	Log.d("START", "STARTED MUMBLING: " + utteranceId);
+	            }
+	        });			
 		}
 		else {
 			Log.e("TTS", "Initilization Failed!");

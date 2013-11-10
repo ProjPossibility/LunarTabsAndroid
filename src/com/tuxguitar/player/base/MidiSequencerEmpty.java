@@ -3,14 +3,17 @@ import com.tuxguitar.song.models.*;
 
 public class MidiSequencerEmpty implements MidiSequencer{
 	
+	@Override
 	public void open() {
 		// Not implemented
 	}	
 	
+	@Override
 	public void close() {
 		// Not implemented
 	}
 	
+	@Override
 	public MidiSequenceHandler createSequence(int tracks) {
 		return new MidiSequenceHandler(tracks) {
 			
@@ -56,49 +59,60 @@ public class MidiSequencerEmpty implements MidiSequencer{
 		};
 	}
 	
+	@Override
 	public void setTransmitter(MidiTransmitter transmitter) throws MidiPlayerException {
 		// Not implemented
 	}
 	
+	@Override
 	public long getTickLength() {
 		// Not implemented
 		return 0;
 	}
 	
+	@Override
 	public long getTickPosition() {
 		// Not implemented
 		return 0;
 	}
 	
+	@Override
 	public boolean isRunning() {
 		// Not implemented
 		return false;
 	}
 	
+	@Override
 	public void setMute(int index, boolean mute) {
 		//not implemented
 	}
 	
+	@Override
 	public void setSolo(int index, boolean solo) {
 		// Not implemented
 	}
 	
+	@Override
 	public void setTickPosition(long tickPosition) {
 		// Not implemented
 	}
 	
+	@Override
 	public void start() {
 		// Not implemented
 	}
 	
+	@Override
 	public void stop() {
 		// Not implemented
 	}
 	
+	@Override
 	public String getKey() {
 		return null;
 	}
 	
+	@Override
 	public String getName() {
 		return null;
 	}	

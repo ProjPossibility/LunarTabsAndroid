@@ -28,6 +28,7 @@ import com.example.lunartabsandroid.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
@@ -75,8 +76,8 @@ public class FileChooserDialog extends Dialog implements FileChooser {
 		// Maximize the dialog.
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(this.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.FILL_PARENT;
-        lp.height = WindowManager.LayoutParams.FILL_PARENT;
+        lp.width = LayoutParams.FILL_PARENT;
+        lp.height = LayoutParams.FILL_PARENT;
         this.getWindow().setAttributes(lp);
         
         // By default, load the SD card files.
@@ -88,12 +89,14 @@ public class FileChooserDialog extends Dialog implements FileChooser {
         
         // Add a listener for when a file is selected.
         core.addListener(new FileChooserCore.OnFileSelectedListener() {
+			@Override
 			public void onFileSelected(File folder, String name) {
 				// Call to the listeners.
 				for(int i=0; i<FileChooserDialog.this.listeners.size(); i++) {
 					FileChooserDialog.this.listeners.get(i).onFileSelected(FileChooserDialog.this, folder, name);
 				}
 			}
+			@Override
 			public void onFileSelected(File file) {
 				// Call to the listeners.
 				for(int i=0; i<FileChooserDialog.this.listeners.size(); i++) {
@@ -238,11 +241,13 @@ public class FileChooserDialog extends Dialog implements FileChooser {
 	
     // ----- FileChooser methods ----- //
     
+	@Override
 	public LinearLayout getRootLayout() {
 		View root = this.findViewById(R.id.rootLayout); 
 		return (root instanceof LinearLayout)? (LinearLayout)root : null;
 	}  
 
+	@Override
 	public void setCurrentFolderName(String name) {
 		this.setTitle(name);
 	}
