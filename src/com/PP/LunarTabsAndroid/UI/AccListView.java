@@ -141,6 +141,7 @@ public class AccListView extends ListView {
 	 * Performs manual refreshes list selection.
 	 */
 	public void refreshGUI() {
+		Log.d("REFRESH CALLED", "RFRESH " + hilightEnabled);
 		
 		//if enabled, do update.
 		if(hilightEnabled) {
@@ -167,8 +168,10 @@ public class AccListView extends ListView {
 	  	  	int childCount = this.getChildCount();
 	  	  	int selectedInstructionIndex = GUIDataModel.getInstance().getSelectedInstructionIndex();
 	  	  	int newIndex = selectedInstructionIndex - firstVis;
+  	  		Log.d("LOG","REHI " + newIndex);	  	  	
 	  	  	if(newIndex >= 0 && newIndex < childCount) {
 	  	  		View child = this.getChildAt(newIndex);
+	  	  		Log.d("LOG","REHI: " + newIndex);
 	  	  		child.setBackgroundColor(hilightColor);
 	  	  	}            	
 		}

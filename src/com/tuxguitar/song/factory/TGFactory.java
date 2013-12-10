@@ -1,5 +1,7 @@
 package com.tuxguitar.song.factory;
 
+import java.io.Serializable;
+
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGChannel;
 import com.tuxguitar.song.models.TGChord;
@@ -28,7 +30,7 @@ import com.tuxguitar.song.models.effects.TGEffectTremoloBar;
 import com.tuxguitar.song.models.effects.TGEffectTremoloPicking;
 import com.tuxguitar.song.models.effects.TGEffectTrill;
 
-public class TGFactory {
+public class TGFactory implements Serializable {
 	
 	public TGSong newSong(){
 		return new TGSong() {

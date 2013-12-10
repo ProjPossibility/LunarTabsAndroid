@@ -112,11 +112,4 @@ public class MetronomeAPI {
 	public void setSound(double sound) {
 		this.sound = sound;
 	}
-
-	/**
-	 * @param instance the instance to set
-	 */
-	public static void setInstance(MetronomeAPI instance) {
-		MetronomeAPI.instance = instance;
-	}    
 }

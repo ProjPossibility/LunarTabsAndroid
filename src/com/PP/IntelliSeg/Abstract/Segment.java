@@ -1,8 +1,11 @@
 package com.PP.IntelliSeg.Abstract;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Segment {
+import com.tuxguitar.song.models.TGBeat;
+
+public abstract class Segment implements Serializable {
 	
 	/**
 	 * Start of segment (for indexing)
@@ -23,6 +26,11 @@ public class Segment {
 	 * List of chord instructions corresponding to segment.
 	 */
 	protected List<String> chordInst;
+	
+	/**
+	 * List of Beats
+	 */
+	protected List<TGBeat> beats;
 	
 	/**
 	 * Constructor
@@ -86,4 +94,30 @@ public class Segment {
 	public void setChordInst(List<String> chordInst) {
 		this.chordInst = chordInst;
 	}	
+	
+	/**
+	 * @return the beats
+	 */
+	public List<TGBeat> getBeats() {
+		return beats;
+	}
+
+	/**
+	 * @param beats the beats to set
+	 */
+	public void setBeats(List<TGBeat> beats) {
+		this.beats = beats;
+	}
+
+	/**
+	 * Abstract method for playing segment in MediaPlayer.
+	 */
+	public abstract void play();
+	
+	/**
+	 * Abstract method for presenting the title of the segment
+	 * @return
+	 */
+	public abstract String getTitlePresentation();
+	
 }

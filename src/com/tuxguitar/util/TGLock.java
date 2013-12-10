@@ -1,6 +1,8 @@
 package com.tuxguitar.util;
 
-public class TGLock {
+import java.io.Serializable;
+
+public class TGLock implements Serializable {
 	
 	private Thread lock;
 	private long lockId;

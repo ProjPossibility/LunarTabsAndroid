@@ -1,6 +1,8 @@
 package com.tuxguitar.song.models;
 
-public abstract class TGLyric {
+import java.io.Serializable;
+
+public abstract class TGLyric implements Serializable {
 	private static final String REGEX = " ";
 	
 	private int from;

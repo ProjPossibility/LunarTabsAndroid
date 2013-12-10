@@ -11,13 +11,14 @@ public class SpeechConst {
 	public static final String ERROR_NO_FILE_LOADED = "Error: No Tab File Loaded. Please load a tab file first.";
 	public static final String ERROR_FIRST_SECTION = "Error: You are at the beginning of the track. No previous section.";
 	public static final String ERROR_LAST_SECTION = "Error: You are at the end of the track. No more sections.";
+	public static final String ERROR_NO_INST_SELECTED = "Error: No Instruction Selected.";
 	
 	//feedback on changing instructions
 	public static final String ERROR_NO_PREV_INST = "No previous instructions in section.";
 	public static final String ERROR_NO_NEXT_INST = "No more instructions in section.";
 	
 	//voice activation command params	
-	public static final String[] voiceCommands = {"Toggle","Play","Next","Back","Up","Down"};
+	public static final String[] voiceCommands = {"Toggle","Play","Next","Back","Up","Down","Sample"};
 	public static final int ACTIVATOR_DELAY = 5000;
 	
 }

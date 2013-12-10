@@ -16,6 +16,7 @@
 package com.root.gast.speech.activation;
 
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.root.gast.speech.SpeechRecognitionUtil;
 import com.root.gast.speech.text.WordList;
@@ -58,8 +59,8 @@ public class WordActivator implements SpeechActivator, RecognitionListener
     public void detectActivation()
     {
     	//set flag to true
-    	listening = true;
-    	
+		listening = true;
+		
     	//first call
         recognizeSpeechDirectly();        
     }
@@ -74,17 +75,18 @@ public class WordActivator implements SpeechActivator, RecognitionListener
         // accept partial results if they come
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
     	}
-        SpeechRecognitionUtil.recognizeSpeechDirectly(context,
+    	if(listening) {
+    		SpeechRecognitionUtil.recognizeSpeechDirectly(context,
                 recognizerIntent, this, getSpeechRecognizer());
+    	}
     }
         
     public void stopListening() {
-    	listening = false;
+		listening = false;
     	getSpeechRecognizer().stopListening();
     	getSpeechRecognizer().cancel();
     }
                 
-    @Override
 	public void stop()
     {
         if (getSpeechRecognizer() != null)
@@ -94,6 +96,11 @@ public class WordActivator implements SpeechActivator, RecognitionListener
             getSpeechRecognizer().destroy();
         }
     }
+	
+	public void stop2() {
+		listening = false;
+		stop();
+	}
 
     @Override
     public void onResults(Bundle results)

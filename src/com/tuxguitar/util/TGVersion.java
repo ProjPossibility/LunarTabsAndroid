@@ -1,6 +1,8 @@
 package com.tuxguitar.util;
 
-public class TGVersion {
+import java.io.Serializable;
+
+public class TGVersion implements Serializable {
 	
 	public static final TGVersion CURRENT = new TGVersion(1,1,0);
 	

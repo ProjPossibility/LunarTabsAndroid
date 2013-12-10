@@ -6,6 +6,8 @@
  */
 package com.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import com.tuxguitar.song.factory.TGFactory;
 
 /**
@@ -14,7 +16,7 @@ import com.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGChord {
+public abstract class TGChord implements Serializable {
 	private int firstFret;
 	private int[] strings;
 	private String name;

@@ -1,9 +1,11 @@
 package com.tuxguitar.song.models.effects;
 
+import java.io.Serializable;
+
 import com.tuxguitar.song.factory.TGFactory;
 import com.tuxguitar.song.models.TGDuration;
 
-public abstract class TGEffectTrill {
+public abstract class TGEffectTrill implements Serializable {
 	
 	private int fret;
 	private TGDuration duration;

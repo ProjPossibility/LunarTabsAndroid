@@ -6,6 +6,8 @@
  */
 package com.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import com.tuxguitar.song.factory.TGFactory;
 
 /**
@@ -14,7 +16,7 @@ import com.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGTempo {
+public abstract class TGTempo implements Serializable {
 	private static final int SECOND_IN_MILLIS = 1000;
 	
 	private int value;

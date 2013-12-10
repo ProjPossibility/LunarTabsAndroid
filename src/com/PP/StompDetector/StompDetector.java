@@ -1,5 +1,10 @@
 package com.PP.StompDetector;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.PP.LunarTabsAndroid.UI.StomperParams;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -7,14 +12,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public abstract class StompDetector implements SensorEventListener {
+public class StompDetector implements SensorEventListener {
 	
 	//const
 	public static final int START_WAIT_DEFAULT = 5000;
 	public static final int UNTRIGGER_DELAY_DEFAULT = 2000;
+	public static final float DEFAULT_SENSITIVITY = 0.1f;
 	
 	//user params
-	protected float sensitivity = 0.1f;
+	protected float sensitivity;
 	protected int start_wait;
 	protected int untrigger_delay;
 	
@@ -24,10 +30,16 @@ public abstract class StompDetector implements SensorEventListener {
 	protected volatile boolean prevTriggered;
 	protected float lastVal;
 	
+	//stop/resume state
+	protected volatile boolean onStop_state = false;
+	
 	//sensor managers and parent
 	protected SensorManager mSensorManager;
 	protected Sensor mAccel;	
 	protected Activity parent;
+	
+	//list of stomp listeners
+	protected List<StompListener> stompListeners;
 	
 	public StompDetector(Activity parent) {
 		this.parent = parent;
@@ -36,7 +48,9 @@ public abstract class StompDetector implements SensorEventListener {
 		prevTriggered = false;
 		start_wait = START_WAIT_DEFAULT;
 		untrigger_delay = UNTRIGGER_DELAY_DEFAULT;
+		sensitivity = DEFAULT_SENSITIVITY;
 		lastVal = -1;		
+		stompListeners = new ArrayList<StompListener>();
 		
 		//init sensors
 	    mSensorManager = (SensorManager)parent.getSystemService(Context.SENSOR_SERVICE);
@@ -44,12 +58,16 @@ public abstract class StompDetector implements SensorEventListener {
 	    mSensorManager.registerListener(this, mAccel,SensorManager.SENSOR_DELAY_NORMAL);	    
 	    
 	}
-	
+		
 	/**
 	 * start function
 	 */
 	public void start() {
 						
+		//look up and set params
+		this.setSensitivity(StomperParams.getInstance().getStomperSensitivity());
+		this.setUntrigger_delay(StomperParams.getInstance().getStomperDelay());
+		
 		//make inactive for start wait
 		enabled = true;		
 		deactiveFor(start_wait);
@@ -132,14 +150,15 @@ public abstract class StompDetector implements SensorEventListener {
 				float accZ = event.values[2];
 				if(trigger(accZ)) {
 					double timestamp = System.currentTimeMillis();
-					trigger_callback(timestamp);
+//					trigger_callback(timestamp);
+					for(StompListener l : stompListeners) {
+						l.trigger_callback(timestamp);
+					}
 				}			
 			}
 		}
 	}
-	
-	protected abstract void trigger_callback(double timestamp);
-	
+		
 	//unused
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {}
@@ -199,4 +218,31 @@ public abstract class StompDetector implements SensorEventListener {
 	public void setUntrigger_delay(int untrigger_delay) {
 		this.untrigger_delay = untrigger_delay;
 	}	
+	
+	//interface methods
+	public void addStompListening(StompListener l) {
+		stompListeners.add(l);
+	}
+	public void removeStompListener(StompListener l) {
+		stompListeners.remove(l);
+	}
+	
+	/**
+	 * On stop
+	 */
+	public void onStop() {
+		onStop_state = this.isEnabled();
+		if(onStop_state) {
+			this.stop();
+		}
+	}
+	
+	/**
+	 * On resume
+	 */
+	public void onResume() {
+		if(onStop_state) {
+			this.start();
+		}
+	}
 }

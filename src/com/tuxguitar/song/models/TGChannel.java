@@ -1,8 +1,10 @@
 package com.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import com.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGChannel {
+public abstract class TGChannel implements Serializable {
 	public static final short DEFAULT_PERCUSSION_CHANNEL = 9;
 	
 	public static final short DEFAULT_INSTRUMENT = 25;

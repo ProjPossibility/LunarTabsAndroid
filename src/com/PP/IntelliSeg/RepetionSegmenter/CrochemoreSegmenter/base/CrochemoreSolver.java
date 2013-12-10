@@ -1,4 +1,4 @@
-package com.PP.IntelliSeg.Crochemore;
+package com.PP.IntelliSeg.RepetionSegmenter.CrochemoreSegmenter.base;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Crochemore {
+public class CrochemoreSolver {
 	
 	//debug flag
 	public static boolean DEBUG_MODE = false;
 	
 	/**
-	 * Main function
+	 * Main function for API
 	 * @param str Input
 	 * @return Map of Repetitions
 	 */

@@ -1,6 +1,8 @@
 package com.tuxguitar.song.models;
 
-public abstract class TGScale {
+import java.io.Serializable;
+
+public abstract class TGScale implements Serializable {
 	private final boolean[] notes = new boolean[12];
 	
 	private int key;

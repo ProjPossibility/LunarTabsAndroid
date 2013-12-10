@@ -1,5 +1,6 @@
 package com.tuxguitar.song.managers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,7 @@ import com.tuxguitar.song.models.effects.TGEffectTremoloPicking;
 import com.tuxguitar.song.models.effects.TGEffectTrill;
 
 
-public class TGMeasureManager {
+public class TGMeasureManager implements Serializable {
 	private TGSongManager songManager;
 	
 	public TGMeasureManager(TGSongManager songManager){

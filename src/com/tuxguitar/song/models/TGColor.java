@@ -1,8 +1,10 @@
 package com.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import com.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGColor {
+public abstract class TGColor implements Serializable {
 	public static final TGColor RED = newColor(255,0,0);
 	public static final TGColor GREEN = newColor(0,255,0);
 	public static final TGColor BLUE = newColor(0,0,255);
