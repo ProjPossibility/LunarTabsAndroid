@@ -10,4 +10,6 @@
           android:title="@string/EnableStompMode" />
     <item android:id="@+id/CalibStompModeMenuItem"
           android:title="@string/CalibStompMode" />
+    <item android:id="@+id/MidiFollowingMenuItem"
+    	  android:title="@string/EnableMidiFollowing"/>
 </menu>

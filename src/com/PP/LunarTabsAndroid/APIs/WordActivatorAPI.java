@@ -4,18 +4,16 @@ import android.content.Context;
 import android.media.AudioManager;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.Resumable.ResumableUtility;
 import com.root.gast.speech.activation.WordActivator;
 
-public class WordActivatorAPI {
+public class WordActivatorAPI extends ResumableUtility {
 		
 	//Word Activator object and parent
 	protected MainActivity parent;
 	protected volatile WordActivator wa = null;
-	
-	//on stop/resume state
-	protected volatile boolean onStop_state = false;
-		
+			
 	//singleton
 	protected WordActivatorAPI(){}
 	protected static WordActivatorAPI instance=null;
@@ -51,7 +49,7 @@ public class WordActivatorAPI {
 	/**
 	 * Wrapper for start
 	 */
-	public void start() {
+	public void startListening() {
 		if(parent!=null) {
 			parent.runOnUiThread(new Runnable() {
 				
@@ -98,7 +96,7 @@ public class WordActivatorAPI {
 				try {
 					WordActivatorAPI.getInstance().stopListening();
 					Thread.sleep(ms_wait);
-					if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
+					if(DataModel.getInstance().isVoiceActionsEnabled()) {
 						WordActivatorAPI.getInstance().start();
 					}
 				}
@@ -110,20 +108,15 @@ public class WordActivatorAPI {
 		};
 		t.start();
 	}
-	
-	public void onStop() {
-		onStop_state = GUIDataModel.getInstance().isVoiceActionsEnabled();
-		if(onStop_state) {
-     	   GUIDataModel.getInstance().setVoiceActionsEnabled(false);
-     	   WordActivatorAPI.getInstance().stopListening();
-		}		
+
+	public void start() {
+  	   //start voice actions
+  	   DataModel.getInstance().setVoiceActionsEnabled(true);
+  	   WordActivatorAPI.getInstance().startListening();
 	}
 	
-	public void onResume() {
-		if(onStop_state) {
-     	   //start voice actions
-     	   GUIDataModel.getInstance().setVoiceActionsEnabled(true);
-     	   WordActivatorAPI.getInstance().start();
-		}
+	public void stop() {
+ 	   DataModel.getInstance().setVoiceActionsEnabled(false);
+ 	   WordActivatorAPI.getInstance().stopListening();
 	}
 }

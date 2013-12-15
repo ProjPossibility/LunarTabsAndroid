@@ -1,7 +1,7 @@
 package com.PP.StompDetector;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 
 import android.app.Activity;
 
@@ -15,7 +15,7 @@ public class InstructionStomp implements StompListener  {
 
 	@Override
 	public void trigger_callback(double ts) {
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		if(dataModel.getSong()!=null && dataModel.getTrackNum() >=0) {
 			mainActivity.nextInstruction();
 		}

@@ -8,7 +8,7 @@ import java.util.Set;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 
 public class SMRSegment extends Segment {
 	
@@ -29,7 +29,7 @@ public class SMRSegment extends Segment {
 	
 	@Override
 	public void play() {
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum());				
 	}
 	

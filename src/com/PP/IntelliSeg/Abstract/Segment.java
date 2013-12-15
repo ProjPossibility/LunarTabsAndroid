@@ -28,6 +28,11 @@ public abstract class Segment implements Serializable {
 	protected List<String> chordInst;
 	
 	/**
+	 * List of string match targets for chords.
+	 */
+	protected List<String> matchTargets;
+	
+	/**
 	 * List of Beats
 	 */
 	protected List<TGBeat> beats;
@@ -94,7 +99,21 @@ public abstract class Segment implements Serializable {
 	public void setChordInst(List<String> chordInst) {
 		this.chordInst = chordInst;
 	}	
-	
+		
+	/**
+	 * @return the matchTargets
+	 */
+	public List<String> getMatchTargets() {
+		return matchTargets;
+	}
+
+	/**
+	 * @param matchTargets the matchTargets to set
+	 */
+	public void setMatchTargets(List<String> matchTargets) {
+		this.matchTargets = matchTargets;
+	}
+
 	/**
 	 * @return the beats
 	 */

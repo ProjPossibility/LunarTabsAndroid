@@ -1,7 +1,7 @@
 package com.PP.LunarTabsAndroid.Dialogs;
 
 import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.example.lunartabsandroid.R;
 
 import android.app.AlertDialog;
@@ -28,11 +28,11 @@ public class VoiceActionsDialog extends DialogFragment {
         	   .setTitle(R.string.VoiceActionsTitle)
                .setPositiveButton(R.string.VoiceActionsYes, new DialogInterface.OnClickListener() {
                    @Override
-				public void onClick(DialogInterface dialog, int id) {
+                   public void onClick(DialogInterface dialog, int id) {
                 	   
                 	   //start voice actions
-                	   GUIDataModel.getInstance().setVoiceActionsEnabled(true);
-                	   WordActivatorAPI.getInstance().start();
+                	   DataModel.getInstance().setVoiceActionsEnabled(true);
+                	   WordActivatorAPI.getInstance().doStart();
                 	   
                 	   //relabel menu item
                 	   String new_title = getResources().getString(R.string.DisableVoiceActions);
@@ -42,9 +42,7 @@ public class VoiceActionsDialog extends DialogFragment {
                })
                .setNegativeButton(R.string.VoiceActionsNo, new DialogInterface.OnClickListener() {
                    @Override
-				public void onClick(DialogInterface dialog, int id) {
-                	   
-                   }
+                   public void onClick(DialogInterface dialog, int id) {}
                });
         // Create the AlertDialog object and return it
         return builder.create();

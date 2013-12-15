@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.PP.LunarTabsAndroid.UI.StomperParams;
+import com.PP.Resumable.ResumableUtility;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +13,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class StompDetector implements SensorEventListener {
+public class StompDetector extends ResumableUtility implements SensorEventListener {
 	
 	//const
 	public static final int START_WAIT_DEFAULT = 5000;
@@ -29,10 +30,7 @@ public class StompDetector implements SensorEventListener {
 	protected volatile boolean active;
 	protected volatile boolean prevTriggered;
 	protected float lastVal;
-	
-	//stop/resume state
-	protected volatile boolean onStop_state = false;
-	
+		
 	//sensor managers and parent
 	protected SensorManager mSensorManager;
 	protected Sensor mAccel;	
@@ -68,10 +66,11 @@ public class StompDetector implements SensorEventListener {
 		this.setSensitivity(StomperParams.getInstance().getStomperSensitivity());
 		this.setUntrigger_delay(StomperParams.getInstance().getStomperDelay());
 		
-		//make inactive for start wait
-		enabled = true;		
-		deactiveFor(start_wait);
-		
+		//make inactive for start wait but ONLY for startup.
+		enabled = true;
+		if(!this.onStop_state) {
+			deactiveFor(start_wait);
+		}
 	}
 	
 	/**
@@ -225,24 +224,5 @@ public class StompDetector implements SensorEventListener {
 	}
 	public void removeStompListener(StompListener l) {
 		stompListeners.remove(l);
-	}
-	
-	/**
-	 * On stop
-	 */
-	public void onStop() {
-		onStop_state = this.isEnabled();
-		if(onStop_state) {
-			this.stop();
-		}
-	}
-	
-	/**
-	 * On resume
-	 */
-	public void onResume() {
-		if(onStop_state) {
-			this.start();
-		}
-	}
+	}		
 }

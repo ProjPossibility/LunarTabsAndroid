@@ -8,7 +8,7 @@ import android.content.Context;
 import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
 import com.daidalos.afiledialog.FileChooserDialog;
 import com.tuxguitar.song.models.TGSong;
@@ -20,6 +20,7 @@ public class GuitarFileLoaderDialog extends FileChooserDialog {
 		setCanCreateFiles(false);
 		setFilter(".*gp1|.*gp2|.*gp3|.*gp4|.*gp5|.*gpx|.*ptb");
 	    addListener(new FileChooserDialog.OnFileSelectedListener() {
+	    	
 	         @Override
 			public void onFileSelected(Dialog source, File file) {
 	        	 
@@ -37,7 +38,7 @@ public class GuitarFileLoaderDialog extends FileChooserDialog {
 	            	 TGSong song = TuxGuitarUtil.loadSong(file.getPath());
 //	            	 fileField.setText(song.getName());
 //	            	 fileField.setContentDescription(song.getName());
-	            	 GUIDataModel dataModel = GUIDataModel.getInstance();
+	            	 DataModel dataModel = DataModel.getInstance();
 	            	 dataModel.setFilePath(file.getPath());
 		             dataModel.setFileName(song.getName());	            	 
 	            	 if(song!=null) {
@@ -59,22 +60,27 @@ public class GuitarFileLoaderDialog extends FileChooserDialog {
 	             		
 		             	//perform load and show on GUI
 	         			mainActivity.loadInstructions();				    	
-	         			GUIDataModel.getInstance().clearSelectedInstructionIndex();
+	         			DataModel.getInstance().clearSelectedInstructionIndex();
+	         			mainActivity.updateToNextAvailableIndex();
 	         			mainActivity.getInstructionsList().refreshGUI();	         			
+	         			
 	             	}	            	 
 	             		            	 
 	            	 //notify user that track successfully loaded
 	            	 TextToSpeechAPI.speak(SpeechConst.FILE_LOADED);
+	            	 
 	             }
 	             catch(Exception e) {
+	            	 
 	            	 //say could not be loaded
 	            	 TextToSpeechAPI.speak(SpeechConst.ERROR_FILE_NOT_LOADED);
+	            	 
 	             }	             
 	         }
-	         @Override
+	         
+	        @Override
 			public void onFileSelected(Dialog source, File folder, String name) {}
+	         
 	     });		    
-		
 	}
-
 }

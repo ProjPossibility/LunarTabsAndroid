@@ -3,7 +3,7 @@ package com.PP.IntelliSeg.LBDM;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 
 public class LBDMSegment extends Segment {
 
@@ -18,7 +18,7 @@ public class LBDMSegment extends Segment {
 
 	@Override
 	public void play() {
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		TuxGuitarUtil.playClip_beats(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum());		
 	}
 

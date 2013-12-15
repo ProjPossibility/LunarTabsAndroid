@@ -6,7 +6,9 @@
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="200sp"
-        android:src="@drawable/edfeet" />
+        android:rotation="90"
+        android:paddingBottom="60dp"
+        android:src="@drawable/triple_play" />
 
     <TextView
         android:id="@+id/textView1"
@@ -15,10 +17,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/imageView1"
-        android:text="@string/StopModeText" />
+        android:text="@string/MidiFollowingText" />
     
 	<LinearLayout
-		android:id="@+id/buttonLayout"
+		android:id="@+id/buttonLayout2"
 		android:orientation="horizontal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
@@ -28,14 +30,14 @@
 		android:layout_height="wrap_content">
 
 	    <Button
-	        android:id="@+id/CANCEL_BUTTON_STOMPER_DIALOG"
+	        android:id="@+id/CANCEL_BUTTON_MIDI_FOLLOWING_DIALOG"
 	        android:layout_width="0dp"
 	        android:layout_weight="1"
 	        android:layout_height="wrap_content"
 	        android:text="@string/Cancel_button_text" />
 	        
 	    <Button
-	        android:id="@+id/OK_BUTTON_STOMPER_DIALOG"
+	        android:id="@+id/OK_BUTTON_MIDI_FOLLOWING_DIALOG"
 	        android:layout_width="0dp"
 	        android:layout_weight="1"
 	        android:layout_height="wrap_content"

@@ -1,11 +1,18 @@
 package com.PP.LunarTabsAndroid.UI;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import com.PP.LunarTabsAndroid.InstrumentModels.ListUtil;
+
 import android.util.Log;
 
 public class InstructionContentDescription {
 	
 	public static String makeAccessibleInstruction(String instruction) {
-		if(GUIDataModel.getInstance().isVerbose()) {
+		if(DataModel.getInstance().isVerbose()) {
 			if(instruction.indexOf("-") > -1) {
 				instruction = instruction.replaceAll("-", "dash");
 			}
@@ -17,5 +24,4 @@ public class InstructionContentDescription {
 		}
 		return instruction;
 	}
-
 }
