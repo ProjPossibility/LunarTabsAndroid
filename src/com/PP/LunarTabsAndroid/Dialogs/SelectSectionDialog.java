@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.example.lunartabsandroid.R;
 
 import android.app.AlertDialog;
@@ -26,7 +26,7 @@ public class SelectSectionDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
 		//dynamically create section arrList<E>	
-		DataModel dataModel = DataModel.getInstance();
+		GUIDataModel dataModel = GUIDataModel.getInstance();
 		List<Segment> segments = dataModel.getInstSegments();
 		CharSequence[] items = new CharSequence[segments.size()];
 		for(int x=0; x < segments.size(); x++) {
@@ -43,7 +43,7 @@ public class SelectSectionDialog extends DialogFragment {
 	    		
 	    		//redo data model
 	    		try {
-	    			DataModel dataModel = DataModel.getInstance();
+	    			GUIDataModel dataModel = GUIDataModel.getInstance();
 	    			dataModel.setCurrentSegment(which);
 	    			dataModel.clearSelectedInstructionIndex();
 	            	parent.refreshGUI();	    			

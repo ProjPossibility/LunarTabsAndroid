@@ -20,7 +20,6 @@ import com.PP.IntelliSeg.Util.StringRepr;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGMeasure;
 import com.tuxguitar.song.models.TGTrack;
@@ -93,29 +92,24 @@ public class SMRSegmenter extends AbstractSegmenter {
 			List<String> chordInst = new ArrayList<String>();
 			List<String> sfI = new ArrayList<String>();
 			List<TGBeat> beatsI = new ArrayList<TGBeat>(); 
-			List<String> targets = new ArrayList<String>();
 			for(int z=0; z < measures.size(); z++) {
 				//generate playing instructions for beats
 				List<TGBeat> beats = measures.get(z).getBeats();
 				for(int x=0; x < beats.size(); x++) {
 					String i1;
 					String i2;
-					String i3;
 					TGBeat b = (TGBeat)beats.get(x);
 					if(t.isPercussionTrack()) {
 						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b);
 						i2 = i1;
-						i3 = "";
 					}
 					else {
 						i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
 	//					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
 						i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);					
-						i3 = ChordRecognizer.getMatchTarget(b);
 					}
 					chordInst.add(i1);
 					sfI.add(i2);
-					targets.add(i3);					
 					beatsI.add(b);
 				}				
 			}	
@@ -125,7 +119,6 @@ public class SMRSegmenter extends AbstractSegmenter {
 			seg.setSfInst(sfI);
 			seg.setChordInst(chordInst);
 			seg.setBeats(beatsI);
-			seg.setMatchTargets(targets);
 			rtn.add(seg);
 		}
 		return rtn;

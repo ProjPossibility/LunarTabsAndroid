@@ -3,7 +3,7 @@ package com.PP.LunarTabsAndroid.Dialogs;
 import com.PP.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
 import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.SMRSegmenter;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.example.lunartabsandroid.R;
 
 import android.app.AlertDialog;
@@ -38,7 +38,7 @@ public class MeasureIncrementDialog extends DialogFragment {
 	    		if(which==(incChoices.length-1)) {
 	    			
 	    			//redo data model w/ repetition segmenter
-	    			DataModel dataModel = DataModel.getInstance();	    			
+	    			GUIDataModel dataModel = GUIDataModel.getInstance();	    			
 	    	        dataModel.setSegmenter(new SMRSegmenter());	 
 	    			dataModel.genInstructions();
 	    			dataModel.setCurrentSegment(0);
@@ -51,7 +51,7 @@ public class MeasureIncrementDialog extends DialogFragment {
 		    		//redo data model w/ measurement increment
 		    		try {
 		    			int newInc = Integer.parseInt(incChoices[which]);
-		    			DataModel dataModel = DataModel.getInstance();
+		    			GUIDataModel dataModel = GUIDataModel.getInstance();
 		    			MeasureIncrementSegmenter m;
 		    			if(dataModel.getSegmenter() instanceof MeasureIncrementSegmenter) {
 		    				m = (MeasureIncrementSegmenter) dataModel.getSegmenter();

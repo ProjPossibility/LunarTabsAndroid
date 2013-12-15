@@ -3,7 +3,7 @@ package com.PP.LunarTabsAndroid.APIs;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
@@ -40,7 +40,7 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 		if(instance!=null && instance.tts!=null && text!=null && !text.trim().equals((""))) {
 			
 			//turn of stt (if currently running)
-			if(DataModel.getInstance().isVoiceActionsEnabled()) {
+			if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
 				WordActivatorAPI.getInstance().stopListening();
 			}
 			
@@ -66,7 +66,7 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 	            	
 	            	//restart stt (if currently user enabled)
 	            	Log.d("END", "FINISHED: " + utteranceId);
-	    			if(DataModel.getInstance().isVoiceActionsEnabled()) {
+	    			if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
 	    				WordActivatorAPI.getInstance().start();                	
 	    			}
 	            }

@@ -8,7 +8,6 @@ import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGMeasure;
 import com.tuxguitar.song.models.TGTrack;
@@ -49,7 +48,6 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 		List<String> chordInst = new ArrayList<String>();
 		List<String> sfI = new ArrayList<String>();
 		List<TGBeat> beatsI = new ArrayList<TGBeat>();
-		List<String> targets = new ArrayList<String>();
 		int start=0;
 		int end=0;
 		int incCnt=0;
@@ -64,22 +62,18 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 			for(int x=0; x < beats.size(); x++) {
 				String i1="";
 				String i2="";
-				String i3="";
 				TGBeat b = (TGBeat)beats.get(x);
 				if(track.isPercussionTrack()) {
 					i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b);
 					i2 = i1;
-					i3 = "";
 				}
 				else {
 					i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
 //					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
-					i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);
-					i3 = ChordRecognizer.getMatchTarget(b);
+					i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);					
 				}
 				chordInst.add(i1);
 				sfI.add(i2);
-				targets.add(i3);
 				beatsI.add(b);
 			}
 			incCnt++;
@@ -93,14 +87,12 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 				s.setSfInst(sfI);
 				s.setChordInst(chordInst);
 				s.setBeats(beatsI);
-				s.setMatchTargets(targets);
 				rtn.add(s);
 				
 				//reset state
 				chordInst = new ArrayList<String>();
 				sfI = new ArrayList<String>();
 				beatsI = new ArrayList<TGBeat>();
-				targets = new ArrayList<String>();
 				start = (y+1);
 				incCnt=0;
 			}

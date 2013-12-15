@@ -2,18 +2,15 @@ package com.PP.LunarTabsAndroid.UI;
 import java.io.Serializable;
 import java.util.*;
 
-import android.os.Bundle;
-
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.Resumable.ResumableUtility;
 import com.PP.StompDetector.StompDetector;
 import com.tuxguitar.song.models.TGSong;
 import com.tuxguitar.song.models.TGTrack;
 
-public class DataModel implements Serializable {
+public class GUIDataModel implements Serializable {
 	
 	//Presentation model params
 	protected String filePath;
@@ -27,10 +24,9 @@ public class DataModel implements Serializable {
 	protected boolean verbose;
 	protected AbstractSegmenter segmenter;
 	protected volatile boolean voiceActionsEnabled;
-	protected List<ResumableUtility> resumableUtilities;
 
 	//singleton
-	protected DataModel() {
+	protected GUIDataModel() {
 		song = null;
 		trackNum = -1;
 		currentSegment = -1;
@@ -40,49 +36,23 @@ public class DataModel implements Serializable {
 		verbose = false;
 		selectedInstructionIndex = -1;
 		voiceActionsEnabled = false;
-		resumableUtilities = new ArrayList<ResumableUtility>();
 	}
-	protected static DataModel instance = null;
-	public static DataModel getInstance() {
+	protected static GUIDataModel instance = null;
+	public static GUIDataModel getInstance() {
 		if(instance==null) {
 //			instance = FileOpAPI.readModel(FileOpAPI.GUI_MODEL_FILE);
 			if(instance==null) {
-				instance = new DataModel();
+				instance = new GUIDataModel();
 			}
 		}
 		return instance;
 	}
 	
 	/**
-	 * Send instance to bundle.
+	 * Serialize instance to file
 	 */
-	public void saveInstance(Bundle bundle) {
-		bundle.putString("filePath", filePath);
-		bundle.putString("fileName", fileName);
-		bundle.putInt("trackNum", trackNum);
-		bundle.putStringArrayList("tracksList", (ArrayList<String>)tracksList);
-		bundle.putInt("currentSegment",currentSegment);
-		bundle.putInt("selectedInstructionIndex",selectedInstructionIndex);
-		bundle.putBoolean("verbose", verbose);
-		bundle.putBoolean("voiceActionsEnabled", voiceActionsEnabled);
-		for(ResumableUtility utility : resumableUtilities) {
-			bundle.putBoolean(utility.toString(), utility.isOnStop_state());
-		}		
+	public void saveInstance() {
 //		FileOpAPI.writeModel(instance, FileOpAPI.GUI_MODEL_FILE);
-	}
-	
-	public void loadInstance(Bundle bundle) {
-		filePath = bundle.getString("filePath");
-		fileName = bundle.getString("fileName");
-		trackNum = bundle.getInt("trackNum");
-		tracksList = bundle.getStringArrayList("tracksList");
-		currentSegment = bundle.getInt("currentSegment");
-		selectedInstructionIndex = bundle.getInt("selectedInstructionIndex");
-		verbose = bundle.getBoolean("verbose");
-		voiceActionsEnabled = bundle.getBoolean("voiceActionsEnabled");
-		for(ResumableUtility utility : resumableUtilities) {
-			utility.setOnStop_state(bundle.getBoolean(utility.toString()));
-		}
 	}
 	
 		
@@ -267,21 +237,4 @@ public class DataModel implements Serializable {
 	public void setVoiceActionsEnabled(boolean voiceActionsEnabled) {
 		this.voiceActionsEnabled = voiceActionsEnabled;
 	}
-	
-	public void addResumableUtility(ResumableUtility utility) {
-		if(!resumableUtilities.contains(utility)) {
-			resumableUtilities.add(utility);
-		}
-	}
-	
-	public void removeResuableUtility(ResumableUtility utility) {
-		resumableUtilities.remove(utility);
-	}
-
-	/**
-	 * @return the resumableUtilities
-	 */
-	public List<ResumableUtility> getResumableUtilities() {
-		return resumableUtilities;
-	}	
 }

@@ -3,7 +3,7 @@ package com.PP.IntelliSeg.MeasureIncrementSegmenter;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 
 public class MeasureIncrementSegment extends Segment {
 
@@ -18,7 +18,7 @@ public class MeasureIncrementSegment extends Segment {
 
 	@Override
 	public void play() {
-		DataModel dataModel = DataModel.getInstance();
+		GUIDataModel dataModel = GUIDataModel.getInstance();
 		TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum());		
 	}
 

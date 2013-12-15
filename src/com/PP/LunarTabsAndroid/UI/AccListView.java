@@ -46,7 +46,7 @@ public class AccListView extends ListView {
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
             	
             	//insert activator delay into stt for finishing explore by touch speaking.
-            	if(DataModel.getInstance().isVoiceActionsEnabled()) {
+            	if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
             		WordActivatorAPI.getInstance().disableFor(SpeechConst.ACTIVATOR_DELAY);
             	}
             	
@@ -61,7 +61,7 @@ public class AccListView extends ListView {
             	if(hilightEnabled) {
             		
 	            	//set selection in gui model
-	            	DataModel.getInstance().setSelectedInstructionIndex(position);
+	            	GUIDataModel.getInstance().setSelectedInstructionIndex(position);
 	            	            	
 	            	//blank out all child views and set accessible corrections
 	            	for(int x=0; x < parent.getChildCount(); x++) {
@@ -116,7 +116,7 @@ public class AccListView extends ListView {
 	            	//figure out whether we need to re-highlight the selected thing.
 	          	  	int firstVis = view.getFirstVisiblePosition();
 	          	  	int childCount = view.getChildCount();
-	          	  	int selectedInstructionIndex = DataModel.getInstance().getSelectedInstructionIndex();
+	          	  	int selectedInstructionIndex = GUIDataModel.getInstance().getSelectedInstructionIndex();
 	          	  	int newIndex = selectedInstructionIndex - firstVis;
 	          	  	if(newIndex >= 0 && newIndex < childCount) {
 	          	  		View child = view.getChildAt(newIndex);
@@ -141,6 +141,7 @@ public class AccListView extends ListView {
 	 * Performs manual refreshes list selection.
 	 */
 	public void refreshGUI() {
+		Log.d("REFRESH CALLED", "RFRESH " + hilightEnabled);
 		
 		//if enabled, do update.
 		if(hilightEnabled) {
@@ -165,7 +166,7 @@ public class AccListView extends ListView {
 	    	//highlight if necessary.
 	  	  	int firstVis = this.getFirstVisiblePosition();
 	  	  	int childCount = this.getChildCount();
-	  	  	int selectedInstructionIndex = DataModel.getInstance().getSelectedInstructionIndex();
+	  	  	int selectedInstructionIndex = GUIDataModel.getInstance().getSelectedInstructionIndex();
 	  	  	int newIndex = selectedInstructionIndex - firstVis;
   	  		Log.d("LOG","REHI " + newIndex);	  	  	
 	  	  	if(newIndex >= 0 && newIndex < childCount) {
@@ -183,7 +184,7 @@ public class AccListView extends ListView {
 	public void programmaticSelect(int selectedInstructionIndex) {
 		
 		//set parameter
-		DataModel.getInstance().setSelectedInstructionIndex(selectedInstructionIndex);
+		GUIDataModel.getInstance().setSelectedInstructionIndex(selectedInstructionIndex);
 		
 		//if enabled, do update.
 		if(hilightEnabled) {

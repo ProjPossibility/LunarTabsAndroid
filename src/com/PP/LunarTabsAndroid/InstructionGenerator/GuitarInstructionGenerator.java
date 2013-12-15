@@ -54,7 +54,7 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 			}
 		}
 	}
-		
+	
 	/*
 	 * Generates instructions of the form (string, fret).
 	 */
