@@ -10,7 +10,7 @@ import com.PP.StompDetector.StompDetector;
 import com.tuxguitar.song.models.TGSong;
 import com.tuxguitar.song.models.TGTrack;
 
-public class GUIDataModel implements Serializable {
+public class DataModel implements Serializable {
 	
 	//Presentation model params
 	protected String filePath;
@@ -26,7 +26,7 @@ public class GUIDataModel implements Serializable {
 	protected volatile boolean voiceActionsEnabled;
 
 	//singleton
-	protected GUIDataModel() {
+	protected DataModel() {
 		song = null;
 		trackNum = -1;
 		currentSegment = -1;
@@ -37,12 +37,12 @@ public class GUIDataModel implements Serializable {
 		selectedInstructionIndex = -1;
 		voiceActionsEnabled = false;
 	}
-	protected static GUIDataModel instance = null;
-	public static GUIDataModel getInstance() {
+	protected static DataModel instance = null;
+	public static DataModel getInstance() {
 		if(instance==null) {
 //			instance = FileOpAPI.readModel(FileOpAPI.GUI_MODEL_FILE);
 			if(instance==null) {
-				instance = new GUIDataModel();
+				instance = new DataModel();
 			}
 		}
 		return instance;

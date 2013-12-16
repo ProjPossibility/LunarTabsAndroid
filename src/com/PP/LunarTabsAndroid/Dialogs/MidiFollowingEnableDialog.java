@@ -1,28 +1,27 @@
 package com.PP.LunarTabsAndroid.Dialogs;
 
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.PP.MidiServer.MidiServer;
 import com.PP.StompDetector.StompDetector;
 import com.example.lunartabsandroid.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 
-public class StomperEnableDialog extends Dialog {
+public class MidiFollowingEnableDialog extends Dialog {
 
-	public StomperEnableDialog(Context context, final StompDetector stomper) {
+	public MidiFollowingEnableDialog(Context context) {
 		super(context);
-		setContentView(R.layout.stomper_dialog_layout);
-		Button okButton = (Button) findViewById(R.id.OK_BUTTON_STOMPER_DIALOG);
-		Button cancelButton = (Button) findViewById(R.id.CANCEL_BUTTON_STOMPER_DIALOG);
-		setTitle("Enable Stomp Mode");	 
+		setContentView(R.layout.midi_follower_dialog_layout);
+		Button okButton = (Button) findViewById(R.id.OK_BUTTON_MIDI_FOLLOWING_DIALOG);
+		Button cancelButton = (Button) findViewById(R.id.CANCEL_BUTTON_MIDI_FOLLOWING_DIALOG);
+		setTitle("Enable Midi Following");	 
 		okButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
 	    		//enable stomper
-	    		stomper.start();						
+				MidiServer.getInstance().start();
 	    		
 	    		//close dialog
 				dismiss();

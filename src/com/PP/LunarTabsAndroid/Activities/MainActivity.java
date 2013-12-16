@@ -16,15 +16,20 @@ import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
 import com.PP.LunarTabsAndroid.Dialogs.GuitarFileLoaderDialog;
 import com.PP.LunarTabsAndroid.Dialogs.MeasureIncrementDialog;
+import com.PP.LunarTabsAndroid.Dialogs.MidiFollowingEnableDialog;
 import com.PP.LunarTabsAndroid.Dialogs.SelectSectionDialog;
 import com.PP.LunarTabsAndroid.Dialogs.StomperEnableDialog;
 import com.PP.LunarTabsAndroid.Dialogs.VoiceActionsDialog;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordDB;
+import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.PP.LunarTabsAndroid.UI.AccListView;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.InstructionContentDescription;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
 import com.PP.LunarTabsAndroid.UI.StomperParams;
+import com.PP.MidiServer.AbstractMidiServerActivity;
+import com.PP.MidiServer.ChordRecognitionListener;
+import com.PP.MidiServer.MidiServer;
 import com.PP.StompDetector.InstructionStomp;
 import com.PP.StompDetector.StompDetector;
 import com.example.lunartabsandroid.R;
@@ -39,6 +44,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -50,7 +56,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 
-public class MainActivity extends Activity implements OnClickListener, SpeechActivationListener {
+public class MainActivity extends AbstractMidiServerActivity implements OnClickListener, SpeechActivationListener, ChordRecognitionListener  {
 	
 	//components
 	protected Button loadTabFileButton;
@@ -65,11 +71,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	
 	//stomp detector
 	protected StompDetector stomper;
-	
-	//temp booleans for onResume
-	protected static boolean temp_voice_activated = false;
-	protected static boolean temp_stomper_activated = false;				
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -120,7 +122,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
         instructionsList.init(hilightColor,Color.WHITE);
         
         //set up segmenter
-        GUIDataModel.getInstance().setSegmenter(new MeasureIncrementSegmenter());
+        DataModel.getInstance().setSegmenter(new MeasureIncrementSegmenter());
 //        GUIDataModel.getInstance().setSegmenter(new SMRSegmenter());
         
         //enable APIs
@@ -141,6 +143,9 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
         stomper = new StompDetector(this);
         stomper.addStompListening(new InstructionStomp(this));
         
+        //init Midi Server
+        MidiServer.getInstance().addChordRecognitionListener(this);
+        
         //init Audio Icon
         AudioIconAPI.getInstance().init(this);
         
@@ -156,10 +161,11 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 		super.onStop();		
 		WordActivatorAPI.getInstance().onStop();
 		stomper.onStop();
+		MidiServer.getInstance().onStop();
 		
 		//clean up and save
 		TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
-		GUIDataModel.getInstance().saveInstance();
+		DataModel.getInstance().saveInstance();
 		StomperParams.getInstance().saveInstance();
 	}
 	
@@ -170,6 +176,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 		super.onResume();		
 		WordActivatorAPI.getInstance().onResume();		
 		stomper.onResume();
+		MidiServer.getInstance().onResume();
 		
 		//reinit GUI from file (if exists)
         refreshGUI();		
@@ -179,7 +186,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	 * Refresh GUI based on current data model (either from file or in memory).
 	 */
 	public void refreshGUI() {
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		int prevInstSel = dataModel.getSelectedInstructionIndex();
 		if(dataModel.getFileName()!=null && !dataModel.getFileName().trim().equals("")) {
 			this.setTitle(dataModel.getFileName().trim());
@@ -238,7 +245,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	}
 	
 	public void prevInstruction() {
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null &&
 		dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && 
 		dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 &&
@@ -246,7 +253,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 		dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst().size()>0) {
 			
 			//update index and perform click
-      	  	int selectedInstructionIndex = GUIDataModel.getInstance().getSelectedInstructionIndex();			
+      	  	int selectedInstructionIndex = DataModel.getInstance().getSelectedInstructionIndex();			
 			if(selectedInstructionIndex >= 0) {
 				
 				//decrement instruction index
@@ -286,7 +293,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	}
 	
 	public void nextInstruction() {
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null &&
 		dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && 
 		dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 &&
@@ -296,7 +303,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 			//update index and perform click
 			Segment cSeg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
 			int numInst = cSeg.getChordInst().size();
-      	  	int selectedInstructionIndex = GUIDataModel.getInstance().getSelectedInstructionIndex();			
+      	  	int selectedInstructionIndex = DataModel.getInstance().getSelectedInstructionIndex();			
 			if(selectedInstructionIndex < (numInst-1)) {
 				
 				//increment instruction
@@ -334,7 +341,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	}
 	
 	public void playSample() {	
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0) {
 			Segment cSeg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
 			cSeg.play();
@@ -348,7 +355,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	}
 	
 	public void toggleModes() {
-		GUIDataModel dataModel=  GUIDataModel.getInstance();
+		DataModel dataModel=  DataModel.getInstance();
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0) {		
 			if(!dataModel.isOnPercussionTrack()) {
 				if(dataModel.isVerbose()) {
@@ -397,7 +404,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	}
 	
 	public void nextMeasure() {
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getCurrentSegment() < (dataModel.getInstSegments().size()-1)) {
 			dataModel.setCurrentSegment(dataModel.getCurrentSegment()+1);
 			if(dataModel.isVerbose()) {
@@ -406,7 +413,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 			else {
 				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());				
 			}
-			GUIDataModel.getInstance().clearSelectedInstructionIndex();
+			DataModel.getInstance().clearSelectedInstructionIndex();
 			instructionsList.refreshGUI();
 			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());				
 			this.setTitle(dataModel.getFileName().trim() + " " + c_seg.getTitlePresentation());			
@@ -423,7 +430,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	}
 	
 	public void prevMeasure() {
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 && dataModel.getCurrentSegment() > 0) {
 			dataModel.setCurrentSegment(dataModel.getCurrentSegment()-1);
 			if(dataModel.isVerbose()) {
@@ -432,7 +439,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 			else {
 				populateInstructionPane(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst());								
 			}
-			GUIDataModel.getInstance().clearSelectedInstructionIndex();
+			DataModel.getInstance().clearSelectedInstructionIndex();
 			instructionsList.refreshGUI();			
 			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());							
 			this.setTitle(dataModel.getFileName().trim() + " " + c_seg.getTitlePresentation());			
@@ -451,7 +458,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	public void loadInstructions() {
 		
 		//get model
-		GUIDataModel dataModel = GUIDataModel.getInstance();
+		DataModel dataModel = DataModel.getInstance();
 		
 		//generate instructions
 		dataModel.genInstructions();
@@ -495,7 +502,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				GUIDataModel.getInstance().setTrackNum(arg2);
+				DataModel.getInstance().setTrackNum(arg2);
 				loadInstructions();				
 			}
 			@Override
@@ -507,7 +514,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
     public void createTrackOptions() {
     	
     	//load data model
-    	GUIDataModel dataModel = GUIDataModel.getInstance();
+    	DataModel dataModel = DataModel.getInstance();
     	
         //populate options in list. Avoid duplicates.
         ArrayList<String> tracksList = new ArrayList<String>();
@@ -543,7 +550,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
         populateTrackOptions(tracksList,0);
         
     	//store
-    	GUIDataModel.getInstance().setTracksList(tracksList);
+    	DataModel.getInstance().setTracksList(tracksList);
     }	
     
     @Override
@@ -570,7 +577,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 				stompModeMenuItem.setTitle(new_title);						
 			}
 		}
-    	if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
+    	if(DataModel.getInstance().isVoiceActionsEnabled()) {
 			String new_title = getResources().getString(R.string.DisableVoiceActions);
 			MenuItem voiceActionsMenuItem = menu.findItem(R.id.VoiceActionsMenuItem);
 			if(voiceActionsMenuItem!=null) {
@@ -584,6 +591,20 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 				voiceActionsMenuItem.setTitle(new_title);										
 			}
     	}    	
+    	if(MidiServer.getInstance().isRunning()) {
+			String new_title = getResources().getString(R.string.DisableMidiFollowing);
+			MenuItem voiceActionsMenuItem = menu.findItem(R.id.MidiFollowingMenuItem);
+			if(voiceActionsMenuItem!=null) {
+				voiceActionsMenuItem.setTitle(new_title);										
+			}
+    	}
+    	else {
+			String new_title = getResources().getString(R.string.EnableMidiFollowing);
+			MenuItem voiceActionsMenuItem = menu.findItem(R.id.MidiFollowingMenuItem);
+			if(voiceActionsMenuItem!=null) {
+				voiceActionsMenuItem.setTitle(new_title);										
+			}
+    	}    	    	
         return true;    	
     }
     
@@ -606,10 +627,46 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
             case R.id.CalibStompModeMenuItem:
             	calibrateStompMode();
             	return true;
+            case R.id.MidiFollowingMenuItem:
+            	midiFollowingDialog(item);
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+    
+    public void midiFollowingDialog(MenuItem item) {
+    	
+    	//tab file must be loaded for stomper
+    	DataModel dataModel = DataModel.getInstance();
+		if(dataModel.getSong()!=null && dataModel.getTrackNum() >=0) {
+    	
+	    	//enable stomper if not active
+	    	if(!MidiServer.getInstance().isRunning()) {
+	    		
+				final Dialog dialog = new MidiFollowingEnableDialog(this);
+				dialog.show();	    		    		
+				
+				//change text on menu item
+				String new_title = getResources().getString(R.string.DisableMidiFollowing);
+				item.setTitle(new_title);				
+				
+	    	}	    	
+	    	else if(MidiServer.getInstance().isRunning()) {
+	    		
+	    		//stop stomper
+	    		MidiServer.getInstance().stop();
+	    		
+	    		//change text on menu item
+				String new_title = getResources().getString(R.string.EnableMidiFollowing);
+				item.setTitle(new_title);
+	    	}
+	    	
+		}
+		else {
+			TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+		} 
+	}
     
     public void calibrateStompMode() {
     	
@@ -624,7 +681,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
     }
     
     public void voiceActionsDialog(MenuItem menuItem) {
-    	if(!GUIDataModel.getInstance().isVoiceActionsEnabled()) {
+    	if(!DataModel.getInstance().isVoiceActionsEnabled()) {
     		
     		//show dialog for voice actions
         	VoiceActionsDialog m = new VoiceActionsDialog(menuItem);
@@ -634,7 +691,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
     	else {
     		
     		//stop voice actions
-     	   GUIDataModel.getInstance().setVoiceActionsEnabled(false);
+     	   DataModel.getInstance().setVoiceActionsEnabled(false);
      	   WordActivatorAPI.getInstance().stopListening();
     		
     		//relabel menu item
@@ -647,7 +704,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
     public void stompModeDialog(MenuItem item) {
     	
     	//tab file must be loaded for stomper
-    	GUIDataModel dataModel = GUIDataModel.getInstance();
+    	DataModel dataModel = DataModel.getInstance();
 		if(dataModel.getSong()!=null && dataModel.getTrackNum() >=0) {
     	
 	    	//enable stomper if not active
@@ -679,7 +736,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
     }
     
     public void showSelectIncDialog() {
-    	GUIDataModel dataModel = GUIDataModel.getInstance();    	
+    	DataModel dataModel = DataModel.getInstance();    	
     	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {    	
     		MeasureIncrementDialog m = new MeasureIncrementDialog(this);
     		m.show(getFragmentManager(), "LOZ");    	
@@ -693,7 +750,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
     }
     
     public void showSelectSectionDialog() {
-    	GUIDataModel dataModel = GUIDataModel.getInstance();
+    	DataModel dataModel = DataModel.getInstance();
     	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {
         	SelectSectionDialog m = new SelectSectionDialog(this);
         	m.show(getFragmentManager(), "LOZ");    		
@@ -707,7 +764,7 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
     }
     
     public void playAudioIcon() {
-    	GUIDataModel dataModel = GUIDataModel.getInstance();
+    	DataModel dataModel = DataModel.getInstance();
     	if(dataModel.getSong()!=null && 
     			dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && 
     			dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null
@@ -768,4 +825,110 @@ public class MainActivity extends Activity implements OnClickListener, SpeechAct
 	public AccListView getInstructionsList() {
 		return instructionsList;
 	}
+	
+	@Override
+	public void chordRecognized(final String chord) {    
+		
+		/*
+		this.runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(MainActivity.this, "CHORD: " + chord, Toast.LENGTH_SHORT).show();
+			}
+		});
+			*/
+		
+		//get chord hash
+		final String chordHash = ChordRecognizer.getChordHash(chord);
+		
+		//match
+		final DataModel dataModel = DataModel.getInstance();
+		if(dataModel.getSong()!=null && 
+			dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && 
+			dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null
+			&& dataModel.getSelectedInstructionIndex()!=-1) {
+			
+			//see if chord hash matches target
+			final Segment seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
+			final String target = seg.getMatchTargets().get(dataModel.getSelectedInstructionIndex());
+			if(target.equals(chordHash)) {
+	       
+				//play success track
+				this.runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(MainActivity.this, "Success: " + target, Toast.LENGTH_SHORT).show();
+					}
+				});
+				
+				//update to next index
+				updateToNextAvailableIndex();
+	 
+				//refresh gui
+				this.runOnUiThread(new Runnable() {
+					public void run() {
+						
+						//update gui and perform programmatic selection
+						MainActivity.this.refreshGUI();
+						MainActivity.this.getInstructionsList().programmaticSelect(DataModel.getInstance().getSelectedInstructionIndex());
+
+						//find and read instruction using tts
+						String c_inst = null;
+						if(dataModel.isVerbose()) {
+							c_inst = seg.getSfInst().get(DataModel.getInstance().getSelectedInstructionIndex());
+						}
+						else {
+							c_inst = seg.getChordInst().get(DataModel.getInstance().getSelectedInstructionIndex());          
+						}
+						if(c_inst!=null) {
+							TextToSpeechAPI.speak(
+									InstructionContentDescription.makeAccessibleInstruction(c_inst));
+						}
+					}
+				});
+			}
+			else {
+				
+				//play buzzer
+				this.runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(MainActivity.this, "Failure: " + chordHash + " ::: " + target, Toast.LENGTH_SHORT).show();
+					}
+				});
+			}
+		}    
+	}
+	
+	public void updateToNextAvailableIndex() {
+		
+		//get data model
+		DataModel dataModel = DataModel.getInstance();		
+
+		//increment to next available one or say end of track if not anymore.
+		int segCtr = dataModel.getCurrentSegment();
+		int instCtr = dataModel.getSelectedInstructionIndex()+1;
+		outer:while(segCtr < dataModel.getInstSegments().size()) {
+			if(segCtr >= 0) {
+				Segment seg = dataModel.getInstSegments().get(segCtr);			
+				while(instCtr < seg.getMatchTargets().size()) {
+					if(instCtr >= 0) {
+						String newTarget = seg.getMatchTargets().get(instCtr);
+						if(!newTarget.equals("")) {
+							dataModel.setCurrentSegment(segCtr);
+							dataModel.setSelectedInstructionIndex(instCtr);
+							break outer;
+						}
+					}
+					instCtr++;					
+				}
+			}
+			segCtr++;
+			instCtr=0;
+		}
+		
+		//if chose end of track, just set to last instruction.
+		if(segCtr==dataModel.getInstSegments().size()) {
+			dataModel.setCurrentSegment(segCtr-1);
+			dataModel.setSelectedInstructionIndex(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst().size()-1);
+		}
+	}
+	
 }

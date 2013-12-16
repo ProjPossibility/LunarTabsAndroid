@@ -4,7 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.root.gast.speech.activation.WordActivator;
 
 public class WordActivatorAPI {
@@ -98,7 +98,7 @@ public class WordActivatorAPI {
 				try {
 					WordActivatorAPI.getInstance().stopListening();
 					Thread.sleep(ms_wait);
-					if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
+					if(DataModel.getInstance().isVoiceActionsEnabled()) {
 						WordActivatorAPI.getInstance().start();
 					}
 				}
@@ -112,9 +112,9 @@ public class WordActivatorAPI {
 	}
 	
 	public void onStop() {
-		onStop_state = GUIDataModel.getInstance().isVoiceActionsEnabled();
+		onStop_state = DataModel.getInstance().isVoiceActionsEnabled();
 		if(onStop_state) {
-     	   GUIDataModel.getInstance().setVoiceActionsEnabled(false);
+     	   DataModel.getInstance().setVoiceActionsEnabled(false);
      	   WordActivatorAPI.getInstance().stopListening();
 		}		
 	}
@@ -122,7 +122,7 @@ public class WordActivatorAPI {
 	public void onResume() {
 		if(onStop_state) {
      	   //start voice actions
-     	   GUIDataModel.getInstance().setVoiceActionsEnabled(true);
+     	   DataModel.getInstance().setVoiceActionsEnabled(true);
      	   WordActivatorAPI.getInstance().start();
 		}
 	}

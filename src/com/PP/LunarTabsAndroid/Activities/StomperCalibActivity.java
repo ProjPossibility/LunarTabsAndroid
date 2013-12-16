@@ -2,7 +2,7 @@ package com.PP.LunarTabsAndroid.Activities;
 import java.text.DecimalFormat;
 
 import com.PP.ChartBean.TimeSeriesChartBean;
-import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.StomperParams;
 import com.PP.StompDetector.StompDetector;
 import com.PP.StompDetector.StompListener;
@@ -63,7 +63,7 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
         super.onCreate(savedInstanceState);
         
         //set up chart bean
-        setContentView(R.layout.chart_layout);  
+        setContentView(R.layout.stomp_calib_layout);  
         bean = new TimeSeriesChartBean(this,"Accelerometer Monitor", "Time","Accel Reading", new String[] {"Accelerometer","Upper Sensitivity Threshold","Lower Sensitivity Threshold"}, new int[] {Color.BLUE,Color.RED, Color.RED});
         bean.getMRenderer().setYAxisMin(5);
         bean.getMRenderer().setYAxisMax(20);        
