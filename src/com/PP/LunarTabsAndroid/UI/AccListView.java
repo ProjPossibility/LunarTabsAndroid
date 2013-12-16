@@ -199,7 +199,7 @@ public class AccListView extends ListView {
 				this.setItemChecked(selectedInstructionIndex, true);
 				this.setSelection(selectedInstructionIndex);
 				this.performItemClick(this.findViewWithTag(this.getAdapter().getItem(selectedInstructionIndex)), 
-					selectedInstructionIndex, this.getAdapter().getItemId(selectedInstructionIndex));			
+					selectedInstructionIndex, this.getAdapter().getItemId(selectedInstructionIndex));
 			}
 		}
 	}

@@ -641,20 +641,17 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     	DataModel dataModel = DataModel.getInstance();
 		if(dataModel.getSong()!=null && dataModel.getTrackNum() >=0) {
     	
-	    	//enable stomper if not active
+	    	//enable midi follower if not active
 	    	if(!MidiServer.getInstance().isRunning()) {
 	    		
-				final Dialog dialog = new MidiFollowingEnableDialog(this);
-				dialog.show();	    		    		
-				
-				//change text on menu item
-				String new_title = getResources().getString(R.string.DisableMidiFollowing);
-				item.setTitle(new_title);				
-				
+	    		//ask if enable midi follower
+				final Dialog dialog = new MidiFollowingEnableDialog(this,this,item);
+				dialog.show();
+								
 	    	}	    	
 	    	else if(MidiServer.getInstance().isRunning()) {
 	    		
-	    		//stop stomper
+	    		//stop midi follower
 	    		MidiServer.getInstance().stop();
 	    		
 	    		//change text on menu item
@@ -711,12 +708,9 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	    	if(!stomper.isEnabled()) {
 	    		
 	    		//show stomper enabled dialog
-				final Dialog dialog = new StomperEnableDialog(this,stomper);
+				final Dialog dialog = new StomperEnableDialog(this,stomper,this,item);
 				dialog.show();	    		    		
 				
-				//change text on menu item
-				String new_title = getResources().getString(R.string.DisableStompMode);
-				item.setTitle(new_title);				
 				
 	    	}	    	
 	    	else if(stomper.isEnabled()) {
@@ -859,31 +853,9 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 					}
 				});
 				
-				//update to next index
-				updateToNextAvailableIndex();
-	 
-				//refresh gui
-				this.runOnUiThread(new Runnable() {
-					public void run() {
-						
-						//update gui and perform programmatic selection
-						MainActivity.this.refreshGUI();
-						MainActivity.this.getInstructionsList().programmaticSelect(DataModel.getInstance().getSelectedInstructionIndex());
-
-						//find and read instruction using tts
-						String c_inst = null;
-						if(dataModel.isVerbose()) {
-							c_inst = seg.getSfInst().get(DataModel.getInstance().getSelectedInstructionIndex());
-						}
-						else {
-							c_inst = seg.getChordInst().get(DataModel.getInstance().getSelectedInstructionIndex());          
-						}
-						if(c_inst!=null) {
-							TextToSpeechAPI.speak(
-									InstructionContentDescription.makeAccessibleInstruction(c_inst));
-						}
-					}
-				});
+				//update gui for next available index
+				this.updateGUIForNextAvailableIndex();
+				
 			}
 			else {
 				
@@ -897,12 +869,13 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		}    
 	}
 	
-	public void updateToNextAvailableIndex() {
+	public boolean updateToNextAvailableIndex() {
 		
 		//get data model
 		DataModel dataModel = DataModel.getInstance();		
 
 		//increment to next available one or say end of track if not anymore.
+		int initSeg = dataModel.getCurrentSegment();
 		int segCtr = dataModel.getCurrentSegment();
 		int instCtr = dataModel.getSelectedInstructionIndex()+1;
 		outer:while(segCtr < dataModel.getInstSegments().size()) {
@@ -929,6 +902,42 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			dataModel.setCurrentSegment(segCtr-1);
 			dataModel.setSelectedInstructionIndex(dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getSfInst().size()-1);
 		}
+		
+		return (initSeg!=segCtr);
 	}
 	
+	public void updateGUIForNextAvailableIndex() {
+
+		//update to next index
+		final boolean segChanged = updateToNextAvailableIndex();
+
+		//refresh gui
+		this.runOnUiThread(new Runnable() {
+			public void run() {
+				
+				//update gui and perform programmatic selection
+				int temp = DataModel.getInstance().getSelectedInstructionIndex();
+				if(segChanged) {
+					DataModel.getInstance().clearSelectedInstructionIndex();
+					MainActivity.this.refreshGUI();				
+				}
+				MainActivity.this.instructionsList.programmaticSelect(temp);
+
+				//find and read instruction using tts
+				String c_inst = null;
+				final DataModel dataModel = DataModel.getInstance();	
+				final Segment seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());				
+				if(dataModel.isVerbose()) {
+					c_inst = seg.getSfInst().get(DataModel.getInstance().getSelectedInstructionIndex());
+				}
+				else {
+					c_inst = seg.getChordInst().get(DataModel.getInstance().getSelectedInstructionIndex());          
+				}
+				if(c_inst!=null) {
+					TextToSpeechAPI.speak(
+							InstructionContentDescription.makeAccessibleInstruction(c_inst));
+				}
+			}
+		});
+	}
 }
