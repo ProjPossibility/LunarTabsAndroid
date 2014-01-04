@@ -32,19 +32,21 @@ public class WordActivatorAPI {
 	 * @param parent Main Activity parent (that implements speech listener)
 	 */
 	public void init(String[] targetWords, MainActivity parent) {
+		if(wa==null) {
 				
-		//store parent
-		this.parent = parent;
-		
-		//preempt beeping noise of speech recognizer by turning it off
-		AudioManager amanager=(AudioManager)parent.getSystemService(Context.AUDIO_SERVICE);
-		amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);        
-		
-		//initialize word activator
-		boolean needGC = (wa!=null);
-		wa = new WordActivator(parent,parent,targetWords);
-		if(needGC) {
-			System.gc();
+			//store parent
+			this.parent = parent;
+			
+			//preempt beeping noise of speech recognizer by turning it off
+			AudioManager amanager=(AudioManager)parent.getSystemService(Context.AUDIO_SERVICE);
+			amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);        
+			
+			//initialize word activator
+			boolean needGC = (wa!=null);
+			wa = new WordActivator(parent,parent,targetWords);
+			if(needGC) {
+				System.gc();
+			}
 		}
 	}
 	

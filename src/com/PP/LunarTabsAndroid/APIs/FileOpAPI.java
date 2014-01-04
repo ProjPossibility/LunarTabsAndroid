@@ -30,7 +30,9 @@ public class FileOpAPI {
 	 */
 	public static void init() {
 		File f = Environment.getExternalStoragePublicDirectory(SAVE_PATH_DIR);
-		boolean created = f.mkdirs();
+		if(!f.exists()) {
+			boolean created = f.mkdirs();
+		}
 	}
 	
 	/*

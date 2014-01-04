@@ -166,7 +166,9 @@ public class MidiServer {
 	 * @param l
 	 */
 	public void addChordRecognitionListener(ChordRecognitionListener l) {
-		chordRecListeners.add(l);
+		if(!chordRecListeners.contains(l)) {
+			chordRecListeners.add(l);
+		}
 	}
 	
 	/**

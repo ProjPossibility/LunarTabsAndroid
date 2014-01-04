@@ -122,8 +122,9 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         instructionsList.init(hilightColor,Color.WHITE);
         
         //set up segmenter
-        DataModel.getInstance().setSegmenter(new MeasureIncrementSegmenter());
-//        GUIDataModel.getInstance().setSegmenter(new SMRSegmenter());
+        if(DataModel.getInstance().getSegmenter()==null) {
+        	DataModel.getInstance().setSegmenter(new MeasureIncrementSegmenter());
+        }
         
         //enable APIs
         TextToSpeechAPI.init(this);
@@ -134,24 +135,40 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         
         //Chord DB initialize
         ChordDB.getInstance();
-//        ChordDBGenerator.getInstance().debugDump();
         
         //init voice commands
         WordActivatorAPI.getInstance().init(SpeechConst.voiceCommands, this);
+        if(savedInstanceState!=null && savedInstanceState.containsKey(WordActivatorAPI.getInstance().toString())) {
+        	boolean turnOn = savedInstanceState.getBoolean(WordActivatorAPI.getInstance().toString());
+        	if(turnOn) {
+          	   DataModel.getInstance().setVoiceActionsEnabled(true);        		
+        	   WordActivatorAPI.getInstance().start();
+        	}
+        }
         
         //init Stomp detector
-        stomper = new StompDetector(this);
-        stomper.addStompListening(new InstructionStomp(this));
+        if(stomper==null) {
+	        stomper = new StompDetector(this);
+	        stomper.addStompListening(new InstructionStomp(this));
+        }
+        if(savedInstanceState!=null && savedInstanceState.containsKey(stomper.toString())) {
+        	boolean turnOn = savedInstanceState.getBoolean(stomper.toString());
+        	if(turnOn) {
+        		stomper.start();
+        	}
+        }
         
         //init Midi Server
         MidiServer.getInstance().addChordRecognitionListener(this);
+        if(savedInstanceState!=null && savedInstanceState.containsKey(MidiServer.getInstance().toString())) {
+        	boolean turnOn = savedInstanceState.getBoolean(MidiServer.getInstance().toString());
+        	if(turnOn) {
+        		MidiServer.getInstance().start();
+        	}
+        }
         
         //init Audio Icon
         AudioIconAPI.getInstance().init(this);
-        
-//        stomper = new MetronomeStomp(this);
-//        stomper.setUntrigger_delay(0);
-//        stomper.start();
 	}
 		
 	@Override
@@ -174,9 +191,9 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		
 		//call on resume functions
 		super.onResume();		
-		WordActivatorAPI.getInstance().onResume();		
-		stomper.onResume();
-		MidiServer.getInstance().onResume();
+//		WordActivatorAPI.getInstance().onResume();		
+//		stomper.onResume();
+//		MidiServer.getInstance().onResume();
 		
 		//reinit GUI from file (if exists)
         refreshGUI();		
@@ -844,7 +861,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			//see if chord hash matches target
 			final Segment seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
 			final String target = seg.getMatchTargets().get(dataModel.getSelectedInstructionIndex());
-			if(target.equals(chordHash)) {
+			if(target.equals(chordHash) || ChordRecognizer.robustMidiMatch(chordHash, target)) {
 	       
 				//play success track
 				this.runOnUiThread(new Runnable() {
@@ -939,5 +956,12 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 				}
 			}
 		});
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle bundle) {
+		bundle.putBoolean(stomper.toString(), stomper.isEnabled());
+		bundle.putBoolean(WordActivatorAPI.getInstance().toString(), DataModel.getInstance().isVoiceActionsEnabled());
+		bundle.putBoolean(MidiServer.getInstance().toString(), MidiServer.getInstance().isRunning());
 	}
 }

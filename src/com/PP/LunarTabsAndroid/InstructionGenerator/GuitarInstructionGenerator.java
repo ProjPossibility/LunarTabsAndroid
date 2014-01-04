@@ -49,7 +49,7 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 			else {
 				TGNote singleNote = notes.get(0);
 				int string = singleNote.getString();
-				int fret = singleNote.getValue();
+				int fret = singleNote.getValue()+1;
 				return GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ". " + getDurationInstruction(beat) + ".";
 			}
 		}

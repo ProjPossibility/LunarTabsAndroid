@@ -151,5 +151,38 @@ public class ChordRecognizer {
 		//return
 		return hash;
 	}
+	
+	public static boolean robustMidiMatch(String played, String target) {
+		
+		//get parts
+		String[] playedNotes = played.split(" ");
+		String[] targetNotes = target.split(" ");
+		
+		//checks
+		outer:for(String playedNote : playedNotes) {
+			for(String targetNote : targetNotes) {
+				
+				//if target note, matched.
+				if(targetNote.equalsIgnoreCase(playedNote)) {
+					continue outer;
+				}
+				
+				//if half-pertubation of target note, matched.
+				int playedIndex = GuitarModel.getInstance().getNoteIndex(playedNote);
+				int targetIndex = GuitarModel.getInstance().getNoteIndex(targetNote);
+				int distance = Math.abs(playedIndex - targetIndex);
+				if(distance==1 || distance==11) {
+					continue outer;
+				}
+				
+				//failed because not matched.
+				return false;
+			}			
+		}
+		
+		//success because all matched.
+		return true;
+		
+	}
 
 }

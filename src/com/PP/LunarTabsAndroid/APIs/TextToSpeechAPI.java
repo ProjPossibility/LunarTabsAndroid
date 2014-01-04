@@ -28,8 +28,12 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 	 * @param mainActivity
 	 */
 	public static void init(Activity mainActivity) {
-		instance = new TextToSpeechAPI();
-        instance.tts = new TextToSpeech(mainActivity,instance);
+		if(instance==null) {
+			instance = new TextToSpeechAPI();
+		}
+		if(instance.tts==null) {
+			instance.tts = new TextToSpeech(mainActivity,instance);
+		}
 	}
 	
 	/**
