@@ -36,7 +36,9 @@
             </intent-filter>
         </activity>
 	    <activity android:name="com.daidalos.afiledialog.FileChooserActivity" />        
-	    <activity android:name="com.PP.LunarTabsAndroid.Activities.StomperCalibActivity" />        
+	    <activity 
+	        	  android:name="com.PP.LunarTabsAndroid.Activities.StomperCalibActivity"
+	        	  android:screenOrientation="portrait"/>        
     </application>
 
 </manifest>

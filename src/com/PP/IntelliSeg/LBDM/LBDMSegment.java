@@ -19,7 +19,7 @@ public class LBDMSegment extends Segment {
 	@Override
 	public void play() {
 		DataModel dataModel = DataModel.getInstance();
-		TuxGuitarUtil.playClip_beats(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum());		
+		TuxGuitarUtil.playClip_beats(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum(), dataModel.getTempoScale());		
 	}
 
 	@Override

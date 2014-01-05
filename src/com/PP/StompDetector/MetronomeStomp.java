@@ -4,6 +4,7 @@ package com.PP.StompDetector;
 import com.PP.LunarTabsAndroid.APIs.MetronomeAPI;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import android.app.Activity;
+import android.util.Log;
 
 public class MetronomeStomp implements StompListener {
 
@@ -21,6 +22,7 @@ public class MetronomeStomp implements StompListener {
 		if(!tempoSet && lastTS==-1) {
 			
 			//state
+			Log.d("FIRST SET", ""+lastTS);
 			lastTS = timestamp;
 			
 		}
@@ -33,6 +35,7 @@ public class MetronomeStomp implements StompListener {
 			MetronomeAPI.getInstance().start();
 			
 			//state
+			Log.d("TEMPO SET", ""+bpm);			
 			tempoSet = true;
 		}
 		else if(tempoSet && lastTS!=-1) {
@@ -43,6 +46,7 @@ public class MetronomeStomp implements StompListener {
 			//state
 			tempoSet = false;
 			lastTS = -1;
+			Log.d("RESET", ""+lastTS);			
 		}
 	}
 

@@ -109,7 +109,7 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
                 
         //start sensor stuff
 	    detector = new StompDetector(this);
-	    detector.addStompListening(this);
+	    detector.addStompListener(this);
 	    detector.setStart_wait(0);
 	    detector.start();
 	    mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);

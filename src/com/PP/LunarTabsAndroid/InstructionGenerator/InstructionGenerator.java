@@ -218,7 +218,6 @@ public abstract class InstructionGenerator {
 	
 	
 	//abstract methods
-	public abstract String getPlayInstruction(TGBeat beat);
-	
+	public abstract String getPlayInstruction(TGBeat beat, int offset);
 	
 }

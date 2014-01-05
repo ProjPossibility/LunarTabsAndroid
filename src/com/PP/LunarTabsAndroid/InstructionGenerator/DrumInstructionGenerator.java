@@ -32,7 +32,7 @@ public class DrumInstructionGenerator extends InstructionGenerator {
 	 * Get play instruction
 	 */
 	@Override
-	public String getPlayInstruction(TGBeat beat) {
+	public String getPlayInstruction(TGBeat beat, int offset) {
 		if(beat.isRestBeat()) {
 			return getDurationInstruction(beat);
 		}

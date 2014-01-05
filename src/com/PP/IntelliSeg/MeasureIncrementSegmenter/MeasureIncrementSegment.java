@@ -19,7 +19,7 @@ public class MeasureIncrementSegment extends Segment {
 	@Override
 	public void play() {
 		DataModel dataModel = DataModel.getInstance();
-		TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum());		
+		TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum(), dataModel.getTempoScale());		
 	}
 
 	@Override

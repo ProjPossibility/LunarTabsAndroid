@@ -175,9 +175,10 @@ public class ChordRecognizer {
 					continue outer;
 				}
 				
-				//failed because not matched.
-				return false;
-			}			
+			}	
+			
+			//failed because not matched.
+			return false;			
 		}
 		
 		//success because all matched.

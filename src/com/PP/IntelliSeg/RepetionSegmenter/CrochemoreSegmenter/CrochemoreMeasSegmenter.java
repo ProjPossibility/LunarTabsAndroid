@@ -70,6 +70,11 @@ public class CrochemoreMeasSegmenter extends AbstractSegmenter {
 	}
 	
 	public List<Segment> structsToSegs(List<SelStruct> structs, TGTrack t) {
+		
+		//get ofset
+		int offset = t.getOffset();
+		
+		//segments loop
 		List<Segment> rtn = new ArrayList<Segment>();
 		for(int y=0; y < numShow && y < structs.size(); y++) {
 			
@@ -91,11 +96,11 @@ public class CrochemoreMeasSegmenter extends AbstractSegmenter {
 					String i2="";
 					TGBeat b = (TGBeat)beats.get(x);
 					if(t.isPercussionTrack()) {
-						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b);
+						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 						i2 = i1;
 					}
 					else {
-						i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
+						i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 	//					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
 						i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);					
 					}

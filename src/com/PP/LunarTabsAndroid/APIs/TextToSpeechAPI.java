@@ -32,7 +32,7 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 			instance = new TextToSpeechAPI();
 		}
 		if(instance.tts==null) {
-			instance.tts = new TextToSpeech(mainActivity,instance);
+			instance.tts = new TextToSpeech(mainActivity.getApplicationContext(),instance);
 		}
 	}
 	

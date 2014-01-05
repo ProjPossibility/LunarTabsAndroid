@@ -22,6 +22,7 @@ public class DataModel implements Serializable {
 	protected int currentSegment;
 	protected int selectedInstructionIndex;	
 	protected boolean verbose;
+	protected volatile double tempoScale;	
 	protected AbstractSegmenter segmenter;
 	protected volatile boolean voiceActionsEnabled;
 
@@ -36,6 +37,7 @@ public class DataModel implements Serializable {
 		verbose = false;
 		selectedInstructionIndex = -1;
 		voiceActionsEnabled = false;
+		tempoScale = 1.00;
 	}
 	protected static DataModel instance = null;
 	public static DataModel getInstance() {
@@ -236,5 +238,19 @@ public class DataModel implements Serializable {
 	 */
 	public void setVoiceActionsEnabled(boolean voiceActionsEnabled) {
 		this.voiceActionsEnabled = voiceActionsEnabled;
+	}
+
+	/**
+	 * @return the tempoScale
+	 */
+	public double getTempoScale() {
+		return tempoScale;
+	}
+
+	/**
+	 * @param tempoScale the tempoScale to set
+	 */
+	public void setTempoScale(double tempoScale) {
+		this.tempoScale = tempoScale;
 	}
 }

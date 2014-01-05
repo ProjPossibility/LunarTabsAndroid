@@ -37,19 +37,27 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 	 * Get play instruction
 	 */
 	@Override
-	public String getPlayInstruction(TGBeat beat) {
+	public String getPlayInstruction(TGBeat beat, int offset) {
 		if(beat.isRestBeat()) {
 			return getDurationInstruction(beat);
 		}
 		else {
 			List<TGNote> notes = TuxGuitarUtil.getNotesForBeat(beat);		
 			if(notes.size() > 1) {
+				
+				//correct notes for offset
+				for(int x=0; x < notes.size(); x++) {
+					TGNote note = notes.get(x);
+					note.setValue(note.getValue()+offset);
+				}
+				
+				//return chord instruction
 				return ChordRecognizer.getChordName(notes) + " chord, " + getDurationInstruction(beat) + ".";
 			}
 			else {
 				TGNote singleNote = notes.get(0);
 				int string = singleNote.getString();
-				int fret = singleNote.getValue()+1;
+				int fret = singleNote.getValue()+offset+1; //correct for offset
 				return GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ". " + getDurationInstruction(beat) + ".";
 			}
 		}

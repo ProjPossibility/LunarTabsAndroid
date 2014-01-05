@@ -78,6 +78,11 @@ public class SMRSegmenter extends AbstractSegmenter {
 	}
 	
 	public List<Segment> structsToSegs(List<SelStruct> structs, TGTrack t) {
+		
+		//get offset
+		int offset = t.getOffset();
+		
+		//segments loop
 		List<Segment> rtn = new ArrayList<Segment>();
 		for(int y=0; y < structs.size(); y++) {
 			
@@ -103,12 +108,12 @@ public class SMRSegmenter extends AbstractSegmenter {
 					String i3;
 					TGBeat b = (TGBeat)beats.get(x);
 					if(t.isPercussionTrack()) {
-						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b);
+						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 						i2 = i1;
 						i3 = "";
 					}
 					else {
-						i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
+						i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 	//					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
 						i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);					
 						i3 = ChordRecognizer.getMatchTarget(b);

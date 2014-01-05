@@ -42,6 +42,9 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 	@Override
 	public List<Segment> segment(TGTrack track) {
 		
+		//get capo
+		int offset = track.getOffset();
+		
 		//init return
 		List<Segment> rtn = new ArrayList<Segment>();
 		
@@ -67,12 +70,12 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 				String i3="";
 				TGBeat b = (TGBeat)beats.get(x);
 				if(track.isPercussionTrack()) {
-					i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b);
+					i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 					i2 = i1;
 					i3 = "";
 				}
 				else {
-					i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
+					i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 //					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
 					i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);
 					i3 = ChordRecognizer.getMatchTarget(b);

@@ -17,6 +17,7 @@ import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
 import com.PP.LunarTabsAndroid.Dialogs.GuitarFileLoaderDialog;
 import com.PP.LunarTabsAndroid.Dialogs.MeasureIncrementDialog;
 import com.PP.LunarTabsAndroid.Dialogs.MidiFollowingEnableDialog;
+import com.PP.LunarTabsAndroid.Dialogs.PlaybackSpeedDialog;
 import com.PP.LunarTabsAndroid.Dialogs.SelectSectionDialog;
 import com.PP.LunarTabsAndroid.Dialogs.StomperEnableDialog;
 import com.PP.LunarTabsAndroid.Dialogs.VoiceActionsDialog;
@@ -31,11 +32,13 @@ import com.PP.MidiServer.AbstractMidiServerActivity;
 import com.PP.MidiServer.ChordRecognitionListener;
 import com.PP.MidiServer.MidiServer;
 import com.PP.StompDetector.InstructionStomp;
+import com.PP.StompDetector.MetronomeStomp;
 import com.PP.StompDetector.StompDetector;
 import com.example.lunartabsandroid.R;
 import com.root.gast.speech.activation.SpeechActivationListener;
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGSong;
+import com.tuxguitar.song.models.TGTrack;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -58,6 +61,10 @@ import android.view.WindowManager;
 
 public class MainActivity extends AbstractMidiServerActivity implements OnClickListener, SpeechActivationListener, ChordRecognitionListener  {
 	
+	//debug fags
+	protected static final boolean MIDI_FOLLOWER_DEBUG = false;
+	protected static final String FRAGMENT_MANAGER_TAG = "LunarTabs";
+
 	//components
 	protected Button loadTabFileButton;
 	protected Button toggleModesButton;
@@ -70,7 +77,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	protected AccListView instructionsList;
 	
 	//stomp detector
-	protected StompDetector stomper;
+	protected static StompDetector stomper = null;	
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +100,27 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         instructionsList = (AccListView) findViewById(R.id.instructionsList);
                 
         //register listeners
-        loadTabFileButton.setOnClickListener(this);
-        toggleModesButton.setOnClickListener(this);
-        playSampleButton.setOnClickListener(this);
-        prevMeasButton.setOnClickListener(this);
-        nextMeasButton.setOnClickListener(this);
-        upButton.setOnClickListener(this);
-        downButton.setOnClickListener(this);
+        if(!loadTabFileButton.hasOnClickListeners()) {
+        	loadTabFileButton.setOnClickListener(this);
+        }
+        if(!toggleModesButton.hasOnClickListeners()) {
+        	toggleModesButton.setOnClickListener(this);
+        }
+        if(!playSampleButton.hasOnClickListeners()) {
+        	playSampleButton.setOnClickListener(this);
+        }
+        if(!prevMeasButton.hasOnClickListeners()) {
+        	prevMeasButton.setOnClickListener(this);
+        }
+        if(!nextMeasButton.hasOnClickListeners()) {
+        	nextMeasButton.setOnClickListener(this);
+        }
+        if(!upButton.hasOnClickListeners()) {
+        	upButton.setOnClickListener(this);
+        }
+        if(!downButton.hasOnClickListeners()) {
+        	downButton.setOnClickListener(this);
+        }
         
         //colors
         loadTabFileButton.setBackgroundColor(Color.WHITE);
@@ -136,7 +157,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         //Chord DB initialize
         ChordDB.getInstance();
         
-        //init voice commands
+        //init voice commands and restart if bundle requires
         WordActivatorAPI.getInstance().init(SpeechConst.voiceCommands, this);
         if(savedInstanceState!=null && savedInstanceState.containsKey(WordActivatorAPI.getInstance().toString())) {
         	boolean turnOn = savedInstanceState.getBoolean(WordActivatorAPI.getInstance().toString());
@@ -146,11 +167,12 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         	}
         }
         
-        //init Stomp detector
+        //reinit stomper and restart if was on        
         if(stomper==null) {
-	        stomper = new StompDetector(this);
-	        stomper.addStompListening(new InstructionStomp(this));
+        	stomper = new StompDetector(this);
+        	stomper.addStompListener(new InstructionStomp(this));
         }
+        stomper.setMainActivity(this);
         if(savedInstanceState!=null && savedInstanceState.containsKey(stomper.toString())) {
         	boolean turnOn = savedInstanceState.getBoolean(stomper.toString());
         	if(turnOn) {
@@ -158,7 +180,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         	}
         }
         
-        //init Midi Server
+        //init Midi Server and restart if bundle requires
         MidiServer.getInstance().addChordRecognitionListener(this);
         if(savedInstanceState!=null && savedInstanceState.containsKey(MidiServer.getInstance().toString())) {
         	boolean turnOn = savedInstanceState.getBoolean(MidiServer.getInstance().toString());
@@ -169,6 +191,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         
         //init Audio Icon
         AudioIconAPI.getInstance().init(this);
+                        
 	}
 		
 	@Override
@@ -189,14 +212,23 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	@Override
 	public void onResume() {
 		
-		//call on resume functions
-		super.onResume();		
-//		WordActivatorAPI.getInstance().onResume();		
-//		stomper.onResume();
-//		MidiServer.getInstance().onResume();
+		//call on resume functions (if not already running)
+		super.onResume();	
+		if(!DataModel.getInstance().isVoiceActionsEnabled()) {
+			WordActivatorAPI.getInstance().onResume();		
+		}
+		if(!stomper.isEnabled()) {
+			stomper.onResume();
+		}
+		if(!MidiServer.getInstance().isRunning()) {
+			MidiServer.getInstance().onResume();
+		}
 		
 		//reinit GUI from file (if exists)
         refreshGUI();		
+        
+        //garbage collect
+        System.gc();
 	}
 		
 	/**
@@ -540,7 +572,13 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         TGSong songLoaded = dataModel.getSong();
         if(songLoaded!=null && songLoaded.countTracks() > 0) {
         	for(int x=0; x < songLoaded.countTracks(); x++) {
-        		String trackHash = songLoaded.getTrack(x).getName().trim().toLowerCase();
+        		TGTrack track = songLoaded.getTrack(x);
+        		int offset = track.getOffset();
+        		String capoStr = "";
+        		if(offset!=0) {
+        			capoStr = " [Capo "+offset+"]";
+        		}
+        		String trackHash = track.getName().trim().toLowerCase() + capoStr;
         		if(tracksDD.containsKey(trackHash)) {
         			int newCnt = tracksDD.get(trackHash) + 1;
         			tracksDD.put(trackHash, newCnt);
@@ -551,8 +589,14 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         		}
         	}
         	for(int x=(songLoaded.countTracks()-1); x>=0; x--) {
-        		String trackHash = songLoaded.getTrack(x).getName().trim().toLowerCase();
-        		String trackName = songLoaded.getTrack(x).getName().trim();
+        		TGTrack track = songLoaded.getTrack(x);
+        		int offset = track.getOffset();
+        		String capoStr = "";
+        		if(offset!=0) {
+        			capoStr = " [Capo "+offset+"]";
+        		}
+        		String trackHash = track.getName().trim().toLowerCase() + capoStr;
+        		String trackName = track.getName().trim() + capoStr;
         		if(multipleEntries.contains(trackHash)) {
         			tracksList.add(0,trackName + " (" + tracksDD.get(trackHash) + ")");
         			tracksDD.put(trackHash, tracksDD.get(trackHash)-1);
@@ -635,6 +679,9 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
             case R.id.GoToMenuItem:
             	showSelectSectionDialog();
                 return true;
+            case R.id.PlaybackSpeedMenuItem:
+            	showSetPlaybackSpeedDialog();
+            	return true;
             case R.id.StompModeMenuItem:
             	stompModeDialog(item);
             	return true;
@@ -699,7 +746,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     		
     		//show dialog for voice actions
         	VoiceActionsDialog m = new VoiceActionsDialog(menuItem);
-        	m.show(getFragmentManager(), "LOZ");   		
+        	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);   		
         	
     	}
     	else {
@@ -750,7 +797,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     	DataModel dataModel = DataModel.getInstance();    	
     	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {    	
     		MeasureIncrementDialog m = new MeasureIncrementDialog(this);
-    		m.show(getFragmentManager(), "LOZ");    	
+    		m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);    	
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
     		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
@@ -760,11 +807,17 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     	}
     }
     
+    public void showSetPlaybackSpeedDialog() {
+    	PlaybackSpeedDialog m = new PlaybackSpeedDialog(this);
+    	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);
+    }
+    
+    
     public void showSelectSectionDialog() {
     	DataModel dataModel = DataModel.getInstance();
     	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {
         	SelectSectionDialog m = new SelectSectionDialog(this);
-        	m.show(getFragmentManager(), "LOZ");    		
+        	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);    		
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
     		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
@@ -839,15 +892,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	
 	@Override
 	public void chordRecognized(final String chord) {    
-		
-		/*
-		this.runOnUiThread(new Runnable() {
-			public void run() {
-				Toast.makeText(MainActivity.this, "CHORD: " + chord, Toast.LENGTH_SHORT).show();
-			}
-		});
-			*/
-		
+				
 		//get chord hash
 		final String chordHash = ChordRecognizer.getChordHash(chord);
 		
@@ -864,11 +909,13 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			if(target.equals(chordHash) || ChordRecognizer.robustMidiMatch(chordHash, target)) {
 	       
 				//play success track
-				this.runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(MainActivity.this, "Success: " + target, Toast.LENGTH_SHORT).show();
-					}
-				});
+				if(MIDI_FOLLOWER_DEBUG) {
+					this.runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(MainActivity.this, "Success: " + target, Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
 				
 				//update gui for next available index
 				this.updateGUIForNextAvailableIndex();
@@ -877,11 +924,13 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			else {
 				
 				//play buzzer
-				this.runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(MainActivity.this, "Failure: " + chordHash + " ::: " + target, Toast.LENGTH_SHORT).show();
-					}
-				});
+				if(MIDI_FOLLOWER_DEBUG) {
+					this.runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(MainActivity.this, "Failure: " + chordHash + " ::: " + target, Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
 			}
 		}    
 	}
@@ -964,4 +1013,11 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		bundle.putBoolean(WordActivatorAPI.getInstance().toString(), DataModel.getInstance().isVoiceActionsEnabled());
 		bundle.putBoolean(MidiServer.getInstance().toString(), MidiServer.getInstance().isRunning());
 	}
+
+	/**
+	 * @return the downButton
+	 */
+	public Button getDownButton() {
+		return downButton;
+	}	
 }

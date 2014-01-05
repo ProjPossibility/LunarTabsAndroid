@@ -6,6 +6,7 @@
 	<string name="GenerateInstructions">Generate Instructions</string>
 	<string name="BAT">Breakfast_at_Tiffanys.gpx</string>
 	<string name="SectionIncrement">Set Section Increment</string>
+	<string name="PlaybackSpeed">Set Playback Speed</string>	
 	<string name="GoTo">Go To Section</string>
 	<string name="EnableStompMode">Enable Stomp Mode</string>
 	<string name="DisableStompMode">Disable Stomp Mode</string>
@@ -38,6 +39,30 @@
         <item>5</item>
         <item>10</item>        
         <item>Segment by Repetition</item>        
+    </string-array>
+    <string-array name="PlaybackSpeedChoices">
+        <item>10%</item>
+        <item>15%</item>
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>        
+        <item>100%</item>
+        <item>125%</item>
+        <item>150%</item>
+        <item>175%</item>
+        <item>200%</item>
+    </string-array>
+    <string-array name="PlaybackSpeedArr">
+        <item>0.10</item>
+        <item>0.15</item>
+        <item>0.25</item>
+        <item>0.50</item>
+        <item>0.75</item>        
+        <item>1.00</item>
+        <item>1.25</item>
+        <item>1.50</item>
+        <item>1.75</item>
+        <item>2.00</item>
     </string-array>
     <string-array name="empty_instruct">
         <item></item>

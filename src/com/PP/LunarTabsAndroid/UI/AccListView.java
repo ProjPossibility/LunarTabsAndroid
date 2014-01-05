@@ -193,7 +193,7 @@ public class AccListView extends ListView {
 			if(selectedInstructionIndex==-1) {
 				refreshGUI(); //just clear hilight
 			}
-			else if(selectedInstructionIndex >= 0 ){
+			else if(selectedInstructionIndex >= 0){
 				
 				//perform click on selected index.
 				this.setItemChecked(selectedInstructionIndex, true);

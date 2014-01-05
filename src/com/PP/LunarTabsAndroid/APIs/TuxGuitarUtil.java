@@ -23,6 +23,7 @@ import com.tuxguitar.song.models.TGMeasure;
 import com.tuxguitar.song.models.TGMeasureHeader;
 import com.tuxguitar.song.models.TGNote;
 import com.tuxguitar.song.models.TGSong;
+import com.tuxguitar.song.models.TGTempo;
 import com.tuxguitar.song.models.TGTrack;
 import com.tuxguitar.song.models.TGVoice;
 
@@ -40,7 +41,7 @@ public class TuxGuitarUtil {
 		}
 	}
 	
-	public static void playClip_beats(String file, String dirPath, int b0, int bf, int track) {
+	public static void playClip_beats(String file, String dirPath, int b0, int bf, int track, double tempoScale) {
 		try {
 			
 			//compute which measures to extract
@@ -83,6 +84,9 @@ public class TuxGuitarUtil {
 				}
 			}
 			
+			//scale tempo for playback speed
+			newSong = scaleTempo(newSong,tempoScale);
+			
 			//write MIDI file for selection
 			TuxGuitarUtil.exportToGP4(dirPath + FileOpAPI.TEMP_GP4, newSong);		
 			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOpAPI.TEMP_GP4);			
@@ -97,12 +101,26 @@ public class TuxGuitarUtil {
 		}
 	}
 	
-	public static void playClip(String file, String dirPath, int m0, int mf,int track) {
+	public static TGSong scaleTempo(TGSong song, double tempoScale) {
+		for(int x=0; x < song.countTracks(); x++) {
+			TGTrack track = song.getTrack(x);
+			for(int y=0; y<track.countMeasures(); y++) {
+				TGMeasure m = track.getMeasure(y);
+				TGMeasureHeader h = m.getHeader();
+				TGTempo tempo = h.getTempo();
+				tempo.setValue((int)Math.round(tempo.getValue()*tempoScale));
+			}
+		}
+		return song;
+	}
+	
+	public static void playClip(String file, String dirPath, int m0, int mf,int track, double tempoScale) {
 		try {
 			
 			//write MIDI file for selection
 			TGSong song = TuxGuitarUtil.loadSong(file);
 			TGSong newSong = TuxGuitarUtil.extractMeasures(song, track,m0, mf);
+			newSong = scaleTempo(newSong, tempoScale); //scale tempo for playback speed
 			TuxGuitarUtil.exportToGP4(dirPath + FileOpAPI.TEMP_GP4, newSong);		
 			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOpAPI.TEMP_GP4);			
 			TuxGuitarUtil.exportToMidi(dirPath + FileOpAPI.TEMP_MID, s3);
