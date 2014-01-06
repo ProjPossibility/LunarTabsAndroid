@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGMeasure;
+import org.herac.tuxguitar.song.models.TGTrack;
+
 import android.util.Log;
 
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
@@ -21,9 +25,6 @@ import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGMeasure;
-import com.tuxguitar.song.models.TGTrack;
 
 public class SMRSegmenter extends AbstractSegmenter {	
 					

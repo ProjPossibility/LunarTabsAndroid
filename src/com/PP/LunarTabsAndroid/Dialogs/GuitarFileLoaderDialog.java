@@ -2,6 +2,8 @@ package com.PP.LunarTabsAndroid.Dialogs;
 
 import java.io.File;
 
+import org.herac.tuxguitar.song.models.TGSong;
+
 import android.app.Dialog;
 import android.content.Context;
 
@@ -11,7 +13,6 @@ import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.SpeechConst;
 import com.daidalos.afiledialog.FileChooserDialog;
-import com.tuxguitar.song.models.TGSong;
 
 public class GuitarFileLoaderDialog extends FileChooserDialog {
 

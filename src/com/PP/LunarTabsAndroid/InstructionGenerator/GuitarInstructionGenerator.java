@@ -2,11 +2,12 @@ package com.PP.LunarTabsAndroid.InstructionGenerator;
 
 import java.util.List;
 
+import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGNote;
+
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.PP.LunarTabsAndroid.InstrumentModels.GuitarModel;
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGNote;
 
 public class GuitarInstructionGenerator extends InstructionGenerator {
 	
@@ -52,13 +53,15 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 				}
 				
 				//return chord instruction
-				return ChordRecognizer.getChordName(notes) + " chord, " + getDurationInstruction(beat) + ".";
+				String instruction = ChordRecognizer.getChordName(notes) + " chord, " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
+				return instruction.trim();
 			}
 			else {
 				TGNote singleNote = notes.get(0);
 				int string = singleNote.getString();
 				int fret = singleNote.getValue()+offset+1; //correct for offset
-				return GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ". " + getDurationInstruction(beat) + ".";
+				String instruction= GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ", " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
+				return instruction.trim();
 			}
 		}
 	}

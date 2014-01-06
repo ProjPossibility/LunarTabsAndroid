@@ -2,10 +2,14 @@ package com.PP.LunarTabsAndroid.InstructionGenerator;
 
 import java.util.*;
 
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGDuration;
-import com.tuxguitar.song.models.TGNote;
-import com.tuxguitar.song.models.TGVoice;
+import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGDuration;
+import org.herac.tuxguitar.song.models.TGNote;
+import org.herac.tuxguitar.song.models.TGVoice;
+
+import android.util.Log;
+
+import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 
 public abstract class InstructionGenerator {
 			
@@ -17,36 +21,67 @@ public abstract class InstructionGenerator {
 		//get duration of beat
 		TGVoice voice = beat.getVoice(0);
 		TGDuration duration = voice.getDuration();
+		
+		//determine whether tied note
+		String tiedMod = "";
+		List<TGNote> notes = TuxGuitarUtil.getNotesForBeat(beat);
+		for(TGNote note : notes) {
+			if(note.isTiedNote()) {
+				tiedMod = "tied";
+			}
+		}
+		
+		//determine whether dotted
+		String dottedMod = "";
+		if(duration.isDotted()) {
+			dottedMod = "dotted";
+		}
+		
+		//determine whether double dotted
+		String doubleDottedMod = "";
+		if(duration.isDoubleDotted()) {
+			doubleDottedMod = "double dotted";
+		}
+		
+		//create mod string
+		String mod = "";
+		mod = mod + tiedMod + " ";
+		mod = mod + dottedMod + " ";
+		mod = mod + doubleDottedMod + " ";
+		mod = mod.trim();
+		if(!mod.equals("")) {
+			mod = mod + " ";
+		}
 				
 		if(beat.isRestBeat())
 		{
 			if(duration.getValue() == TGDuration.EIGHTH)
 			{
-				return "Rest eighth note.";
+				return "Rest, " + mod + "eighth note.";
 			}
 			if(duration.getValue() == TGDuration.HALF)
 			{
-				return "Rest half note.";
+				return "Rest, " + mod+ "half note.";
 			}
 			if(duration.getValue() == TGDuration.QUARTER)
 			{
-				return "Rest quarter note.";
+				return "Rest, " + mod + "quarter note.";
 			}
 			if(duration.getValue() == TGDuration.SIXTEENTH)
 			{
-				return "Rest sixteenth note.";
+				return "Rest, " + mod + "sixteenth note.";
 			}
 			if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 			{
-				return "Rest sixty-fourth note.";
+				return "Rest, " + mod + "sixty-fourth note.";
 			}
 			if(duration.getValue() == TGDuration.THIRTY_SECOND)
 			{
-				return "Rest thirty-second note.";
+				return "Rest, " + mod + "thirty-second note.";
 			}
 			if(duration.getValue() == TGDuration.WHOLE)
 			{
-				return "Rest whole note.";
+				return "Rest, " + mod + "whole note.";
 			}
 
 		}
@@ -56,68 +91,111 @@ public abstract class InstructionGenerator {
 			{
 				if(duration.getValue() == TGDuration.EIGHTH)
 				{
-					return "eighth note";
+					return mod + "eighth note";
 				}
 				if(duration.getValue() == TGDuration.HALF)
 				{
-					return "half note";
+					return mod + "half note";
 				}
 				if(duration.getValue() == TGDuration.QUARTER)
 				{
-					return "quarter note";
+					return mod + "quarter note";
 				}
 				if(duration.getValue() == TGDuration.SIXTEENTH)
 				{
-					return "sixteenth note";
+					return mod + "sixteenth note";
 				}
 				if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 				{
-					return "sixty-fourth note";
+					return mod + "sixty-fourth note";
 				}
 				if(duration.getValue() == TGDuration.THIRTY_SECOND)
 				{
-					return "thirty-second note";
+					return mod + "thirty-second note";
 				}
 				if(duration.getValue() == TGDuration.WHOLE)
 				{
-					return "whole note";
+					return mod + "whole note";
 				}
 			}
 			else
 			{
 				if(duration.getValue() == TGDuration.EIGHTH)
 				{
-					return "eighth note";
+					return mod + "eighth note";
 				}
 				if(duration.getValue() == TGDuration.HALF)
 				{
-					return "half note";
+					return mod + "half note";
 				}
 				if(duration.getValue() == TGDuration.QUARTER)
 				{
-					return "quarter note";
+					return mod + "quarter note";
 				}
 				if(duration.getValue() == TGDuration.SIXTEENTH)
 				{
-					return "sixteenth note";
+					return mod + "sixteenth note";
 				}
 				if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 				{
-					return "sixty-fourth note";
+					return mod + "sixty-fourth note";
 				}
 				if(duration.getValue() == TGDuration.THIRTY_SECOND)
 				{
-					return "thirty-second note";
+					return mod + "thirty-second note";
 				}
 				if(duration.getValue() == TGDuration.WHOLE)
 				{
-					return "whole note";
+					return mod + "whole note";
 				}
 			}
 		}
 		
 		//no instruction - error
 		return null;
+	}
+	
+	public String getNoteEffectInstruction(TGBeat beat) {
+		
+		//get unique note effects
+		List<String> noteEffects = new ArrayList<String>();
+		List<TGNote> notes = TuxGuitarUtil.getNotesForBeat(beat);
+		for(TGNote note : notes) {
+			List<String> effects = getNoteEffectsInstructions(note);
+			for(String effect : effects) {
+				if(!noteEffects.contains(effect)) {
+					noteEffects.add(effect);
+				}
+			}
+		}
+		
+		//create instruction
+		if(noteEffects.size()==0) {
+			return "";
+		}
+		else {
+			StringBuffer rtn = new StringBuffer();
+			rtn.append("Play with ");
+			if(noteEffects.size()==1) {
+				rtn.append(noteEffects.get(0) + ".");
+			}
+			else if(noteEffects.size()==2) {
+				rtn.append(noteEffects.get(0) + " and " + noteEffects.get(1) + ".");
+			}
+			else {
+				for(int x=0; x < noteEffects.size(); x++) {
+					String effect = noteEffects.get(x);
+					if(x!=(noteEffects.size()-1)) {
+						rtn.append(effect + ", ");
+					}
+					else {
+						rtn.append("and " + effect + ".");
+					}
+				}
+			}
+			Log.d("NOTE EFFECT STR", rtn.toString());
+			return rtn.toString();
+		}
 	}
 	
 	/*
@@ -131,91 +209,86 @@ public abstract class InstructionGenerator {
 		//create instructions for effects
 		if(n.getEffect().hasAnyEffect())
 		{
-			if(n.isTiedNote())
-			{
-				rtn.add("This is a tied note.");
-			}
 			if(n.getEffect().isAccentuatedNote())
 			{
-				rtn.add("This is an accentuated note.");
+				rtn.add("accentuated emphasis");
 			}
 			if(n.getEffect().isBend())
 			{
-				rtn.add("This note has a bend.");
+				rtn.add("pitch bend effect");
 			}
 			if(n.getEffect().isDeadNote())
 			{
-				rtn.add("This is a dead note.");
+				rtn.add("dead note effect");
 			}
 			if(n.getEffect().isFadeIn())
 			{
-				rtn.add("You must fade in for this note.");
+				rtn.add("fade in");
 			}
 			if(n.getEffect().isGhostNote())
 			{
-				rtn.add("This is a ghost note.");
+				rtn.add("ghost note effect");
 			}
 			if(n.getEffect().isGrace())
 			{
-				rtn.add("This is a grace note.");
+				rtn.add("grace note effect");
 			}
 			if(n.getEffect().isHammer())
 			{
-				rtn.add("This note is a hammer-on.");
+				rtn.add("hammer-on");
 			}
 			if(n.getEffect().isHarmonic())
 			{
-				rtn.add("This note is a harmonic.");
+				rtn.add("harmonic effect");
 			}
 			if(n.getEffect().isHeavyAccentuatedNote())
 			{
-				rtn.add("This is a heavey accentuated note.");
+				rtn.add("heavy accentuated emphasis");
 			}
 			if(n.getEffect().isPalmMute())
 			{
-				rtn.add("This note requires palm muting.");
+				rtn.add("palm mute");
 			}
 			if(n.getEffect().isPopping())
 			{
-				rtn.add("This note requires popping.");
+				rtn.add("pop");
 			}
 			if(n.getEffect().isSlapping())
 			{
-				rtn.add("This note requires slapping.");
+				rtn.add("slap");
 			}
 			if(n.getEffect().isSlide())
 			{
-				rtn.add("This note has a slide.");
+				rtn.add("slide");
 			}
 			if(n.getEffect().isTremoloBar())
 			{
-				rtn.add("This note requires use of the Tremolo bar.");
+				rtn.add("tremolo bar");
 			}
 			if(n.getEffect().isStaccato())
 			{
-				rtn.add("This note is staccato.");
+				rtn.add("stacatto");
 			}
 			if(n.getEffect().isTapping())
 			{
-				rtn.add("This note requires tapping.");
+				rtn.add("tap effect");
 			}
 			if(n.getEffect().isTremoloPicking())
 			{
-				rtn.add("This note requires Tremolo picking.");
+				rtn.add("tremolo picking");
 			}
 			if(n.getEffect().isTrill())
 			{
-				rtn.add("This note is played with trilling.");
+				rtn.add("trill");
 			}
 			if(n.getEffect().isVibrato())
 			{
-				rtn.add("This note is vibrato.");
+				rtn.add("vibrato");
 			}
 		}
 		
 		return rtn;
 	}
-	
 	
 	//abstract methods
 	public abstract String getPlayInstruction(TGBeat beat, int offset);

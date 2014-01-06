@@ -2,13 +2,14 @@ package com.PP.IntelliSeg.Util;
 
 import java.util.*;
 
+import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGMeasure;
+import org.herac.tuxguitar.song.models.TGNote;
+import org.herac.tuxguitar.song.models.TGSong;
+import org.herac.tuxguitar.song.models.TGTrack;
+import org.herac.tuxguitar.song.models.TGVoice;
+
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGMeasure;
-import com.tuxguitar.song.models.TGNote;
-import com.tuxguitar.song.models.TGSong;
-import com.tuxguitar.song.models.TGTrack;
-import com.tuxguitar.song.models.TGVoice;
 
 public class StringRepr {
 	
@@ -142,7 +143,7 @@ public class StringRepr {
 	public static String getBeatStringSequence(TGTrack track, int type) {
 		
 		//get beat strings
-		List<TGMeasure> measures = TuxGuitarUtil.extractMeasures(track);
+		List<TGMeasure> measures = TuxGuitarUtil.getMeasures(track);
 		List<String> beatStrs= getBeatString(measures,type);
 		
 		//create melody string
@@ -169,7 +170,7 @@ public class StringRepr {
 	public static String getMeasureStringSequence(TGTrack track, int type) {
 		
 		//get beat strings
-		List<TGMeasure> measures = TuxGuitarUtil.extractMeasures(track);
+		List<TGMeasure> measures = TuxGuitarUtil.getMeasures(track);
 		List<List<String>> measStrs= getBeatStringPerMeasure(measures,type);
 		
 		//create melody measure string

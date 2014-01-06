@@ -2,10 +2,11 @@ package com.PP.LunarTabsAndroid.InstructionGenerator;
 
 import java.util.List;
 
+import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGNote;
+
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstrumentModels.DrumModel;
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGNote;
 
 public class DrumInstructionGenerator extends InstructionGenerator {
 	
@@ -42,8 +43,9 @@ public class DrumInstructionGenerator extends InstructionGenerator {
 			for(TGNote note : notes) {
 				rtn.append(DrumModel.getDrumName(note.getValue()) + ", ");
 			}
-			rtn.append(getDurationInstruction(beat) + ".");
-			return rtn.toString();
+			rtn.append(getDurationInstruction(beat) + ". ");
+			rtn.append(getNoteEffectInstruction(beat));
+			return rtn.toString().trim();
 		}
 	}
 }

@@ -1,9 +1,10 @@
 package com.PP.LunarTabsAndroid.InstrumentModels;
 import java.util.*;
 
+import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGNote;
+
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGNote;
 
 public class ChordRecognizer {
 			

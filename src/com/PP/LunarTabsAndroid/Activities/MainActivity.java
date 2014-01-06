@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGSong;
+import org.herac.tuxguitar.song.models.TGTrack;
+
 
 import com.PP.AudioIcon.AudioIconAPI;
 import com.PP.IntelliSeg.Abstract.Segment;
@@ -13,6 +17,7 @@ import com.PP.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.LunarTabsAndroid.APIs.VolumeAPI;
 import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
 import com.PP.LunarTabsAndroid.Dialogs.GuitarFileLoaderDialog;
 import com.PP.LunarTabsAndroid.Dialogs.MeasureIncrementDialog;
@@ -36,11 +41,9 @@ import com.PP.StompDetector.MetronomeStomp;
 import com.PP.StompDetector.StompDetector;
 import com.example.lunartabsandroid.R;
 import com.root.gast.speech.activation.SpeechActivationListener;
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGSong;
-import com.tuxguitar.song.models.TGTrack;
 
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -191,6 +194,10 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         
         //init Audio Icon
         AudioIconAPI.getInstance().init(this);
+        
+        //set application volume
+        VolumeAPI.getInstance().init(this);
+        VolumeAPI.getInstance().setVolume(VolumeAPI.DEFAULT_VOLUME_FACTOR);
                         
 	}
 		

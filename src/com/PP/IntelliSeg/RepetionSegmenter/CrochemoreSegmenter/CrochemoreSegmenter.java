@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGTrack;
+
 import android.util.Log;
 
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
@@ -19,8 +22,6 @@ import com.PP.IntelliSeg.Util.StringRepr;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.tuxguitar.song.models.TGBeat;
-import com.tuxguitar.song.models.TGTrack;
 
 public class CrochemoreSegmenter extends AbstractSegmenter {	
 		

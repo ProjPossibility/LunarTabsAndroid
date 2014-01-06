@@ -3,7 +3,8 @@ package com.PP.IntelliSeg.Abstract;
 import java.io.Serializable;
 import java.util.List;
 
-import com.tuxguitar.song.models.TGTrack;
+import org.herac.tuxguitar.song.models.TGTrack;
+
 
 public abstract class AbstractSegmenter implements Serializable {
 	
