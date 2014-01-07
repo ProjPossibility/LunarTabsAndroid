@@ -31,7 +31,7 @@ public class SelectSectionDialog extends DialogFragment {
 		CharSequence[] items = new CharSequence[segments.size()];
 		for(int x=0; x < segments.size(); x++) {
 			Segment segment = segments.get(x);
-			items[x] = "Measure " + segment.getStart() + " to Measure " + segment.getEnd();
+			items[x] = "Measure " + (segment.getStart()+1) + " to Measure " + (segment.getEnd()+1);
 		}
 	    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	    builder.setTitle(R.string.GoTo);

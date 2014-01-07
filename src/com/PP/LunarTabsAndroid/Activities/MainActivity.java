@@ -184,6 +184,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         }
         
         //init Midi Server and restart if bundle requires
+        MidiServer.getInstance().clearChordRecognitionListeners();
         MidiServer.getInstance().addChordRecognitionListener(this);
         if(savedInstanceState!=null && savedInstanceState.containsKey(MidiServer.getInstance().toString())) {
         	boolean turnOn = savedInstanceState.getBoolean(MidiServer.getInstance().toString());
@@ -845,8 +846,9 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
     			List<TGBeat> beats = c_seg.getBeats();
     			TGBeat beat = beats.get(dataModel.getSelectedInstructionIndex());
-    			AudioIconAPI.getInstance().playBeatAudioIcon(beat);
-    			
+    			if(beat!=null) {
+    				AudioIconAPI.getInstance().playBeatAudioIcon(beat);
+    			}
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
     		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);

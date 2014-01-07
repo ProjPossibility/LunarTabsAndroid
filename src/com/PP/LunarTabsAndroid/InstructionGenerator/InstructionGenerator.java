@@ -193,7 +193,6 @@ public abstract class InstructionGenerator {
 					}
 				}
 			}
-			Log.d("NOTE EFFECT STR", rtn.toString());
 			return rtn.toString();
 		}
 	}

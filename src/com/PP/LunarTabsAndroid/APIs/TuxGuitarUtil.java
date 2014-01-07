@@ -151,9 +151,12 @@ public class TuxGuitarUtil {
 		TGTrack trackObj = originalSong.getTrack(track);
 		List<TGMeasure> relMeasures = new ArrayList<TGMeasure>();
 		List<TGMeasureHeader> relHeaders = new ArrayList<TGMeasureHeader>();
+		TGFactory f = new TGFactory();
 		for(int x=m0; x <= mf; x++) {
-			relMeasures.add(trackObj.getMeasure(x));
-			relHeaders.add(originalSong.getMeasureHeader(x));
+			TGMeasureHeader clonedMeasureHeader = originalSong.getMeasureHeader(x).clone(f);
+			TGMeasure clonedMeasure = trackObj.getMeasure(x).clone(f,clonedMeasureHeader);
+			relMeasures.add(clonedMeasure);
+			relHeaders.add(clonedMeasureHeader);
 		}
 				
 		//create new TGSong (cloned)
@@ -161,8 +164,16 @@ public class TuxGuitarUtil {
 		song.getTrack(0).clear();
 		song.clearMeasureHeaders();
 		for(int x=0; x < relMeasures.size(); x++) {
+			
+			//get
 			TGMeasure m = relMeasures.get(x);
 			TGMeasureHeader h = relHeaders.get(x);
+			
+			//remove repeats
+			h.setRepeatOpen(false);
+			h.setRepeatClose(0);
+			
+			//add
 			song.addMeasureHeader(h);
 			song.getTrack(0).addMeasure(m);
 		}

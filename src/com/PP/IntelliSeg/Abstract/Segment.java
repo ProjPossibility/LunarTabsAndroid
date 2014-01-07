@@ -1,6 +1,7 @@
 package com.PP.IntelliSeg.Abstract;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.herac.tuxguitar.song.models.TGBeat;
@@ -19,25 +20,16 @@ public abstract class Segment implements Serializable {
 	protected int end;
 	
 	/**
-	 * List of (string,fret) instructions corresponding to segment.
+	 * List of instructions in segment.
 	 */
-	protected List<String> sfInst;
+	protected List<Instruction> instructions;
 	
-	/**
-	 * List of chord instructions corresponding to segment.
-	 */
-	protected List<String> chordInst;
-	
-	/**
-	 * List of string match targets for chords.
-	 */
-	 protected List<String> matchTargets;
-	 
-	/**
-	 * List of Beats
-	 */
-	protected List<TGBeat> beats;
-	
+	//caches that are populated once
+	protected List<String> sfInst = null;
+	protected List<String> chordInst = null;
+	protected List<TGBeat> beats = null;
+	protected List<String> matchTargets = null;
+		
 	/**
 	 * Constructor
 	 * @param start Start of Segment
@@ -72,47 +64,19 @@ public abstract class Segment implements Serializable {
 	public void setEnd(int end) {
 		this.end = end;
 	}
-
-	/**
-	 * @return the sfInst
-	 */
-	public List<String> getSfInst() {
-		return sfInst;
-	}
-
-	/**
-	 * @param sfInst the sfInst to set
-	 */
-	public void setSfInst(List<String> sfInst) {
-		this.sfInst = sfInst;
-	}
-
-	/**
-	 * @return the chordInst
-	 */
-	public List<String> getChordInst() {
-		return chordInst;
-	}
-
-	/**
-	 * @param chordInst the chordInst to set
-	 */
-	public void setChordInst(List<String> chordInst) {
-		this.chordInst = chordInst;
-	}	
 	
 	/**
-	 * @return the beats
+	 * @return the instructions
 	 */
-	public List<TGBeat> getBeats() {
-		return beats;
+	public List<Instruction> getInstructions() {
+		return instructions;
 	}
 
 	/**
-	 * @param beats the beats to set
+	 * @param instructions the instructions to set
 	 */
-	public void setBeats(List<TGBeat> beats) {
-		this.beats = beats;
+	public void setInstructions(List<Instruction> instructions) {
+		this.instructions = instructions;
 	}
 
 	/**
@@ -125,18 +89,42 @@ public abstract class Segment implements Serializable {
 	 * @return
 	 */
 	public abstract String getTitlePresentation();
-
-	/**
-	 * @return the matchTargets
-	 */
+	
+	//utility methods
+	public List<String> getSfInst() {
+		if(sfInst==null) {
+			sfInst = new ArrayList<String>();
+			for(Instruction i : instructions) {
+				sfInst.add(i.getSfInst());
+			}
+		}
+		return sfInst;
+	}
+	public List<String> getChordInst() {
+		if(chordInst==null) {
+			chordInst = new ArrayList<String>();
+			for(Instruction i : instructions) {
+				chordInst.add(i.getChordInst());
+			}
+		}
+		return chordInst;
+	}
+	public List<TGBeat> getBeats() {
+		if(beats==null) {
+			beats = new ArrayList<TGBeat>();
+			for(Instruction i : instructions) {
+				beats.add(i.getBeat());
+			}
+		}
+		return beats;
+	}
 	public List<String> getMatchTargets() {
+		if(matchTargets==null) {
+			matchTargets = new ArrayList<String>();
+			for(Instruction i : instructions) {
+				matchTargets.add(i.getMatchTarget());
+			}
+		}
 		return matchTargets;
 	}
-
-	/**
-	 * @param matchTargets the matchTargets to set
-	 */
-	public void setMatchTargets(List<String> matchTargets) {
-		this.matchTargets = matchTargets;
-	}	
 }
