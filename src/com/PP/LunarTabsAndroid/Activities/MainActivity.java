@@ -350,8 +350,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null &&
 		dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && 
 		dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 &&
-		dataModel.getCurrentSegment()>=0 &&
-		dataModel.getInstSegments().get(dataModel.getCurrentSegment()).getChordInst().size()>0) {
+		dataModel.getCurrentSegment()>=0) {
 			
 			//update index and perform click
 			Segment cSeg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
@@ -837,13 +836,16 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     			dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null
     			&& dataModel.getSelectedInstructionIndex()!=-1) {
     			
-    			//get beat and play
-    			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
-    			List<TGBeat> beats = c_seg.getBeats();
-    			TGBeat beat = beats.get(dataModel.getSelectedInstructionIndex());
-    			if(beat!=null) {
-    				AudioIconAPI.getInstance().playBeatAudioIcon(beat);
+    			//get beat and play (if not on percussion track)
+    			if(!dataModel.isOnPercussionTrack()) {
+	    			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
+	    			List<TGBeat> beats = c_seg.getBeats();
+	    			TGBeat beat = beats.get(dataModel.getSelectedInstructionIndex());
+	    			if(beat!=null) {
+	    				AudioIconAPI.getInstance().playBeatAudioIcon(beat);
+	    			}
     			}
+    			
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
     		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);

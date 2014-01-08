@@ -18,10 +18,12 @@ import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGChannel;
 import org.herac.tuxguitar.song.models.TGLyric;
+import org.herac.tuxguitar.song.models.TGMarker;
 import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGMeasureHeader;
 import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGSong;
+import org.herac.tuxguitar.song.models.TGString;
 import org.herac.tuxguitar.song.models.TGTempo;
 import org.herac.tuxguitar.song.models.TGTrack;
 import org.herac.tuxguitar.song.models.TGVoice;
@@ -367,6 +369,8 @@ public class TuxGuitarUtil {
 	public static void addDerivedLyricsToBeatsOfSong(TGSong song) {
 		for(int x=0; x < song.countTracks(); x++) {
 			TGTrack track = song.getTrack(x);
+			
+			//lyrics stored by beat
 			TGLyric lyrics = track.getLyrics();
 			if(lyrics!=null) {
 				String[] lyricBeats = lyrics.getLyricBeats();
@@ -384,8 +388,8 @@ public class TuxGuitarUtil {
 							}
 						}
 					}
-				}
-			}
+				}				
+			}			
 		}
 	}
 }
