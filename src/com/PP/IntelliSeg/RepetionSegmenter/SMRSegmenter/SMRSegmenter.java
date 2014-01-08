@@ -13,29 +13,30 @@ import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGTrack;
 
 import android.util.Log;
+import android.util.SparseIntArray;
 
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Instruction;
 import com.PP.IntelliSeg.Abstract.Segment;
-import com.PP.IntelliSeg.RepetionSegmenter.CrochemoreSegmenter.base.CrochemoreSolver;
 import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.base.SMRSegment;
 import com.PP.IntelliSeg.Util.SelStruct;
 import com.PP.IntelliSeg.Util.SelectionFunction;
-import com.PP.IntelliSeg.Util.StringRepr;
+import com.PP.IntelliSeg.Util.StringRepr2;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
+import com.PP.LunarTabsAndroid.InstructionGenerator.RepeatInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 
 public class SMRSegmenter extends AbstractSegmenter {	
 					
 	@Override
 	public List<Segment> segment(TGTrack t) {
-		
+				
 		//convert to string representation
-		String str_repr = StringRepr.getMeasureStringSequence(t,StringRepr.NOTE_STRING);
-		
-		//count repetition of measures
+		String str_repr = StringRepr2.getTrackHashString(t);
+				
+		//count repetition of measures (based on disjoint occurrences in string)
 		Map<String,Set<Integer>> rep = new HashMap<String,Set<Integer>>();
 		for(int x=0; x < str_repr.length(); x++) {
 			String c = ""+str_repr.charAt(x);
@@ -80,9 +81,12 @@ public class SMRSegmenter extends AbstractSegmenter {
 	}
 	
 	public List<Segment> structsToSegs(List<SelStruct> structs, TGTrack t) {
-		
+						
 		//get offset
 		int offset = t.getOffset();
+		
+		//get num repeats (based on repeat signs)
+		SparseIntArray repeats = RepeatInstructionGenerator.getNumRepeats(TuxGuitarUtil.getMeasures(t));
 		
 		//segments loop
 		List<Segment> rtn = new ArrayList<Segment>();
@@ -104,7 +108,7 @@ public class SMRSegmenter extends AbstractSegmenter {
 					String i1;
 					String i2;
 					String i3;
-					TGBeat b = (TGBeat)beats.get(x);
+					TGBeat b = beats.get(x);
 					if(t.isPercussionTrack()) {
 						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 						i2 = i1;
@@ -132,8 +136,9 @@ public class SMRSegmenter extends AbstractSegmenter {
 			}	
 			
 			//add segment
-			Segment seg = new SMRSegment(start,end,s.getStartSet());
+			SMRSegment seg = new SMRSegment(start,end,s.getStartSet());
 			seg.setInstructions(instructions);
+			seg.computeTotalRepeatCount(repeats);
 			rtn.add(seg);
 		}
 		return rtn;

@@ -1,8 +1,11 @@
 package com.PP.LunarTabsAndroid.InstructionGenerator;
 
 import java.util.List;
+
 import org.herac.tuxguitar.song.models.TGMeasure;
+
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 public class RepeatInstructionGenerator {
 	
@@ -34,6 +37,32 @@ public class RepeatInstructionGenerator {
 					}
 				}				
 				rtn.put((x+1), instruction);
+			}
+		}
+		return rtn;
+	}
+	
+	/**
+	 * Returns a list of repeat counts indexed by measure.
+	 * @param measures The measures to generate repeat counts for
+	 * @return Repeat Counts
+	 */
+	public static SparseIntArray getNumRepeats(List<TGMeasure> measures) {
+		SparseIntArray rtn = new SparseIntArray();
+		int lastOpen = 1;
+		for(int x=0; x < measures.size(); x++) {
+			TGMeasure measure = measures.get(x);
+			if(measure.isRepeatOpen()) {
+				lastOpen = (x+1);
+			}
+			if(measure.getRepeatClose()!=0) {
+				for(int ind=lastOpen; ind <= (x+1); ind++) {
+					int priorCount=0;
+					if(rtn.get(ind)!=0) {
+						priorCount = rtn.get(ind);
+					}
+					rtn.put(ind, priorCount + measure.getRepeatClose());
+				}
 			}
 		}
 		return rtn;

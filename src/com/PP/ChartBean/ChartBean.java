@@ -9,11 +9,11 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
-import com.example.lunartabsandroid.R;
-
 import android.app.Activity;
 import android.graphics.Paint.Align;
 import android.widget.LinearLayout;
+
+import com.example.lunartabsandroid.R;
 
 public class ChartBean {
 	

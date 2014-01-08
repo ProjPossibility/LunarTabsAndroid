@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 
-import com.PP.LunarTabsAndroid.UI.DataModel;
-
-
 import android.media.MediaPlayer;
 
 public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {

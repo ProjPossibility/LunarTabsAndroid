@@ -1,7 +1,5 @@
 package com.PP.LunarTabsAndroid.UI;
 
-import java.io.Serializable;
-
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.StompDetector.StompDetector;
 

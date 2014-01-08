@@ -17,8 +17,8 @@ public class SelectionFunction {
 	public static double score(String gram, Set<Integer> startSet, String str_rep)
 	{		
 		//compute parts
-		double L = (double) gram.length();
-		double F = (double) startSet.size();
+		double L = gram.length();
+		double F = startSet.size();
 		double T = F*L;
 		boolean[] used = new boolean[str_rep.length()];
 		for(int start : startSet) {

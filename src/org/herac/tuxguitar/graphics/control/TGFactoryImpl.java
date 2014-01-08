@@ -17,38 +17,47 @@ public class TGFactoryImpl extends TGFactory{
 		super();
 	}
 	
+	@Override
 	public TGMeasureHeader newHeader(){
 		return new TGMeasureHeaderImpl(this);
 	}
 	
+	@Override
 	public TGTrack newTrack(){
 		return new TGTrackImpl(this);
 	}
 	
+	@Override
 	public TGMeasure newMeasure(TGMeasureHeader header){
 		return new TGMeasureImpl(header);
 	}
 	
+	@Override
 	public TGNote newNote(){
 		return new TGNoteImpl(this);
 	}
 	
+	@Override
 	public TGBeat newBeat(){
 		return new TGBeatImpl(this);
 	}
 	
+	@Override
 	public TGVoice newVoice(int index){
 		return new TGVoiceImpl(this, index);
 	}
 	
+	@Override
 	public TGLyric newLyric(){
 		return new TGLyricImpl();
 	}
 	
+	@Override
 	public TGChord newChord(int length){
 		return new TGChordImpl(length);
 	}
 	
+	@Override
 	public TGText newText(){
 		return new TGTextImpl();
 	}

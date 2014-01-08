@@ -1,17 +1,17 @@
 package com.PP.LunarTabsAndroid.Dialogs;
 
-import com.PP.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
-import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.SMRSegmenter;
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.example.lunartabsandroid.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
+
+import com.PP.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
+import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.SMRSegmenter;
+import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.example.lunartabsandroid.R;
 
 public class MeasureIncrementDialog extends DialogFragment {
 	

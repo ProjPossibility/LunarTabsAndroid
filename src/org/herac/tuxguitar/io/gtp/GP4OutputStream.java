@@ -55,14 +55,17 @@ public class GP4OutputStream extends GTPOutputStream{
 		super(settings);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 4","*.gp4");
 	}
 	
+	@Override
 	public boolean isSupportedExtension(String extension) {
 		return (extension.toLowerCase().equals(GP4_FORMAT_EXTENSION)) ;
 	}
 	
+	@Override
 	public void writeSong(TGSong song) {
 		try {
 			if(song.isEmpty()){

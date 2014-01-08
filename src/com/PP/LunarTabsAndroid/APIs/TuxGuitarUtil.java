@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.herac.tuxguitar.io.base.TGSongLoader;
 import org.herac.tuxguitar.io.gtp.GP4OutputStream;
@@ -26,7 +26,6 @@ import org.herac.tuxguitar.song.models.TGTrack;
 import org.herac.tuxguitar.song.models.TGVoice;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 
 
 public class TuxGuitarUtil {
@@ -203,7 +202,7 @@ public class TuxGuitarUtil {
         }
         return rtn;
     }
-    	
+        	
 	/**
 	 * Extract measures for particular track range
 	 * @param song
@@ -291,12 +290,6 @@ public class TuxGuitarUtil {
 		List<TGMeasure> rtn = new ArrayList<TGMeasure>();
 		for(int x=0; x < track.countMeasures(); x++) {
 			rtn.add(track.getMeasure(x));
-			if(track.getMeasure(x).isRepeatOpen()) {
-				Log.d("REPEAT", "OPEN: " + (x+1));
-			}
-			if(track.getMeasure(x).getRepeatClose()!=0) {
-				Log.d("REPEAT", "CLOSE at "+(x+1)+" for " + track.getMeasure(x).getRepeatClose());
-			}
 		}
 		return rtn;
 	}

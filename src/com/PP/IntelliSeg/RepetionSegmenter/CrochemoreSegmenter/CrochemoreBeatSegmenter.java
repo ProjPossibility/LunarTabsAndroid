@@ -1,6 +1,5 @@
 package com.PP.IntelliSeg.RepetionSegmenter.CrochemoreSegmenter;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -82,7 +81,7 @@ public class CrochemoreBeatSegmenter extends AbstractSegmenter {
 				String i1="";
 				String i2="";
 				String i3="";
-				TGBeat b = (TGBeat)beats.get(x);
+				TGBeat b = beats.get(x);
 				if(t.isPercussionTrack()) {
 					i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 					i2 = i1;

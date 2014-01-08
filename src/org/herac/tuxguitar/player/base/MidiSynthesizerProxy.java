@@ -8,6 +8,7 @@ public class MidiSynthesizerProxy implements MidiSynthesizer{
 		super();
 	}
 	
+	@Override
 	public MidiChannel openChannel(int channelId) throws MidiPlayerException{
 		if( this.midiSynthesizer != null ){
 			return this.midiSynthesizer.openChannel(channelId);
@@ -15,12 +16,14 @@ public class MidiSynthesizerProxy implements MidiSynthesizer{
 		return null;
 	}
 	
+	@Override
 	public void closeChannel(MidiChannel midiChannel) throws MidiPlayerException{
 		if( this.midiSynthesizer != null ){
 			this.midiSynthesizer.closeChannel(midiChannel);
 		}
 	}
 	
+	@Override
 	public boolean isChannelOpen(MidiChannel midiChannel) throws MidiPlayerException{
 		if( this.midiSynthesizer != null ){
 			return this.midiSynthesizer.isChannelOpen(midiChannel);

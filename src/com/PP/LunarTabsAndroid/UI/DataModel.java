@@ -1,15 +1,13 @@
 package com.PP.LunarTabsAndroid.UI;
 import java.io.Serializable;
-import java.util.*;
+import java.util.List;
 
 import org.herac.tuxguitar.song.models.TGSong;
 import org.herac.tuxguitar.song.models.TGTrack;
 
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Segment;
-import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.StompDetector.StompDetector;
 
 public class DataModel implements Serializable {
 	

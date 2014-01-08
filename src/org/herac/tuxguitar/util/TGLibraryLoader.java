@@ -121,6 +121,7 @@ public class TGLibraryLoader {
 	
 	private FilenameFilter createFilenameFilter(final String prefix, final String extension){
 		return new FilenameFilter() {
+			@Override
 			public boolean accept(File dir, String name) {
 				if(name == null){
 					return false;

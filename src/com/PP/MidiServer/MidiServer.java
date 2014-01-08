@@ -49,6 +49,7 @@ public class MidiServer {
 	public void start() {
 		if(!running) {
 			Thread t = new Thread(new Runnable() {
+				@Override
 				public void run() {
 					queue_thread();
 				}

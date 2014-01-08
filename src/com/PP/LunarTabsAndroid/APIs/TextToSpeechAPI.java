@@ -3,12 +3,12 @@ package com.PP.LunarTabsAndroid.APIs;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.PP.LunarTabsAndroid.UI.DataModel;
-
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
+
+import com.PP.LunarTabsAndroid.UI.DataModel;
 
 /**
  * Wrapper for speech API (for use of use)

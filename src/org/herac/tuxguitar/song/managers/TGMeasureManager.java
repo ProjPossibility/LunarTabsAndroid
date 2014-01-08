@@ -2392,6 +2392,7 @@ public class TGMeasureManager {
 		}
 		
 		Collections.sort( strings , new Comparator() {
+			@Override
 			public int compare(Object o1, Object o2) {
 				if( o1 != null && o2 != null && o1 instanceof TGString && o2 instanceof TGString ){
 					TGString s1 = (TGString)o1;

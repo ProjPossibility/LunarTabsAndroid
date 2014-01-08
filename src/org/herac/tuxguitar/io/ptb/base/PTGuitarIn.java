@@ -17,6 +17,7 @@ public class PTGuitarIn implements PTComponent{
 		return this.trackInfo;
 	}
 	
+	@Override
 	public PTComponent getClone(){
 		return new PTGuitarIn( getStaff(), getTrackInfo() );
 	}

@@ -183,7 +183,7 @@ public class TGSongManager {
 		
 		Iterator it = getSong().getChannels();
 		while( it.hasNext() ){
-			channels.add((TGChannel)it.next());
+			channels.add(it.next());
 		}
 		
 		return channels;

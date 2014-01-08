@@ -55,6 +55,7 @@ public class TGTrackImpl extends TGTrack{
 		this.tabHeight = tabHeight;
 	}
 	
+	@Override
 	public void clear(){
 		Iterator measures = getMeasures();
 		while(measures.hasNext()){
@@ -66,6 +67,7 @@ public class TGTrackImpl extends TGTrack{
 		super.clear();
 	}
 	
+	@Override
 	public void removeMeasure(int index){
 		TGMeasureImpl measure = (TGMeasureImpl)getMeasure(index);
 		if(!measure.isDisposed()){

@@ -3,16 +3,15 @@ package com.PP.StompDetector;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.StomperParams;
-
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
+
+import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.PP.LunarTabsAndroid.UI.StomperParams;
 
 public class StompDetector implements SensorEventListener {
 	

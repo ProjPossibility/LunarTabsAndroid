@@ -46,6 +46,7 @@ public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 		}
 	}
 	
+	@Override
 	public void addNoteOff(long tick,int track,int channelId, int note, int velocity, int voice, boolean bendMode) {
 		GMChannelRoute gmChannel = this.router.getRoute(channelId);
 		if( gmChannel != null ){
@@ -53,6 +54,7 @@ public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 		}
 	}
 	
+	@Override
 	public void addNoteOn(long tick,int track,int channelId, int note, int velocity, int voice, boolean bendMode) {
 		GMChannelRoute gmChannel = this.router.getRoute(channelId);
 		if( gmChannel != null ){
@@ -60,6 +62,7 @@ public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 		}
 	}
 	
+	@Override
 	public void addPitchBend(long tick,int track,int channelId, int value, int voice, boolean bendMode) {
 		GMChannelRoute gmChannel = this.router.getRoute(channelId);
 		if( gmChannel != null ){
@@ -67,6 +70,7 @@ public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 		}
 	}
 	
+	@Override
 	public void addControlChange(long tick,int track,int channelId, int controller, int value) {
 		GMChannelRoute gmChannel = this.router.getRoute(channelId);
 		if( gmChannel != null ){
@@ -77,6 +81,7 @@ public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 		}
 	}
 	
+	@Override
 	public void addProgramChange(long tick,int track,int channelId, int instrument) {
 		GMChannelRoute gmChannel = this.router.getRoute(channelId);
 		if( gmChannel != null ){
@@ -87,14 +92,17 @@ public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 		}
 	}
 	
+	@Override
 	public void addTempoInUSQ(long tick,int track,int usq) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.tempoInUSQ(usq), tick ));
 	}
 	
+	@Override
 	public void addTimeSignature(long tick,int track,TGTimeSignature ts) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.timeSignature(ts), tick ));
 	}
 	
+	@Override
 	public void notifyFinish() {
 		try {
 			getSequence().finish();

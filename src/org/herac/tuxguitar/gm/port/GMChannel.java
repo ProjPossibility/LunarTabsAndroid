@@ -25,22 +25,27 @@ public class GMChannel implements MidiChannel{
 		return this.route;
 	}
 	
+	@Override
 	public void sendAllNotesOff() throws MidiPlayerException {
 		this.receiver.sendAllNotesOff();
 	}
 
+	@Override
 	public void sendNoteOn(int key, int velocity, int voice, boolean bendMode) throws MidiPlayerException {
 		this.receiver.sendNoteOn(resolveChannel(bendMode), key, velocity);
 	}
 
+	@Override
 	public void sendNoteOff(int key, int velocity, int voice, boolean bendMode) throws MidiPlayerException {
 		this.receiver.sendNoteOff(resolveChannel(bendMode), key, velocity);
 	}
 
+	@Override
 	public void sendPitchBend(int value, int voice, boolean bendMode) throws MidiPlayerException {
 		this.receiver.sendPitchBend(resolveChannel(bendMode), value);
 	}
 	
+	@Override
 	public void sendProgramChange(int value) throws MidiPlayerException {
 		this.receiver.sendProgramChange(this.route.getChannel1(), value);
 		if( this.route.getChannel1() != this.route.getChannel2() ){
@@ -48,6 +53,7 @@ public class GMChannel implements MidiChannel{
 		}
 	}
 
+	@Override
 	public void sendControlChange(int controller, int value) throws MidiPlayerException {
 		if( controller == MidiControllers.BANK_SELECT && value == PERCUSSION_BANK ){
 			this.router.configureRoutes(this.route, true);
@@ -58,6 +64,7 @@ public class GMChannel implements MidiChannel{
 		}
 	}
 	
+	@Override
 	public void sendParameter(String key, String value) throws MidiPlayerException{
 		if( key.equals(GMChannelRoute.PARAMETER_GM_CHANNEL_1) ){
 			this.route.setChannel1(Integer.parseInt(value));

@@ -74,10 +74,12 @@ public class TGServiceReader {
 			return line;
 		}
 		
+		@Override
 		public boolean hasNext() {
 			return (this.iterator != null && this.iterator.hasNext());
 		}
 		
+		@Override
 		public Object next() {
 			if (!hasNext()){
 				throw new NoSuchElementException();
@@ -93,6 +95,7 @@ public class TGServiceReader {
 			throw new NoSuchElementException();
 		}
 		
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

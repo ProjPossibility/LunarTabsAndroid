@@ -1,7 +1,5 @@
 package com.PP.LunarTabsAndroid.UI;
 
-import android.util.Log;
-
 public class InstructionContentDescription {
 	
 	public static String makeAccessibleInstruction(String instruction) {

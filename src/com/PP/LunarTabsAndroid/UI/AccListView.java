@@ -1,7 +1,5 @@
 package com.PP.LunarTabsAndroid.UI;
 
-import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -11,6 +9,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
 
 public class AccListView extends ListView {
 	

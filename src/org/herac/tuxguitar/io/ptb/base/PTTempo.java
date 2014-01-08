@@ -17,6 +17,7 @@ public class PTTempo implements PTComponent{
 		return this.tripletFeel;
 	}
 	
+	@Override
 	public PTComponent getClone(){
 		return new PTTempo( getTempo() , getTripletFeel() );
 	}

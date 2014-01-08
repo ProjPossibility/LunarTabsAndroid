@@ -1,11 +1,8 @@
 package com.PP.MidiServer;
 
-import android.hardware.usb.UsbDevice;
-import android.os.Bundle;
-import android.view.WindowManager;
-import android.widget.TextView;
 import jp.kshoji.driver.midi.activity.AbstractSingleMidiActivity;
 import jp.kshoji.driver.midi.device.MidiInputDevice;
+import android.hardware.usb.UsbDevice;
 
 public abstract class AbstractMidiServerActivity extends AbstractSingleMidiActivity {
 	

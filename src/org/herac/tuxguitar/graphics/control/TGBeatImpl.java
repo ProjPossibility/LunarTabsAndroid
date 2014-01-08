@@ -376,6 +376,7 @@ public class TGBeatImpl extends TGBeat{
 		return this.bs;
 	}
 	
+	@Override
 	public void removeChord(){
 		if(isChordBeat()){
 			TGChordImpl chord = (TGChordImpl)getChord();

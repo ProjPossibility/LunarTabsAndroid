@@ -54,10 +54,12 @@ public class GP2InputStream extends GTPInputStream {
 		super(settings, SUPPORTED_VERSIONS);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 2","*.gtp");
 	}
 	
+	@Override
 	public TGSong readSong() throws TGFileFormatException {
 		try{
 			readVersion();

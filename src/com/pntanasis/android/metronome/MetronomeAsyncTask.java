@@ -1,11 +1,11 @@
 package com.pntanasis.android.metronome;
 
-import com.PP.LunarTabsAndroid.APIs.MetronomeAPI;
-
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.PP.LunarTabsAndroid.APIs.MetronomeAPI;
 
 public class MetronomeAsyncTask extends AsyncTask<Void,Void,String> {
 	protected Metronome metronome;

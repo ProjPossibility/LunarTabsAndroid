@@ -33,15 +33,18 @@ public class MidiSequencerImpl implements MidiSequencer{
 		this.midiTickPlayer.setTempo(tempo);
 	}
 	
+	@Override
 	public synchronized long getTickPosition(){
 		return this.midiTickPlayer.getTick();
 	}
 	
+	@Override
 	public synchronized void setTickPosition(long tickPosition){
 		this.reset = true;
 		this.midiTickPlayer.setTick(tickPosition);
 	}
 	
+	@Override
 	public synchronized long getTickLength(){
 		return this.midiTickPlayer.getTickLength();
 	}
@@ -57,6 +60,7 @@ public class MidiSequencerImpl implements MidiSequencer{
 		this.midiTickPlayer.notifyTick(event.getTick());
 	}
 	
+	@Override
 	public synchronized boolean isRunning() {
 		return this.running;
 	}
@@ -72,10 +76,12 @@ public class MidiSequencerImpl implements MidiSequencer{
 		}
 	}
 	
+	@Override
 	public synchronized void stop() throws MidiPlayerException{
 		this.setRunning(false);
 	}
 	
+	@Override
 	public synchronized void start() throws MidiPlayerException{
 		this.setRunning(true);
 	}
@@ -113,40 +119,49 @@ public class MidiSequencerImpl implements MidiSequencer{
 		return this.transmitter;
 	}
 	
+	@Override
 	public synchronized void setTransmitter(MidiTransmitter transmitter) {
 		this.transmitter = transmitter;
 	}
 	
+	@Override
 	public void check() {
 		// Not implemented
 	}
 	
+	@Override
 	public synchronized void open() {
 		//not implemented
 	}
 	
+	@Override
 	public synchronized void close() throws MidiPlayerException {
 		if(isRunning()){
 			this.stop();
 		}
 	}
 	
+	@Override
 	public synchronized MidiSequenceHandler createSequence(int tracks) throws MidiPlayerException{
 		return new MidiSequenceHandlerImpl(this,tracks);
 	}
 	
+	@Override
 	public synchronized void setSolo(int index,boolean solo) throws MidiPlayerException{
 		this.getMidiTrackController().setSolo(index, solo);
 	}
 	
+	@Override
 	public synchronized void setMute(int index,boolean mute) throws MidiPlayerException{
 		this.getMidiTrackController().setMute(index, mute);
 	}
 	
+	@Override
 	public String getKey() {
 		return "tuxguitar.sequencer";
 	}
 	
+	@Override
 	public String getName() {
 		return "TuxGuitar Sequencer";
 	}
@@ -161,6 +176,7 @@ public class MidiSequencerImpl implements MidiSequencer{
 			this.sequencer = sequencer;
 		}
 		
+		@Override
 		public void run() {
 			try {
 				synchronized(this.sequencer) {

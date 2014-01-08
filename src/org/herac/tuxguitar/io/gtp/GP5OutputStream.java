@@ -69,14 +69,17 @@ public class GP5OutputStream extends GTPOutputStream {
 		super(settings);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 5","*.gp5");
 	}
 	
+	@Override
 	public boolean isSupportedExtension(String extension) {
 		return (extension.toLowerCase().equals(GP5_FORMAT_EXTENSION)) ;
 	}
 	
+	@Override
 	public void writeSong(TGSong song){
 		try {
 			if(song.isEmpty()){

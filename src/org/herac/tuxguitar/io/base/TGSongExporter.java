@@ -2,7 +2,7 @@ package org.herac.tuxguitar.io.base;
 
 import java.io.OutputStream;
 
-import org.herac.tuxguitar.song.models.*;
+import org.herac.tuxguitar.song.models.TGSong;
 
 
 

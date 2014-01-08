@@ -1,6 +1,7 @@
 package com.PP.LunarTabsAndroid.APIs;
 
 import android.app.Activity;
+import android.content.Context;
 import android.media.AudioManager;
 
 public class VolumeAPI {
@@ -23,7 +24,7 @@ public class VolumeAPI {
 	}
 	
 	public void init(Activity a) {
-        audioManager = (AudioManager) a.getApplicationContext().getSystemService(Activity.AUDIO_SERVICE);
+        audioManager = (AudioManager) a.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 	}
 	
 	public void setVolume(float volumeFactor) {

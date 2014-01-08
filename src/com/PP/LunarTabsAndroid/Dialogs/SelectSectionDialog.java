@@ -2,16 +2,16 @@ package com.PP.LunarTabsAndroid.Dialogs;
 
 import java.util.List;
 
-import com.PP.IntelliSeg.Abstract.Segment;
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.example.lunartabsandroid.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import com.PP.IntelliSeg.Abstract.Segment;
+import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.example.lunartabsandroid.R;
 
 public class SelectSectionDialog extends DialogFragment {
 	

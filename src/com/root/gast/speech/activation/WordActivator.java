@@ -16,11 +16,6 @@
 package com.root.gast.speech.activation;
 
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
-
-import com.root.gast.speech.SpeechRecognitionUtil;
-import com.root.gast.speech.text.WordList;
-import com.root.gast.speech.text.match.SoundsLikeWordMatcher;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +24,10 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+
+import com.root.gast.speech.SpeechRecognitionUtil;
+import com.root.gast.speech.text.WordList;
+import com.root.gast.speech.text.match.SoundsLikeWordMatcher;
 
 /**
  * Uses direct speech recognition to activate when the user speaks
@@ -81,12 +80,14 @@ public class WordActivator implements SpeechActivator, RecognitionListener
     	}
     }
         
-    public void stopListening() {
+    @Override
+	public void stopListening() {
 		listening = false;
     	getSpeechRecognizer().stopListening();
     	getSpeechRecognizer().cancel();
     }
                 
+	@Override
 	public void stop()
     {
         if (getSpeechRecognizer() != null)

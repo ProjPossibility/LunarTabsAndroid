@@ -18,6 +18,7 @@ public abstract class GTPInputStream extends GTPFileFormat implements TGInputStr
 		this.versions = versions;
 	}
 	
+	@Override
 	public void init(TGFactory factory,InputStream stream) {
 		super.init(factory);
 		this.stream = stream;
@@ -42,6 +43,7 @@ public abstract class GTPInputStream extends GTPFileFormat implements TGInputStr
 		return false;
 	}
 	
+	@Override
 	public boolean isSupportedVersion(){
 		try{
 			readVersion();

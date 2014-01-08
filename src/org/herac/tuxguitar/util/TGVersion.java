@@ -41,6 +41,7 @@ public class TGVersion {
 		return version;
 	}
 	
+	@Override
 	public String toString(){
 		return getVersion();
 	}

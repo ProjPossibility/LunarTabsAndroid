@@ -68,6 +68,7 @@ public abstract class TGEffectTremoloBar {
 			return (duration * getPosition() / MAX_POSITION_LENGTH);
 		}
 		
+		@Override
 		public Object clone(){
 			return new TremoloBarPoint(getPosition(),getValue());
 		}

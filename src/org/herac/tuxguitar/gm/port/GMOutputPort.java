@@ -14,6 +14,7 @@ public abstract class GMOutputPort implements MidiOutputPort{
 	
 	public abstract GMReceiver getReceiver();
 	
+	@Override
 	public MidiSynthesizer getSynthesizer() throws MidiPlayerException{
 		return this.midiSynthesizer;
 	}

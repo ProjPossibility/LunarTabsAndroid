@@ -30,10 +30,12 @@ public class TGLayoutVertical extends TGLayout{
 		super(controller,style);
 	}
 	
+	@Override
 	public int getMode(){
 		return MODE_VERTICAL;
 	}
 	
+	@Override
 	public void paintSong(TGPainter painter,TGRectangle clientArea,int fromX,int fromY) {
 		this.marginLeft = getFirstMeasureSpacing();
 		this.marginRight = 10;

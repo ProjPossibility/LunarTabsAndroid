@@ -21,6 +21,7 @@ public abstract class GTPOutputStream extends GTPFileFormat implements TGOutputS
 		super(settings);
 	}
 	
+	@Override
 	public void init(TGFactory factory,OutputStream stream) {
 		super.init(factory);
 		this.outputStream = stream;

@@ -52,14 +52,17 @@ public class GP3OutputStream extends GTPOutputStream{
 		super(settings);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 3",("*" + GP3_FORMAT_EXTENSION));
 	}
 	
+	@Override
 	public boolean isSupportedExtension(String extension) {
 		return (extension.toLowerCase().equals(GP3_FORMAT_EXTENSION)) ;
 	}
 	
+	@Override
 	public void writeSong(TGSong song){
 		try {
 			if(song.isEmpty()){

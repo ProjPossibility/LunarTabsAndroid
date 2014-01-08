@@ -10,6 +10,23 @@ import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGSong;
 import org.herac.tuxguitar.song.models.TGTrack;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.PP.AudioIcon.AudioIconAPI;
 import com.PP.IntelliSeg.Abstract.Segment;
@@ -37,30 +54,9 @@ import com.PP.MidiServer.AbstractMidiServerActivity;
 import com.PP.MidiServer.ChordRecognitionListener;
 import com.PP.MidiServer.MidiServer;
 import com.PP.StompDetector.InstructionStomp;
-import com.PP.StompDetector.MetronomeStomp;
 import com.PP.StompDetector.StompDetector;
 import com.example.lunartabsandroid.R;
 import com.root.gast.speech.activation.SpeechActivationListener;
-
-import android.graphics.Color;
-import android.media.AudioManager;
-import android.os.Bundle;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
 
 public class MainActivity extends AbstractMidiServerActivity implements OnClickListener, SpeechActivationListener, ChordRecognitionListener  {
 	
@@ -820,7 +816,6 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);
     }
     
-    
     public void showSelectSectionDialog() {
     	DataModel dataModel = DataModel.getInstance();
     	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {
@@ -920,6 +915,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 				//play success track
 				if(MIDI_FOLLOWER_DEBUG) {
 					this.runOnUiThread(new Runnable() {
+						@Override
 						public void run() {
 							Toast.makeText(MainActivity.this, "Success: " + target, Toast.LENGTH_SHORT).show();
 						}
@@ -935,6 +931,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 				//play buzzer
 				if(MIDI_FOLLOWER_DEBUG) {
 					this.runOnUiThread(new Runnable() {
+						@Override
 						public void run() {
 							Toast.makeText(MainActivity.this, "Failure: " + chordHash + " ::: " + target, Toast.LENGTH_SHORT).show();
 						}
@@ -988,6 +985,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 
 		//refresh gui
 		this.runOnUiThread(new Runnable() {
+			@Override
 			public void run() {
 				
 				//update gui and perform programmatic selection

@@ -47,10 +47,12 @@ public class GP5InputStream extends GTPInputStream {
 		super(settings, supportedVersions);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 5","*.gp5");
 	}
 	
+	@Override
 	public TGSong readSong() throws TGFileFormatException {
 		try{
 			readVersion();

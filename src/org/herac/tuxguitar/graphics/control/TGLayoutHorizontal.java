@@ -23,10 +23,12 @@ public class TGLayoutHorizontal extends TGLayout{
 		super(controller,style);
 	}
 	
+	@Override
 	public int getMode(){
 		return MODE_HORIZONTAL;
 	}
 	
+	@Override
 	public void paintSong(TGPainter painter,TGRectangle clientArea,int fromX,int fromY) {
 		this.setWidth(0);
 		this.setHeight(0);

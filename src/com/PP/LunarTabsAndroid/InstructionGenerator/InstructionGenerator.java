@@ -1,13 +1,12 @@
 package com.PP.LunarTabsAndroid.InstructionGenerator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGVoice;
-
-import android.util.Log;
 
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 

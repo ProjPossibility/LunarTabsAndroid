@@ -29,6 +29,7 @@ public class MidiTrack {
 	
 	public void sort(){
 		final Comparator comparator = new Comparator() {
+			@Override
 			public int compare(Object o1, Object o2) {
 				if(o1 instanceof MidiEvent && o2 instanceof MidiEvent){
 					MidiEvent e1 = (MidiEvent)o1;

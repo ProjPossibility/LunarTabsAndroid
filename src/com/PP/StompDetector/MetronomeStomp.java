@@ -1,10 +1,11 @@
 package com.PP.StompDetector;
 
 
-import com.PP.LunarTabsAndroid.APIs.MetronomeAPI;
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import android.app.Activity;
 import android.util.Log;
+
+import com.PP.LunarTabsAndroid.APIs.MetronomeAPI;
+import com.PP.LunarTabsAndroid.Activities.MainActivity;
 
 public class MetronomeStomp implements StompListener {
 
@@ -18,6 +19,7 @@ public class MetronomeStomp implements StompListener {
 		mainActivity = (MainActivity) parent;
 	}
 
+	@Override
 	public void trigger_callback(double timestamp) {
 		if(!tempoSet && lastTS==-1) {
 			

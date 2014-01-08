@@ -1,7 +1,5 @@
 package com.PP.LunarTabsAndroid.InstructionGenerator;
 
-import java.io.*;
-
 import android.util.Log;
 
 /**

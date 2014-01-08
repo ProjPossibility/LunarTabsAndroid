@@ -123,6 +123,7 @@ public class PTBeat implements PTComponent{
 		this.arpeggioDown = arpeggioDown;
 	}
 	
+	@Override
 	public PTComponent getClone(){
 		PTBeat beat = new PTBeat( getStaff(), getVoice() );
 		beat.setDuration( getDuration() );

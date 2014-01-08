@@ -6,7 +6,12 @@
  */
 package org.herac.tuxguitar.song.models;
 
+import java.util.Comparator;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
+
+import com.PP.IntelliSeg.Util.SelStruct;
+import com.PP.IntelliSeg.Util.StringRepr2;
 
 /**
  * @author julian
@@ -85,5 +90,18 @@ public abstract class TGNote {
 		note.setTiedNote(isTiedNote());
 		note.setEffect(getEffect().clone(factory));
 		return note;
+	}
+	
+	/**
+	 * Comparator for note id.
+	 * @return
+	 */
+	public static Comparator<TGNote> getNoteIDComparator() {
+		return new Comparator<TGNote>() {
+			@Override
+			public int compare(TGNote lhs, TGNote rhs) {
+				return StringRepr2.getNoteID(lhs) - StringRepr2.getNoteID(rhs);
+			}
+		};
 	}
 }

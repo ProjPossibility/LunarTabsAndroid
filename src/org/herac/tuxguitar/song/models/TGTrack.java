@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.herac.tuxguitar.song.factory.TGFactory;
-
-import android.util.Log;
 /**
  * @author julian
  *

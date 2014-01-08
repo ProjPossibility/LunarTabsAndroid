@@ -15,16 +15,19 @@ public class GMSynthesizer implements MidiSynthesizer{
 		this.gmChannelRouter = new GMChannelRouter();
 	}
 	
+	@Override
 	public void closeChannel(MidiChannel midiChannel){
 		if( midiChannel instanceof GMChannel ){
 			this.gmChannelRouter.removeRoute(((GMChannel) midiChannel).getRoute());
 		}
 	}
 	
+	@Override
 	public MidiChannel openChannel(int channelId){
 		return new GMChannel(channelId, this.gmChannelRouter, this.midiOutputPort.getReceiver());
 	}
 
+	@Override
 	public boolean isChannelOpen(MidiChannel midiChannel) throws MidiPlayerException {
 		return true;
 	}

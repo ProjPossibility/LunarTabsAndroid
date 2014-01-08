@@ -1,14 +1,14 @@
 package com.PP.LunarTabsAndroid.Dialogs;
 
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.StompDetector.StompDetector;
-import com.example.lunartabsandroid.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.PP.StompDetector.StompDetector;
+import com.example.lunartabsandroid.R;
 
 public class StomperEnableDialog extends Dialog {
 

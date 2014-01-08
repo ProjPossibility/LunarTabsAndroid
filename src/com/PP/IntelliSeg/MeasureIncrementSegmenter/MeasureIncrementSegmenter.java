@@ -73,7 +73,7 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 				String i1="";
 				String i2="";
 				String i3="";
-				TGBeat b = (TGBeat)beats.get(x);
+				TGBeat b = beats.get(x);
 				if(track.isPercussionTrack()) {
 					i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 					i2 = i1;

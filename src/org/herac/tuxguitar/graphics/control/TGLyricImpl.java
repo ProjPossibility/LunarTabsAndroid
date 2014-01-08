@@ -12,11 +12,13 @@ public class TGLyricImpl extends TGLyric{
 		this.height = 0;
 	}
 	
+	@Override
 	public void setFrom(int from) {
 		super.setFrom(from);
 		this.update();
 	}
 	
+	@Override
 	public void setLyrics(String lyrics) {
 		super.setLyrics(lyrics);
 		this.update();

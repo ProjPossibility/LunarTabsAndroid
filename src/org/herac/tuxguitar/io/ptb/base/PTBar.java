@@ -43,6 +43,7 @@ public class PTBar implements PTComponent{
 		this.repeatStart = repeatStart;
 	}
 	
+	@Override
 	public PTComponent getClone(){
 		PTBar bar = new PTBar();
 		bar.setNumerator( getNumerator() );

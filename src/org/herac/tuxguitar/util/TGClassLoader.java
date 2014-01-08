@@ -67,6 +67,7 @@ public class TGClassLoader{
 			super(new URL[]{},TGClassLoader.class.getClassLoader());
 		}
 		
+		@Override
 		public void addURL(URL url){
 			super.addURL(url);
 		}

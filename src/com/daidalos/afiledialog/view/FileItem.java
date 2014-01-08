@@ -23,8 +23,6 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.example.lunartabsandroid.R;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -32,6 +30,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.lunartabsandroid.R;
 
 /**
  * This class is used to represents the files that can be selected by the user. 

@@ -11,7 +11,6 @@ import org.herac.tuxguitar.song.models.TGTrack;
 import org.herac.tuxguitar.song.models.TGVoice;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.MediaPlayerAPI;

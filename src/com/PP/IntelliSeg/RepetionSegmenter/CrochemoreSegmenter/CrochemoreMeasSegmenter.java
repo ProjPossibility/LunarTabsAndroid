@@ -11,7 +11,6 @@ import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGTrack;
 
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Instruction;
@@ -24,7 +23,6 @@ import com.PP.IntelliSeg.Util.StringRepr;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstructionGenerator.RepeatInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 
 public class CrochemoreMeasSegmenter extends AbstractSegmenter {	
@@ -98,7 +96,7 @@ public class CrochemoreMeasSegmenter extends AbstractSegmenter {
 					String i1="";
 					String i2="";
 					String i3="";
-					TGBeat b = (TGBeat)beats.get(x);
+					TGBeat b = beats.get(x);
 					if(t.isPercussionTrack()) {
 						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 						i2 = i1;

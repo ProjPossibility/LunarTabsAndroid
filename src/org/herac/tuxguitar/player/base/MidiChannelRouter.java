@@ -18,6 +18,7 @@ public class MidiChannelRouter implements MidiReceiver{
 		return MidiChannelRouter.class.getName();
 	}
 	
+	@Override
 	public void sendParameter(int channelId, String key, String value) throws MidiPlayerException{
 		MidiChannel midiChannel = getMidiChannel(channelId);
 		if( midiChannel != null ){
@@ -25,6 +26,7 @@ public class MidiChannelRouter implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendNoteOn(int channelId, int key, int velocity, int voice, boolean bendMode) throws MidiPlayerException {
 		MidiChannel midiChannel = getMidiChannel(channelId);
 		if( midiChannel != null ){
@@ -32,6 +34,7 @@ public class MidiChannelRouter implements MidiReceiver{
 		}
 	}
 
+	@Override
 	public void sendNoteOff(int channelId, int key, int velocity, int voice, boolean bendMode) throws MidiPlayerException {
 		MidiChannel midiChannel = getMidiChannel(channelId);
 		if( midiChannel != null ){
@@ -39,6 +42,7 @@ public class MidiChannelRouter implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendPitchBend(int channelId, int value, int voice, boolean bendMode) throws MidiPlayerException {
 		MidiChannel midiChannel = getMidiChannel(channelId);
 		if( midiChannel != null ){
@@ -46,6 +50,7 @@ public class MidiChannelRouter implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendProgramChange(int channelId, int value) throws MidiPlayerException {
 		MidiChannel midiChannel = getMidiChannel(channelId);
 		if( midiChannel != null ){
@@ -53,6 +58,7 @@ public class MidiChannelRouter implements MidiReceiver{
 		}
 	}
 
+	@Override
 	public void sendControlChange(int channelId, int controller, int value) throws MidiPlayerException {
 		MidiChannel midiChannel = getMidiChannel(channelId);
 		if( midiChannel != null ){
@@ -60,6 +66,7 @@ public class MidiChannelRouter implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendAllNotesOff() throws MidiPlayerException {
 		List midiChannelIds = getMidiChannelIds();
 		for(int i = 0; i < midiChannelIds.size(); i ++){
@@ -67,6 +74,7 @@ public class MidiChannelRouter implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendPitchBendReset() throws MidiPlayerException {
 		List midiChannelIds = getMidiChannelIds();
 		for(int i = 0; i < midiChannelIds.size(); i ++){
