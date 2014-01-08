@@ -30,6 +30,7 @@ public class HashBuffer {
 		buffer.append(delim);
 	}
 	
+	@Override
 	public String toString() {
 		return buffer.toString();
 	}

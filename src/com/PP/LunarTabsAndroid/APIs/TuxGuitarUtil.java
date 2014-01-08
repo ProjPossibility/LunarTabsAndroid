@@ -17,6 +17,7 @@ import org.herac.tuxguitar.io.midi.MidiSongExporter;
 import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGChannel;
+import org.herac.tuxguitar.song.models.TGLyric;
 import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGMeasureHeader;
 import org.herac.tuxguitar.song.models.TGNote;
@@ -347,7 +348,44 @@ public class TuxGuitarUtil {
 	 * @throws Exception
 	 */
 	public static TGSong loadSong(String file) throws Exception{
+		
+		//load song using song loader
 		TGSongLoader l = new TGSongLoader();
-		return l.load(new TGFactory(), new FileInputStream(file));
+		TGSong song = l.load(new TGFactory(), new FileInputStream(file));
+		
+		//reformat structure to add lyrics to beat objects
+		addDerivedLyricsToBeatsOfSong(song);
+		
+		//return
+		return song;
+	}
+	
+	/**
+	 * Restore lyrics in beat objects of song.
+	 * @param song
+	 */
+	public static void addDerivedLyricsToBeatsOfSong(TGSong song) {
+		for(int x=0; x < song.countTracks(); x++) {
+			TGTrack track = song.getTrack(x);
+			TGLyric lyrics = track.getLyrics();
+			if(lyrics!=null) {
+				String[] lyricBeats = lyrics.getLyricBeats();
+				int lyricStart = lyrics.getFrom();
+				if(lyricStart >= 0) {
+					List<TGMeasure> measures = getMeasures(track);
+					int lyricBeatIndex=0;
+					for(int y=lyricStart; y< measures.size() && lyricBeatIndex < lyricBeats.length; y++) {
+						TGMeasure measure = measures.get(y);
+						for(int z=0; z < measure.countBeats() && lyricBeatIndex < lyricBeats.length; z++) {
+							TGBeat b = measure.getBeat(z);
+							if(!b.isRestBeat()) {
+								b.setStoredLyric(lyricBeats[lyricBeatIndex]);
+								lyricBeatIndex++;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }

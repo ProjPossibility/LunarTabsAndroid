@@ -10,7 +10,6 @@ import java.util.Comparator;
 
 import org.herac.tuxguitar.song.factory.TGFactory;
 
-import com.PP.IntelliSeg.Util.SelStruct;
 import com.PP.IntelliSeg.Util.StringRepr2;
 
 /**

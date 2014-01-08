@@ -199,7 +199,7 @@ public abstract class InstructionGenerator {
 	/*
 	 * Returns instructions about the effect modifiers of the note.
 	 */
-	public static List<String> getNoteEffectsInstructions(TGNote n) {
+	public List<String> getNoteEffectsInstructions(TGNote n) {
 		
 		//rtn structure
 		List<String> rtn = new ArrayList<String>();
@@ -286,6 +286,15 @@ public abstract class InstructionGenerator {
 		}
 		
 		return rtn;
+	}
+	
+	public String getLyricInstruction(TGBeat beat) {
+		if(beat.getStoredLyric()!=null && !beat.getStoredLyric().trim().equals("")) {
+			return "Lyric: " + beat.getStoredLyric();
+		}
+		else {
+			return null;
+		}
 	}
 	
 	//abstract methods

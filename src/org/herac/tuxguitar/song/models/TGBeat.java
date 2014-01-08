@@ -24,6 +24,9 @@ public abstract class TGBeat {
 	private TGVoice[] voices;
 	private TGStroke stroke;
 	
+	//prateek - added fields
+	protected String storedLyric;
+	
 	public TGBeat(TGFactory factory) {
 		this.start = TGDuration.QUARTER_TIME;
 		this.stroke = factory.newStroke();
@@ -137,4 +140,18 @@ public abstract class TGBeat {
 			this.setVoice(i, factory.newVoice(i));
 		}
 	}
+
+	/**
+	 * @return the storedLyric
+	 */
+	public String getStoredLyric() {
+		return storedLyric;
+	}
+
+	/**
+	 * @param storedLyric the storedLyric to set
+	 */
+	public void setStoredLyric(String storedLyric) {
+		this.storedLyric = storedLyric;
+	}	
 }

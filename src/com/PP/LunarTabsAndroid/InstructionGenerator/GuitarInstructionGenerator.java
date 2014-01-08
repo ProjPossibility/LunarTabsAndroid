@@ -54,6 +54,11 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 				
 				//return chord instruction
 				String instruction = ChordRecognizer.getChordName(notes) + " chord, " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
+				instruction = instruction.trim();
+				String lyricInstruction = this.getLyricInstruction(beat);
+				if(lyricInstruction!=null) {
+					instruction = instruction + "\n" + lyricInstruction;
+				}
 				return instruction.trim();
 			}
 			else {
@@ -61,6 +66,11 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 				int string = singleNote.getString();
 				int fret = singleNote.getValue()+offset+1; //correct for offset
 				String instruction= GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ", " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
+				instruction = instruction.trim();				
+				String lyricInstruction = this.getLyricInstruction(beat);
+				if(lyricInstruction!=null) {
+					instruction = instruction + "\n" + lyricInstruction;
+				}
 				return instruction.trim();
 			}
 		}
