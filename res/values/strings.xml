@@ -76,6 +76,27 @@
         <item></item>
         <item></item>
     </string-array>   
+    <string-array name="empty_instruct_2">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>        
+    </string-array>   
     <string name="action_settings">test</string>
     <string name="back">&#8592;</string>
     <string name="forward">&#8594;</string>
