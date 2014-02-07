@@ -197,8 +197,8 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         AudioIconAPI.getInstance().init(this);
         
         //set application volume
-        VolumeAPI.getInstance().init(this);
-        VolumeAPI.getInstance().setVolume(VolumeAPI.DEFAULT_VOLUME_FACTOR);
+//        VolumeAPI.getInstance().init(this);
+ //       VolumeAPI.getInstance().setVolume(VolumeAPI.DEFAULT_VOLUME_FACTOR);
                         
 	}
 		

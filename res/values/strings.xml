@@ -62,84 +62,7 @@
     <string name="select_section_dialog_to_measure">to Measure</string>
     <string name="stomper_enable_dialog_title">Enable Stomp Mode</string>
     <string name="midi_following_dialog_title">Enable Midi Following</string>
-    <string-array name="MeasureIncChoices">
-        <item>1 Measure</item>
-        <item>2 Measures</item>
-        <item>3 Measures</item>
-        <item>4 Measures</item>
-        <item>5 Measures</item>
-        <item>10 Measures</item>        
-        <item>Segment by Repetition</item>
-        <item>Segment by Tab Sections</item>
-    </string-array>
-    <string-array name="MeasureIncArr">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>10</item>        
-        <item>Segment by Repetition</item>        
-        <item>Segment by Tab Sections</item>
-    </string-array>
-    <string-array name="PlaybackSpeedChoices">
-        <item>25%</item>
-        <item>50%</item>
-        <item>100%</item>
-        <item>125%</item>
-        <item>150%</item>
-    </string-array>
-    <string-array name="PlaybackSpeedArr">
-        <item>0.25</item>
-        <item>0.50</item>
-        <item>1.00</item>
-        <item>1.25</item>
-        <item>1.50</item>
-    </string-array>
-    <string-array name="empty_instruct">
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-    </string-array>   
-    <string-array name="empty_instruct_2">
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>        
-    </string-array>   
-    <string name="action_settings">test</string>
-    <string name="back">&#8592;</string>
-    <string name="forward">&#8594;</string>
-    <string name="up">&#8593;</string>
-    <string name="down">&#8595;</string>    
-    <string name="daidalos_hello">Hello World!</string>
-    <string name="daidalos_app_name">aFileDialog</string>
-    <color name="daidalos_gray">#888</color>
-    <color name="black">#000000</color>    
-    <color name="white">#ffffff</color>  
-	<color name="background_holo_light">#ff00ddff</color>    
-    <integer name="ACTIVATOR_DELAY">5000</integer>
-	<string-array name="LANG_MOD">
+    	<string-array name="LANG_MOD">
 	    <item>Open</item>
 		<item>First</item>
 		<item>Second</item>
@@ -189,7 +112,7 @@
 		<item>Back</item>	
 		<item>Up</item>
 		<item>Down</item>	
-		<item>Sample</item>	
+		<item>Sample</item>
 	</string-array>
 	<string name="guitar_inst_gen_string">string</string>
 	<string name="guitar_inst_gen_fret">string</string>
@@ -355,5 +278,82 @@
  	</string-array>			
 	<string name="unknown_drum">Unknown Drum</string> 	
 	<string name="Capo">Capo</string> 
-	<string name="dash">dash</string>		
+	<string name="dash">dash</string>	
+    <string-array name="MeasureIncChoices">
+        <item>1 Measure</item>
+        <item>2 Measures</item>
+        <item>3 Measures</item>
+        <item>4 Measures</item>
+        <item>5 Measures</item>
+        <item>10 Measures</item>        
+        <item>Segment by Repetition</item>
+        <item>Segment by Tab Sections</item>
+    </string-array>
+    <string-array name="MeasureIncArr">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>10</item>        
+        <item>Segment by Repetition</item>        
+        <item>Segment by Tab Sections</item>
+    </string-array>
+    <string-array name="PlaybackSpeedChoices">
+        <item>25%</item>
+        <item>50%</item>
+        <item>100%</item>
+        <item>125%</item>
+        <item>150%</item>
+    </string-array>
+    <string-array name="PlaybackSpeedArr">
+        <item>0.25</item>
+        <item>0.50</item>
+        <item>1.00</item>
+        <item>1.25</item>
+        <item>1.50</item>
+    </string-array>
+    <string-array name="empty_instruct">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>   
+    <string-array name="empty_instruct_2">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>        
+    </string-array>   
+    <string name="action_settings">test</string>
+    <string name="back">&#8592;</string>
+    <string name="forward">&#8594;</string>
+    <string name="up">&#8593;</string>
+    <string name="down">&#8595;</string>    
+    <string name="daidalos_hello">Hello World!</string>
+    <string name="daidalos_app_name">aFileDialog</string>
+    <color name="daidalos_gray">#888</color>
+    <color name="black">#000000</color>    
+    <color name="white">#ffffff</color>  
+	<color name="background_holo_light">#ff00ddff</color>    
+    <integer name="ACTIVATOR_DELAY">5000</integer>	
 </resources>

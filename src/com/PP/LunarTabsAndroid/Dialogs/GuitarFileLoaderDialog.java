@@ -77,7 +77,5 @@ public class GuitarFileLoaderDialog extends FileChooserDialog {
 	         @Override
 			public void onFileSelected(Dialog source, File folder, String name) {}
 	     });		    
-		
 	}
-
 }
