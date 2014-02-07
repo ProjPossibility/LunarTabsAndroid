@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.PP.LunarTabsAndroid.UI.ResourceModel;
 import com.PP.StompDetector.StompDetector;
 import com.example.lunartabsandroid.R;
 
@@ -17,7 +18,7 @@ public class StomperEnableDialog extends Dialog {
 		setContentView(R.layout.stomper_dialog_layout);
 		Button okButton = (Button) findViewById(R.id.OK_BUTTON_STOMPER_DIALOG);
 		Button cancelButton = (Button) findViewById(R.id.CANCEL_BUTTON_STOMPER_DIALOG);
-		setTitle("Enable Stomp Mode");	 
+		setTitle(ResourceModel.getInstance().STOMPER_ENABLE_DIALOG_TITLE);	 
 		okButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -26,8 +27,7 @@ public class StomperEnableDialog extends Dialog {
 	    		stomper.start();					
 	    		
 				//change text on menu item
-				String new_title = mainActivity.getResources().getString(R.string.DisableStompMode);
-				menuItem.setTitle(new_title);				
+				menuItem.setTitle(ResourceModel.getInstance().DISABLE_STOMP_MODE);				
 	    		
 	    		//close dialog
 				dismiss();

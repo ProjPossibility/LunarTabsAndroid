@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 import android.os.Environment;
 
-import com.PP.LunarTabsAndroid.UI.StomperParams;
+import com.PP.LunarTabsAndroid.UI.SerializedParams;
 
 public class FileOpAPI {
 	
@@ -37,7 +37,7 @@ public class FileOpAPI {
 	/*
 	 * Serialize model to file.
 	 */
-	public static void writeModel(StomperParams m, String file) {
+	public static void writeModel(SerializedParams m, String file) {
 		try {
 			String path = SAVE_PATH+file;		  
 			File f = new File(path);
@@ -52,13 +52,13 @@ public class FileOpAPI {
 	}
 	
 	
-	public static StomperParams readModel(String file) {
+	public static SerializedParams readModel(String file) {
 		try {
 			String path = SAVE_PATH+file;		  
 			File f = new File(path);
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream is = new ObjectInputStream(fis);
-			StomperParams rtn = (StomperParams) is.readObject();
+			SerializedParams rtn = (SerializedParams) is.readObject();
 			is.close();
 			return rtn;
 		}

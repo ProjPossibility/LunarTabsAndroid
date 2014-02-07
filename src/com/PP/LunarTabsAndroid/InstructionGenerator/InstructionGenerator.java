@@ -8,10 +8,15 @@ import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGVoice;
 
+import android.R;
+import android.content.Context;
+
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.LunarTabsAndroid.UI.ResourceModel;
 
 public abstract class InstructionGenerator {
-			
+				
 	/*
 	 * Returns an instruction about the duration of the beat.
 	 */
@@ -26,20 +31,20 @@ public abstract class InstructionGenerator {
 		List<TGNote> notes = TuxGuitarUtil.getNotesForBeat(beat);
 		for(TGNote note : notes) {
 			if(note.isTiedNote()) {
-				tiedMod = "tied";
+				tiedMod = ResourceModel.getInstance().TIED_MOD;
 			}
 		}
 		
 		//determine whether dotted
 		String dottedMod = "";
 		if(duration.isDotted()) {
-			dottedMod = "dotted";
+			dottedMod = ResourceModel.getInstance().DOTTED_MOD;
 		}
 		
 		//determine whether double dotted
 		String doubleDottedMod = "";
 		if(duration.isDoubleDotted()) {
-			doubleDottedMod = "double dotted";
+			doubleDottedMod = ResourceModel.getInstance().DOUBLE_DOTTED_MOD;
 		}
 		
 		//create mod string
@@ -51,36 +56,41 @@ public abstract class InstructionGenerator {
 		if(!mod.equals("")) {
 			mod = mod + " ";
 		}
-				
+		
+		//get context parts
+		String REST_STR =ResourceModel.getInstance().REST_STR; 
+		String[] DURATIONS = ResourceModel.getInstance().DURATIONS;
+		
+		//instructions
 		if(beat.isRestBeat())
 		{
 			if(duration.getValue() == TGDuration.EIGHTH)
 			{
-				return "Rest, " + mod + "eighth note.";
+				return REST_STR + ", " + mod + DURATIONS[0] +".";
 			}
 			if(duration.getValue() == TGDuration.HALF)
 			{
-				return "Rest, " + mod+ "half note.";
+				return REST_STR+", " + mod+ DURATIONS[1]+".";
 			}
 			if(duration.getValue() == TGDuration.QUARTER)
 			{
-				return "Rest, " + mod + "quarter note.";
+				return REST_STR+", " + mod + DURATIONS[2]+".";
 			}
 			if(duration.getValue() == TGDuration.SIXTEENTH)
 			{
-				return "Rest, " + mod + "sixteenth note.";
+				return REST_STR+", " + mod + DURATIONS[3]+".";
 			}
 			if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 			{
-				return "Rest, " + mod + "sixty-fourth note.";
+				return REST_STR+", " + mod + DURATIONS[4]+".";
 			}
 			if(duration.getValue() == TGDuration.THIRTY_SECOND)
 			{
-				return "Rest, " + mod + "thirty-second note.";
+				return REST_STR+", " + mod + DURATIONS[5]+".";
 			}
 			if(duration.getValue() == TGDuration.WHOLE)
 			{
-				return "Rest, " + mod + "whole note.";
+				return REST_STR+", " + mod + DURATIONS[6]+".";
 			}
 
 		}
@@ -90,62 +100,62 @@ public abstract class InstructionGenerator {
 			{
 				if(duration.getValue() == TGDuration.EIGHTH)
 				{
-					return mod + "eighth note";
+					return mod + DURATIONS[0];
 				}
 				if(duration.getValue() == TGDuration.HALF)
 				{
-					return mod + "half note";
+					return mod + DURATIONS[1];
 				}
 				if(duration.getValue() == TGDuration.QUARTER)
 				{
-					return mod + "quarter note";
+					return mod + DURATIONS[2];
 				}
 				if(duration.getValue() == TGDuration.SIXTEENTH)
 				{
-					return mod + "sixteenth note";
+					return mod + DURATIONS[3];
 				}
 				if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 				{
-					return mod + "sixty-fourth note";
+					return mod + DURATIONS[4];
 				}
 				if(duration.getValue() == TGDuration.THIRTY_SECOND)
 				{
-					return mod + "thirty-second note";
+					return mod + DURATIONS[5];
 				}
 				if(duration.getValue() == TGDuration.WHOLE)
 				{
-					return mod + "whole note";
+					return mod + DURATIONS[6];
 				}
 			}
 			else
 			{
 				if(duration.getValue() == TGDuration.EIGHTH)
 				{
-					return mod + "eighth note";
+					return mod + DURATIONS[0];
 				}
 				if(duration.getValue() == TGDuration.HALF)
 				{
-					return mod + "half note";
+					return mod + DURATIONS[1];
 				}
 				if(duration.getValue() == TGDuration.QUARTER)
 				{
-					return mod + "quarter note";
+					return mod + DURATIONS[2];
 				}
 				if(duration.getValue() == TGDuration.SIXTEENTH)
 				{
-					return mod + "sixteenth note";
+					return mod + DURATIONS[3];
 				}
 				if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 				{
-					return mod + "sixty-fourth note";
+					return mod + DURATIONS[4];
 				}
 				if(duration.getValue() == TGDuration.THIRTY_SECOND)
 				{
-					return mod + "thirty-second note";
+					return mod + DURATIONS[5];
 				}
 				if(duration.getValue() == TGDuration.WHOLE)
 				{
-					return mod + "whole note";
+					return mod + DURATIONS[6];
 				}
 			}
 		}
@@ -174,12 +184,14 @@ public abstract class InstructionGenerator {
 		}
 		else {
 			StringBuffer rtn = new StringBuffer();
-			rtn.append("Play with ");
+			String PLAY_WITH = ResourceModel.getInstance().PLAY_WITH;
+			String AND = ResourceModel.getInstance().AND;
+			rtn.append(PLAY_WITH + " ");
 			if(noteEffects.size()==1) {
 				rtn.append(noteEffects.get(0) + ".");
 			}
 			else if(noteEffects.size()==2) {
-				rtn.append(noteEffects.get(0) + " and " + noteEffects.get(1) + ".");
+				rtn.append(noteEffects.get(0) + " "+AND+" " + noteEffects.get(1) + ".");
 			}
 			else {
 				for(int x=0; x < noteEffects.size(); x++) {
@@ -188,7 +200,7 @@ public abstract class InstructionGenerator {
 						rtn.append(effect + ", ");
 					}
 					else {
-						rtn.append("and " + effect + ".");
+						rtn.append(AND+" " + effect + ".");
 					}
 				}
 			}
@@ -203,85 +215,86 @@ public abstract class InstructionGenerator {
 		
 		//rtn structure
 		List<String> rtn = new ArrayList<String>();
+		String[] NOTE_EFFECTS = ResourceModel.getInstance().NOTE_EFFECTS;
 		
 		//create instructions for effects
 		if(n.getEffect().hasAnyEffect())
 		{
 			if(n.getEffect().isAccentuatedNote())
 			{
-				rtn.add("accentuated emphasis");
+				rtn.add(NOTE_EFFECTS[0]);
 			}
 			if(n.getEffect().isBend())
 			{
-				rtn.add("pitch bend effect");
+				rtn.add(NOTE_EFFECTS[1]);
 			}
 			if(n.getEffect().isDeadNote())
 			{
-				rtn.add("dead note effect");
+				rtn.add(NOTE_EFFECTS[2]);
 			}
 			if(n.getEffect().isFadeIn())
 			{
-				rtn.add("fade in");
+				rtn.add(NOTE_EFFECTS[3]);
 			}
 			if(n.getEffect().isGhostNote())
 			{
-				rtn.add("ghost note effect");
+				rtn.add(NOTE_EFFECTS[4]);
 			}
 			if(n.getEffect().isGrace())
 			{
-				rtn.add("grace note effect");
+				rtn.add(NOTE_EFFECTS[5]);
 			}
 			if(n.getEffect().isHammer())
 			{
-				rtn.add("hammer-on");
+				rtn.add(NOTE_EFFECTS[6]);
 			}
 			if(n.getEffect().isHarmonic())
 			{
-				rtn.add("harmonic effect");
+				rtn.add(NOTE_EFFECTS[7]);
 			}
 			if(n.getEffect().isHeavyAccentuatedNote())
 			{
-				rtn.add("heavy accentuated emphasis");
+				rtn.add(NOTE_EFFECTS[8]);
 			}
 			if(n.getEffect().isPalmMute())
 			{
-				rtn.add("palm mute");
+				rtn.add(NOTE_EFFECTS[9]);
 			}
 			if(n.getEffect().isPopping())
 			{
-				rtn.add("pop");
+				rtn.add(NOTE_EFFECTS[10]);
 			}
 			if(n.getEffect().isSlapping())
 			{
-				rtn.add("slap");
+				rtn.add(NOTE_EFFECTS[11]);
 			}
 			if(n.getEffect().isSlide())
 			{
-				rtn.add("slide");
+				rtn.add(NOTE_EFFECTS[12]);
 			}
 			if(n.getEffect().isTremoloBar())
 			{
-				rtn.add("tremolo bar");
+				rtn.add(NOTE_EFFECTS[13]);
 			}
 			if(n.getEffect().isStaccato())
 			{
-				rtn.add("stacatto");
+				rtn.add(NOTE_EFFECTS[14]);
 			}
 			if(n.getEffect().isTapping())
 			{
-				rtn.add("tap effect");
+				rtn.add(NOTE_EFFECTS[15]);
 			}
 			if(n.getEffect().isTremoloPicking())
 			{
-				rtn.add("tremolo picking");
+				rtn.add(NOTE_EFFECTS[16]);
 			}
 			if(n.getEffect().isTrill())
 			{
-				rtn.add("trill");
+				rtn.add(NOTE_EFFECTS[17]);
 			}
 			if(n.getEffect().isVibrato())
 			{
-				rtn.add("vibrato");
+				rtn.add(NOTE_EFFECTS[18]);
 			}
 		}
 		
@@ -290,7 +303,7 @@ public abstract class InstructionGenerator {
 	
 	public String getLyricInstruction(TGBeat beat) {
 		if(beat.getStoredLyric()!=null && !beat.getStoredLyric().trim().equals("")) {
-			return "Lyric: " + beat.getStoredLyric();
+			return ResourceModel.getInstance().LYRIC+": " + beat.getStoredLyric();
 		}
 		else {
 			return null;

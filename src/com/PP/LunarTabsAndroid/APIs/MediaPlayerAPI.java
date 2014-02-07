@@ -41,12 +41,19 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 			e.printStackTrace();
 		}
 	}
+	
+	public void stop() {
+		if(mediaPlayer!=null && mediaPlayer.isPlaying()) {
+			onCompletion(mediaPlayer);
+		}
+	}
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		
 		//clear memory of media player
 //		mp.release();
+		mediaPlayer.stop();		
 		mp.reset();
 		
 		//delete temporary files

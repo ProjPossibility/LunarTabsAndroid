@@ -32,6 +32,7 @@ import com.PP.AudioIcon.AudioIconAPI;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
+import com.PP.LunarTabsAndroid.APIs.MediaPlayerAPI;
 import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.APIs.VolumeAPI;
@@ -41,6 +42,7 @@ import com.PP.LunarTabsAndroid.Dialogs.MeasureIncrementDialog;
 import com.PP.LunarTabsAndroid.Dialogs.MidiFollowingEnableDialog;
 import com.PP.LunarTabsAndroid.Dialogs.PlaybackSpeedDialog;
 import com.PP.LunarTabsAndroid.Dialogs.SelectSectionDialog;
+import com.PP.LunarTabsAndroid.Dialogs.SetHomeDirectoryDialog;
 import com.PP.LunarTabsAndroid.Dialogs.StomperEnableDialog;
 import com.PP.LunarTabsAndroid.Dialogs.VoiceActionsDialog;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordDB;
@@ -48,8 +50,8 @@ import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.PP.LunarTabsAndroid.UI.AccListView;
 import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.InstructionContentDescription;
-import com.PP.LunarTabsAndroid.UI.SpeechConst;
-import com.PP.LunarTabsAndroid.UI.StomperParams;
+import com.PP.LunarTabsAndroid.UI.ResourceModel;
+import com.PP.LunarTabsAndroid.UI.SerializedParams;
 import com.PP.MidiServer.AbstractMidiServerActivity;
 import com.PP.MidiServer.ChordRecognitionListener;
 import com.PP.MidiServer.MidiServer;
@@ -86,6 +88,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 //		this.requestWindowFeature(Window.FEATURE_NO_TITLE);		
 		setContentView(R.layout.activity_main);
 	    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);	
+	    ResourceModel.getInstance().loadResources(this);
 	    
 		//load components
         loadTabFileButton = (Button) findViewById(R.id.loadTabFileButton);
@@ -157,7 +160,8 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         ChordDB.getInstance();
         
         //init voice commands and restart if bundle requires
-        WordActivatorAPI.getInstance().init(SpeechConst.voiceCommands, this);
+        String[] voiceCommands = ResourceModel.getInstance().voiceCommands;
+        WordActivatorAPI.getInstance().init(voiceCommands, this);
         if(savedInstanceState!=null && savedInstanceState.containsKey(WordActivatorAPI.getInstance().toString())) {
         	boolean turnOn = savedInstanceState.getBoolean(WordActivatorAPI.getInstance().toString());
         	if(turnOn) {
@@ -210,7 +214,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		//clean up and save
 		TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
 		DataModel.getInstance().saveInstance();
-		StomperParams.getInstance().saveInstance();
+		SerializedParams.getInstance().saveInstance();
 	}
 	
 	@Override
@@ -274,6 +278,11 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 
 	@Override
 	public void onClick(View v) {
+		
+		//stop media player
+		MediaPlayerAPI.getInstance().stop();
+		
+		//handle button press
 		if(v.getId()==loadTabFileButton.getId()) {
 			showLoadFileDialog();
 		}
@@ -332,16 +341,18 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 				}
 			}
 			else {
+				
 				//no previous instruction
-	    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_PREV_INST);				
+	    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_PREV_INST);				
 			}			
 		}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
+
     		//no data in section
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}				
 	}
 	
@@ -380,15 +391,15 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			}
 			else {
 				//no next instruction
-	    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_NEXT_INST);				
+	    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_NEXT_INST);				
 			}			
 		}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
     		//no data in section
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}				
 	}
 	
@@ -399,10 +410,10 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			cSeg.play();
 		}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}		
 	}
 	
@@ -448,10 +459,10 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			}
 		}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}		
 	}
 	
@@ -471,13 +482,13 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			this.setTitle(dataModel.getFileName().trim() + " " + c_seg.getTitlePresentation());			
 		}
 		else if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getCurrentSegment() == (dataModel.getInstSegments().size()-1)) {
-			TextToSpeechAPI.speak(SpeechConst.ERROR_LAST_SECTION);
+			TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_LAST_SECTION);
 		}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}		
 	}
 	
@@ -497,13 +508,13 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 			this.setTitle(dataModel.getFileName().trim() + " " + c_seg.getTitlePresentation());			
 		}
 		else if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getCurrentSegment() == 0) {
-			TextToSpeechAPI.speak(SpeechConst.ERROR_FIRST_SECTION);
+			TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_FIRST_SECTION);
 		}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}
 	}
 	
@@ -545,6 +556,11 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		dialog.show();
 	}
 	
+	public void showHomeDirectoryDialog() {
+		SetHomeDirectoryDialog dialog = new SetHomeDirectoryDialog(this,this);
+		dialog.show();
+	}
+	
 	public void populateTrackOptions(List<String> tracksList, int start_sel_position) {
     	ArrayAdapter<String> a_opts = new ArrayAdapter<String>(this, R.layout.my_spinner,tracksList);
     	trackChooser.setAdapter(a_opts);
@@ -579,7 +595,8 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         		int offset = track.getOffset();
         		String capoStr = "";
         		if(offset!=0) {
-        			capoStr = " [Capo "+offset+"]";
+        			String CAPO = ResourceModel.getInstance().CAPO;
+        			capoStr = " ["+CAPO+" "+offset+"]";
         		}
         		String trackHash = track.getName().trim().toLowerCase() + capoStr;
         		if(tracksDD.containsKey(trackHash)) {
@@ -596,7 +613,8 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         		int offset = track.getOffset();
         		String capoStr = "";
         		if(offset!=0) {
-        			capoStr = " [Capo "+offset+"]";
+        			String CAPO = ResourceModel.getInstance().CAPO;
+        			capoStr = " ["+CAPO+" "+offset+"]";
         		}
         		String trackHash = track.getName().trim().toLowerCase() + capoStr;
         		String trackName = track.getName().trim() + capoStr;
@@ -628,45 +646,39 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     public boolean onPrepareOptionsMenu (Menu menu) {
 		//set title of menu buttons
 		if(stomper.isEnabled()) {
-			String new_title = getResources().getString(R.string.DisableStompMode);
 			MenuItem stompModeMenuItem = menu.findItem(R.id.StompModeMenuItem);
 			if(stompModeMenuItem!=null) {
-				stompModeMenuItem.setTitle(new_title);						
+				stompModeMenuItem.setTitle(ResourceModel.getInstance().DISABLE_STOMP_MODE);						
 			}
 		}
 		else {
-			String new_title = getResources().getString(R.string.EnableStompMode);
 			MenuItem stompModeMenuItem = menu.findItem(R.id.StompModeMenuItem);
 			if(stompModeMenuItem!=null) {
-				stompModeMenuItem.setTitle(new_title);						
+				stompModeMenuItem.setTitle(ResourceModel.getInstance().ENABLE_STOMP_MODE);						
 			}
 		}
     	if(DataModel.getInstance().isVoiceActionsEnabled()) {
-			String new_title = getResources().getString(R.string.DisableVoiceActions);
 			MenuItem voiceActionsMenuItem = menu.findItem(R.id.VoiceActionsMenuItem);
 			if(voiceActionsMenuItem!=null) {
-				voiceActionsMenuItem.setTitle(new_title);										
+				voiceActionsMenuItem.setTitle(ResourceModel.getInstance().DISABLE_VOICE_ACTIONS);										
 			}
     	}
     	else {
-			String new_title = getResources().getString(R.string.EnableVoiceActions);
 			MenuItem voiceActionsMenuItem = menu.findItem(R.id.VoiceActionsMenuItem);			
 			if(voiceActionsMenuItem!=null) {
-				voiceActionsMenuItem.setTitle(new_title);										
+				voiceActionsMenuItem.setTitle(ResourceModel.getInstance().ENABLE_VOICE_ACTIONS);										
 			}
     	}    	
     	if(MidiServer.getInstance().isRunning()) {
-			String new_title = getResources().getString(R.string.DisableMidiFollowing);
 			MenuItem voiceActionsMenuItem = menu.findItem(R.id.MidiFollowingMenuItem);
 			if(voiceActionsMenuItem!=null) {
-				voiceActionsMenuItem.setTitle(new_title);										
+				voiceActionsMenuItem.setTitle(ResourceModel.getInstance().DISABLE_MIDI_FOLLOWING);										
 			}
     	}
     	else {
-			String new_title = getResources().getString(R.string.EnableMidiFollowing);
 			MenuItem voiceActionsMenuItem = menu.findItem(R.id.MidiFollowingMenuItem);
 			if(voiceActionsMenuItem!=null) {
-				voiceActionsMenuItem.setTitle(new_title);										
+				voiceActionsMenuItem.setTitle(ResourceModel.getInstance().ENABLE_MIDI_FOLLOWING);										
 			}
     	}    	    	
         return true;    	
@@ -674,9 +686,16 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	
+    	//stop media player
+    	MediaPlayerAPI.getInstance().stop();
+    	
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.SecIncMenuItem:
+        	case R.id.SetHomeDirMenuItem:
+        		showHomeDirectoryDialog();
+        		return true;
+        	case R.id.SecIncMenuItem:
             	showSelectIncDialog();
                 return true;
             case R.id.GoToMenuItem:
@@ -722,13 +741,12 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	    		MidiServer.getInstance().stop();
 	    		
 	    		//change text on menu item
-				String new_title = getResources().getString(R.string.EnableMidiFollowing);
-				item.setTitle(new_title);
+				item.setTitle(ResourceModel.getInstance().ENABLE_MIDI_FOLLOWING);
 	    	}
 	    	
 		}
 		else {
-			TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+			TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
 		} 
 	}
     
@@ -759,8 +777,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
      	   WordActivatorAPI.getInstance().stopListening();
     		
     		//relabel menu item
-     	   String new_title = getResources().getString(R.string.EnableVoiceActions);
-     	   menuItem.setTitle(new_title);
+     	   menuItem.setTitle(ResourceModel.getInstance().ENABLE_VOICE_ACTIONS);
     		
     	}
     }
@@ -786,13 +803,12 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	    		stomper.stop();
 	    		
 	    		//change text on menu item
-				String new_title = getResources().getString(R.string.EnableStompMode);
-				item.setTitle(new_title);					    		
+				item.setTitle(ResourceModel.getInstance().ENABLE_STOMP_MODE);					    		
 	    	}
 	    	
 		}
 		else {
-			TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+			TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
 		}
     }
     
@@ -803,10 +819,10 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     		m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);    	
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}
     }
     
@@ -822,10 +838,10 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);    		
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}
     }
     
@@ -848,14 +864,14 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     			
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_DATA);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()!=0 &&
     			dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && dataModel.getSelectedInstructionIndex()==-1) {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_INST_SELECTED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_INST_SELECTED);
     	}    	
     	else {
-    		TextToSpeechAPI.speak(SpeechConst.ERROR_NO_FILE_LOADED);
+    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
     	}
     	
     }
@@ -865,28 +881,34 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
      */
 	@Override
 	public void activated(boolean success, String wordHeard) {
+		
+		//stop media player
+		MediaPlayerAPI.getInstance().stop();
+		
+		//handle activation
 		Log.d("ACTIVATED", wordHeard);
-		if(wordHeard.equalsIgnoreCase("toggle")) {
+		String[] VOICE_COMMANDS = ResourceModel.getInstance().voiceCommands;
+		if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[0])) {
 			this.toggleModesButton.performClick();
 		}
-		else if(wordHeard.equalsIgnoreCase("play")) {
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[1])) {
 			this.playSampleButton.performClick();
 		}
-		else if(wordHeard.equalsIgnoreCase("next")) {
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[2])) {
 			this.nextMeasButton.performClick();
 		}
-		else if(wordHeard.equalsIgnoreCase("back")) {
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[3])) {
 			this.prevMeasButton.performClick();
 		}
-		else if(wordHeard.equalsIgnoreCase("up")) {
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[4])) {
 			this.upButton.performClick();
 		}
-		else if(wordHeard.equalsIgnoreCase("down")) {
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[5])) {
 			this.downButton.performClick();
 		}
-		else if(wordHeard.equalsIgnoreCase("sample")) {
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[6])) {
 			playAudioIcon();
-		}
+		}		
 	}
 
 	/**
