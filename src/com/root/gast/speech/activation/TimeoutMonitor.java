@@ -48,6 +48,7 @@ public abstract class TimeoutMonitor {
 		
 		//start blocking thread
 		(new Thread() {
+			@Override
 			public void run() {
 				blocking_thread();
 			}
@@ -55,6 +56,7 @@ public abstract class TimeoutMonitor {
 		
 		//start timeout thread		
 		(new Thread() {
+			@Override
 			public void run() {
 				timeout_thread();
 			}

@@ -13,7 +13,7 @@ import org.herac.tuxguitar.song.models.TGSong;
 import org.herac.tuxguitar.song.models.TGTrack;
 import org.herac.tuxguitar.song.models.TGVoice;
 
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.APIs.TuxGuitarUtil;
 
 public class StringRepr {
 	

@@ -6,14 +6,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.PP.StompDetector.StompDetector;
 import com.example.lunartabsandroid.R;
 
 public class StomperEnableDialog extends Dialog {
@@ -27,19 +23,14 @@ public class StomperEnableDialog extends Dialog {
 		okButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
-	    		//enable stomper
-//	    		stomper.start();					
-         	   Log.d("V", "STOMPER STARTED");
-	    		
-				//update data model
+					    		
+			   //update data model
          	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
          	   Editor e = sharedPrefs.edit();
          	   e.putBoolean("enable_stomp_mode_pref", true);
          	   e.commit();
          	                   	   
-         	   //relabel menu item
-//				menuItem.setTitle(ResourceModel.getInstance().DISABLE_STOMP_MODE);					  
+         	   //set checkbox
          	   stomperPreference.setChecked(true);
 				
 	    		//close dialog
@@ -51,7 +42,7 @@ public class StomperEnableDialog extends Dialog {
 			@Override
 			public void onClick(View v) {
 				
-         	   //set false
+         	   //update data so stomp mode preference is set false
          	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
          	   Editor e =sharedPrefs.edit();
          	   e.putBoolean("enable_stomp_mode_pref", false);

@@ -9,12 +9,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.MenuItem;
 
-import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
 import com.example.lunartabsandroid.R;
 
 public class VoiceActionsDialog extends DialogFragment {
@@ -34,38 +29,38 @@ public class VoiceActionsDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.VoiceActionsText)
         	   .setTitle(R.string.VoiceActionsTitle)
-               .setPositiveButton(R.string.VoiceActionsYes, new DialogInterface.OnClickListener() {
-                   @Override
-				public void onClick(DialogInterface dialog, int id) {
-                	                   	   
-                	   //start voice actions
-                	   Log.d("V", "VOICE ACTIONS STARTED");
-//                	   DataModel.getInstance().setVoiceActionsEnabled(true);
-//                	   WordActivatorAPI.getInstance().start();
-                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                	   Editor e =sharedPrefs.edit();
-                	   e.putBoolean("enable_voice_actions_pref", true);
-                	   e.commit();
-                	                   	   
-                	   //relabel menu item
-                	   checkBox.setChecked(true);
-//                	   menuItem.setTitle(ResourceModel.getInstance().DISABLE_VOICE_ACTIONS);
-                	   
-                   }
-               })
                .setNegativeButton(R.string.VoiceActionsNo, new DialogInterface.OnClickListener() {
                    @Override
-				public void onClick(DialogInterface dialog, int id) {
+                   public void onClick(DialogInterface dialog, int id) {
                 	   
-                	   //set false
+                	   //update data model
                 	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                 	   Editor e =sharedPrefs.edit();
                 	   e.putBoolean("enable_voice_actions_pref", false);
                 	   e.commit();
+                	   
+                	   //update checkbox
                 	   checkBox.setChecked(false);
                 	   
                    }
-               });
+                   
+                })
+               .setPositiveButton(R.string.OK_button_text, new DialogInterface.OnClickListener() {
+        		@Override
+				public void onClick(DialogInterface dialog, int id) {
+	         	                   	                   	   
+	         	   //update data model
+	         	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+	         	   Editor e =sharedPrefs.edit();
+	         	   e.putBoolean("enable_voice_actions_pref", true);
+	         	   e.commit();
+	         	                   	   
+	         	   //update checkbox
+	         	   checkBox.setChecked(true);
+	         	   
+	            }
+        	});
+
         // Create the AlertDialog object and return it
         return builder.create();
     }

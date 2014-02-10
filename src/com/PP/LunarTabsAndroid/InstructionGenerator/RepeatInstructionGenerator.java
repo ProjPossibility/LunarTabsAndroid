@@ -4,13 +4,10 @@ import java.util.List;
 
 import org.herac.tuxguitar.song.models.TGMeasure;
 
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.example.lunartabsandroid.R;
-
-import android.content.Context;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
+
+import com.PP.LunarTabsAndroid.UI.ResourceModel;
 
 public class RepeatInstructionGenerator {
 		

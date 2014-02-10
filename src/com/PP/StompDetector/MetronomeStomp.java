@@ -4,7 +4,7 @@ package com.PP.StompDetector;
 import android.app.Activity;
 import android.util.Log;
 
-import com.PP.LunarTabsAndroid.APIs.MetronomeAPI;
+import com.PP.APIs.MetronomeAPI;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
 
 public class MetronomeStomp implements StompListener {

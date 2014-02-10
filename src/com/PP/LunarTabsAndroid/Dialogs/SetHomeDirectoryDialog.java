@@ -2,18 +2,13 @@ package com.PP.LunarTabsAndroid.Dialogs;
 
 import java.io.File;
 
-import org.herac.tuxguitar.song.models.TGSong;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
-import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.SerializedParams;
+import com.PP.APIs.TextToSpeechAPI;
 import com.daidalos.afiledialog.FileChooserDialog;
 import com.example.lunartabsandroid.R;
 

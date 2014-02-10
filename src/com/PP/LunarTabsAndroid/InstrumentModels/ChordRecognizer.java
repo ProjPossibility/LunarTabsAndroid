@@ -7,7 +7,7 @@ import java.util.List;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGNote;
 
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.APIs.TuxGuitarUtil;
 
 public class ChordRecognizer {
 			

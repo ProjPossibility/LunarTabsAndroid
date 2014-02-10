@@ -13,9 +13,9 @@ import org.herac.tuxguitar.song.models.TGVoice;
 
 import android.content.res.AssetManager;
 
-import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
-import com.PP.LunarTabsAndroid.APIs.MediaPlayerAPI;
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.APIs.FileOpAPI;
+import com.PP.APIs.MediaPlayerAPI;
+import com.PP.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
 
 public class AudioIconAPI {

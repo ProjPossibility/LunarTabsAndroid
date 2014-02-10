@@ -6,14 +6,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.PP.MidiServer.MidiServer;
 import com.example.lunartabsandroid.R;
 
 public class MidiFollowingEnableDialog extends Dialog {
@@ -29,20 +25,13 @@ public class MidiFollowingEnableDialog extends Dialog {
 			public void onClick(View v) {
 				
 	    		//enable midi follower
-//				MidiServer.getInstance().start();
-				Log.d("V", "MIDI FOLLOWING STARTED");
           	    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
          	    Editor e =sharedPrefs.edit();
          	    e.putBoolean("enable_midi_following_pref", true);
          	    e.commit();
 				
-				
 				//change text on menu item
-//				menuItem.setTitle(ResourceModel.getInstance().DISABLE_MIDI_FOLLOWING);				
          	    checkBox.setChecked(true);
-         	    
-				//update gui for next available index
-//				activity.updateGUIForNextAvailableIndex();
 	    		
 	    		//close dialog
 				dismiss();
@@ -60,8 +49,8 @@ public class MidiFollowingEnableDialog extends Dialog {
          	   e.commit();
          	   checkBox.setChecked(false);
 				
-				//close dialog
-				dismiss();
+			   //close dialog
+			   dismiss();
 			}
 		});
 	}

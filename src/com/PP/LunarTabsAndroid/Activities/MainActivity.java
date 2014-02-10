@@ -1,4 +1,5 @@
 package com.PP.LunarTabsAndroid.Activities;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,10 +11,12 @@ import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGSong;
 import org.herac.tuxguitar.song.models.TGTrack;
 
-import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -28,30 +32,25 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.PP.APIs.FileOpAPI;
+import com.PP.APIs.MediaPlayerAPI;
+import com.PP.APIs.PlaybackEngineAPI;
+import com.PP.APIs.TextToSpeechAPI;
+import com.PP.APIs.VolumeAPI;
+import com.PP.APIs.WordActivatorAPI;
 import com.PP.AudioIcon.AudioIconAPI;
 import com.PP.IntelliSeg.Abstract.Segment;
+import com.PP.IntelliSeg.MarkerSegmenter.MarkerSegmenter;
 import com.PP.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
-import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
-import com.PP.LunarTabsAndroid.APIs.MediaPlayerAPI;
-import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.APIs.VolumeAPI;
-import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
+import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.SMRSegmenter;
+import com.PP.LunarTabsAndroid.Dialogs.FileSelectionMethodDialog;
 import com.PP.LunarTabsAndroid.Dialogs.GuitarFileLoaderDialog;
-import com.PP.LunarTabsAndroid.Dialogs.MeasureIncrementDialog;
-import com.PP.LunarTabsAndroid.Dialogs.MidiFollowingEnableDialog;
-import com.PP.LunarTabsAndroid.Dialogs.PlaybackSpeedDialog;
-import com.PP.LunarTabsAndroid.Dialogs.SelectSectionDialog;
-import com.PP.LunarTabsAndroid.Dialogs.SetHomeDirectoryDialog;
-import com.PP.LunarTabsAndroid.Dialogs.StomperEnableDialog;
-import com.PP.LunarTabsAndroid.Dialogs.VoiceActionsDialog;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordDB;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.PP.LunarTabsAndroid.UI.AccListView;
 import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.InstructionContentDescription;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.PP.LunarTabsAndroid.UI.SerializedParams;
 import com.PP.MidiServer.AbstractMidiServerActivity;
 import com.PP.MidiServer.ChordRecognitionListener;
 import com.PP.MidiServer.MidiServer;
@@ -89,6 +88,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		setContentView(R.layout.activity_main);
 	    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);	
 	    ResourceModel.getInstance().loadResources(this);
+	    DataModel.getInstance().setMainActivity(this);
 	    
 		//load components
         loadTabFileButton = (Button) findViewById(R.id.loadTabFileButton);
@@ -145,8 +145,32 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         instructionsList.init(hilightColor,Color.WHITE);
         
         //set up segmenter
-        if(DataModel.getInstance().getSegmenter()==null) {
-        	DataModel.getInstance().setSegmenter(new MeasureIncrementSegmenter());
+        int choice = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getInt("set_section_increment_pref", 0);
+		String[] incChoices = getResources().getStringArray(R.array.MeasureIncArr);        
+		if(choice==(incChoices.length-3)) {
+			DataModel dataModel = DataModel.getInstance();
+			MeasureIncrementSegmenter m;
+			if(dataModel.getSegmenter()!=null && dataModel.getSegmenter() instanceof MeasureIncrementSegmenter) {
+				m = (MeasureIncrementSegmenter) dataModel.getSegmenter();
+			}
+			else {
+				m = new MeasureIncrementSegmenter();
+				dataModel.setSegmenter(m);
+			}
+        	DataModel.getInstance().setSegmenter(m);	 
+			
+		}
+		else if(choice==(incChoices.length-2)) {
+	        DataModel.getInstance().setSegmenter(new SMRSegmenter());	 
+        }
+        else if(choice==(incChoices.length-1)) {
+	        DataModel.getInstance().setSegmenter(new MarkerSegmenter());	 
+        }
+        else {
+        	MeasureIncrementSegmenter m = new MeasureIncrementSegmenter();
+			int newInc = Integer.parseInt(incChoices[choice]);
+			m.setIncrement(newInc);
+        	DataModel.getInstance().setSegmenter(m);	 
         }
         
         //enable APIs
@@ -154,56 +178,45 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         
         //init data directory
         FileOpAPI.init();
-        TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
+        PlaybackEngineAPI.cleanUp(FileOpAPI.SAVE_PATH);
         
         //Chord DB initialize
         ChordDB.getInstance();
         
-        //init voice commands and restart if bundle requires
+        //init voice commands
         String[] voiceCommands = ResourceModel.getInstance().voiceCommands;
         WordActivatorAPI.getInstance().init(voiceCommands, this);
-        if(savedInstanceState!=null && savedInstanceState.containsKey(WordActivatorAPI.getInstance().toString())) {
-        	boolean turnOn = savedInstanceState.getBoolean(WordActivatorAPI.getInstance().toString());
-        	if(turnOn) {
-          	   DataModel.getInstance().setVoiceActionsEnabled(true);        		
-        	   WordActivatorAPI.getInstance().start();
-        	}
-        }
         
-        //reinit stomper and restart if was on        
+        //init stomper
         if(stomper==null) {
         	stomper = new StompDetector(this);
         	stomper.addStompListener(new InstructionStomp(this));
         }
         stomper.setMainActivity(this);
-        if(savedInstanceState!=null && savedInstanceState.containsKey(stomper.toString())) {
-        	boolean turnOn = savedInstanceState.getBoolean(stomper.toString());
-        	if(turnOn) {
-        		stomper.start();
-        	}
-        }
         
-        //init Midi Server and restart if bundle requires
+        //init Midi Server
         MidiServer.getInstance().clearChordRecognitionListeners();
         MidiServer.getInstance().addChordRecognitionListener(this);
-        if(savedInstanceState!=null && savedInstanceState.containsKey(MidiServer.getInstance().toString())) {
-        	boolean turnOn = savedInstanceState.getBoolean(MidiServer.getInstance().toString());
-        	if(turnOn) {
-        		MidiServer.getInstance().start();
-        	}
-        }
         
         //init Audio Icon
         AudioIconAPI.getInstance().init(this);
         
-        //set application volume (if talkback not on)
-        /*
-        VolumeAPI.getInstance().init(this);
-        VolumeAPI.getInstance().setVolume(VolumeAPI.DEFAULT_VOLUME_FACTOR);
-        */
+        //set up application volume (based on preferences
+        dynamicVolumeAdjustment();
                         
 	}
-		
+	
+	public void dynamicVolumeAdjustment() {
+		if(PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("adjust_vol_pref", false)) {		
+			AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
+			boolean isExploreByTouchEnabled = am.isTouchExplorationEnabled();			
+			if(!isExploreByTouchEnabled) {
+		        VolumeAPI.getInstance().init(this);
+		        VolumeAPI.getInstance().setVolume(VolumeAPI.DEFAULT_VOLUME_FACTOR);
+			}
+		}
+	}
+			
 	@Override
 	public void onStop() {
 		
@@ -214,9 +227,8 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		MidiServer.getInstance().onStop();
 		
 		//clean up and save
-		TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
+		PlaybackEngineAPI.cleanUp(FileOpAPI.SAVE_PATH);
 		DataModel.getInstance().saveInstance();
-		SerializedParams.getInstance().saveInstance();
 	}
 	
 	@Override
@@ -224,14 +236,11 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		
 		//call on resume functions (if not already running)
 		super.onResume();	
-		if(!DataModel.getInstance().isVoiceActionsEnabled()) {
-			WordActivatorAPI.getInstance().onResume();		
-		}
-		if(!stomper.isEnabled()) {
-			stomper.onResume();
-		}
-		if(!MidiServer.getInstance().isRunning()) {
-			MidiServer.getInstance().onResume();
+		WordActivatorAPI.getInstance().onResume();
+		stomper.onResume(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("enable_stomp_mode_pref", false));
+		MidiServer.getInstance().onResume(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("enable_midi_following_pref", false));
+		if(MidiServer.getInstance().isRunning()) {
+			updateGUIForNextAvailableIndex();
 		}
 		
 		//reinit GUI from file (if exists)
@@ -277,6 +286,37 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		//refresh instructions list
 		instructionsList.refreshGUI();
 	}
+	
+	public void updateOnFileLoad(TGSong song, File file) {
+		
+		//update data model basic prams
+		DataModel dataModel = DataModel.getInstance();
+	    dataModel.setFileName(song.getName());	            	 
+    	dataModel.setSong(song);
+    	dataModel.setPlaybackTrackInds(null);
+    	
+	    //create tracks
+	   	createTrackOptions();
+   	 
+    	//set first segment selected and load instructions
+    	if(dataModel.getTracksList().size() >0) {
+    		
+    		//set params
+    		dataModel.setTrackNum(0);
+    		dataModel.setCurrentSegment(0);
+    		
+        	//enable instructions list
+        	getInstructionsList().setHilightEnabled(true);
+    		
+        	//perform load and show on GUI
+			loadInstructions();				    	
+			DataModel.getInstance().clearSelectedInstructionIndex();
+			getInstructionsList().refreshGUI();	         			
+    	}	            	 
+    		            	 
+   	 	//notify user that track successfully loaded
+   	 	TextToSpeechAPI.speak(ResourceModel.getInstance().FILE_LOADED_SPEECH);
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -310,7 +350,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	
 	public void prevInstruction() {
 		DataModel dataModel = DataModel.getInstance();
-		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null &&
+		if(dataModel.getSong()!=null &&
 		dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && 
 		dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 &&
 		dataModel.getCurrentSegment()>=0 &&
@@ -360,7 +400,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	
 	public void nextInstruction() {
 		DataModel dataModel = DataModel.getInstance();
-		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null &&
+		if(dataModel.getSong()!=null &&
 		dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && 
 		dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0 &&
 		dataModel.getCurrentSegment()>=0) {
@@ -407,7 +447,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	
 	public void playSample() {	
 		DataModel dataModel = DataModel.getInstance();
-		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0) {
+		if(dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0 && dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()>0) {
 			Segment cSeg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
 			cSeg.play();
 		}
@@ -421,7 +461,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	
 	public void toggleModes() {
 		DataModel dataModel=  DataModel.getInstance();
-		if(dataModel.getFilePath()!=null && dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0) {		
+		if(dataModel.getSong()!=null && dataModel.getCurrentSegment()>=0 && dataModel.getTrackNum()>=0) {		
 			if(!dataModel.isOnPercussionTrack()) {
 				if(dataModel.isVerbose()) {
 					
@@ -554,15 +594,16 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
  	}
 	
 	public void showLoadFileDialog() {
-		GuitarFileLoaderDialog dialog = new GuitarFileLoaderDialog(this,this);
-		dialog.show();
+		if(PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("enable_google_drive_pref", false)) {
+			FileSelectionMethodDialog dialog = new FileSelectionMethodDialog(this);
+			dialog.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);
+		}
+		else {		
+			GuitarFileLoaderDialog dialog = new GuitarFileLoaderDialog(this,this);
+			dialog.show();
+		}
 	}
-	
-	public void showHomeDirectoryDialog() {
-		SetHomeDirectoryDialog dialog = new SetHomeDirectoryDialog(this);
-		dialog.show();
-	}
-	
+		
 	public void populateTrackOptions(List<String> tracksList, int start_sel_position) {
     	ArrayAdapter<String> a_opts = new ArrayAdapter<String>(this, R.layout.my_spinner,tracksList);
     	trackChooser.setAdapter(a_opts);
@@ -643,49 +684,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         inflater.inflate(R.menu.menu, menu);
         return true;
     }   
-    
-    @Override
-    public boolean onPrepareOptionsMenu (Menu menu) {
-		//set title of menu buttons
-		if(stomper.isEnabled()) {
-			MenuItem stompModeMenuItem = menu.findItem(R.id.StompModeMenuItem);
-			if(stompModeMenuItem!=null) {
-				stompModeMenuItem.setTitle(ResourceModel.getInstance().DISABLE_STOMP_MODE);						
-			}
-		}
-		else {
-			MenuItem stompModeMenuItem = menu.findItem(R.id.StompModeMenuItem);
-			if(stompModeMenuItem!=null) {
-				stompModeMenuItem.setTitle(ResourceModel.getInstance().ENABLE_STOMP_MODE);						
-			}
-		}
-    	if(DataModel.getInstance().isVoiceActionsEnabled()) {
-			MenuItem voiceActionsMenuItem = menu.findItem(R.id.VoiceActionsMenuItem);
-			if(voiceActionsMenuItem!=null) {
-				voiceActionsMenuItem.setTitle(ResourceModel.getInstance().DISABLE_VOICE_ACTIONS);										
-			}
-    	}
-    	else {
-			MenuItem voiceActionsMenuItem = menu.findItem(R.id.VoiceActionsMenuItem);			
-			if(voiceActionsMenuItem!=null) {
-				voiceActionsMenuItem.setTitle(ResourceModel.getInstance().ENABLE_VOICE_ACTIONS);										
-			}
-    	}    	
-    	if(MidiServer.getInstance().isRunning()) {
-			MenuItem voiceActionsMenuItem = menu.findItem(R.id.MidiFollowingMenuItem);
-			if(voiceActionsMenuItem!=null) {
-				voiceActionsMenuItem.setTitle(ResourceModel.getInstance().DISABLE_MIDI_FOLLOWING);										
-			}
-    	}
-    	else {
-			MenuItem voiceActionsMenuItem = menu.findItem(R.id.MidiFollowingMenuItem);
-			if(voiceActionsMenuItem!=null) {
-				voiceActionsMenuItem.setTitle(ResourceModel.getInstance().ENABLE_MIDI_FOLLOWING);										
-			}
-    	}    	    	
-        return true;    	
-    }
-    
+        
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	
@@ -694,159 +693,59 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     	
         // Handle item selection
         switch (item.getItemId()) {
-        	case R.id.SetHomeDirMenuItem:
-        		showHomeDirectoryDialog();
+        	case R.id.GeneralSettingsMenuItem:
+        		showGeneralSettings();
         		return true;
-        	case R.id.SecIncMenuItem:
-            	showSelectIncDialog();
-                return true;
-            case R.id.GoToMenuItem:
-            	showSelectSectionDialog();
-                return true;
-            case R.id.PlaybackSpeedMenuItem:
-            	showSetPlaybackSpeedDialog();
-            	return true;
-            case R.id.StompModeMenuItem:
-            	stompModeDialog(item);
-            	return true;
-            case R.id.VoiceActionsMenuItem:
-            	voiceActionsDialog(item);
-            	return true;
-            case R.id.CalibStompModeMenuItem:
-            	calibrateStompMode();
-            	return true;
-            case R.id.MidiFollowingMenuItem:
-            	midiFollowingDialog(item);
-            	return true;
+        	case R.id.HandsFreeMenuItem:
+        		showHandsFreeSettings();
+        		return true;
+        	case R.id.InstrSettingsMenuItem:
+        		showInstructionSettings();
+        		return true;
+        	case R.id.PlayBackOptionsMenuItem:
+        		showPlaybackOptions();
+        		return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
     
-    public void midiFollowingDialog(MenuItem item) {
-    	
-    	//tab file must be loaded for stomper
-    	DataModel dataModel = DataModel.getInstance();
-		if(dataModel.getSong()!=null && dataModel.getTrackNum() >=0) {
-    	
-	    	//enable midi follower if not active
-	    	if(!MidiServer.getInstance().isRunning()) {
-	    		
-	    		//ask if enable midi follower
-//				final Dialog dialog = new MidiFollowingEnableDialog(this,this,item);
-//				dialog.show();
-								
-	    	}	    	
-	    	else if(MidiServer.getInstance().isRunning()) {
-	    		
-	    		//stop midi follower
-	    		MidiServer.getInstance().stop();
-	    		
-	    		//change text on menu item
-				item.setTitle(ResourceModel.getInstance().ENABLE_MIDI_FOLLOWING);
-	    	}
-	    	
-		}
-		else {
-			TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
-		} 
-	}
-    
-    public void calibrateStompMode() {
-    	
-    	//stop stomper and voice actions
-    	stomper.onStop();
-    	WordActivatorAPI.getInstance().onStop();
+    public void showGeneralSettings() {
     	
     	//start new activity
-		Intent i = new Intent(this, StomperCalibActivity.class);
+		Intent i = new Intent(this, GeneralSettingsPrefActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(i);												
-    }
-    
-    public void voiceActionsDialog(MenuItem menuItem) {
-    	if(!DataModel.getInstance().isVoiceActionsEnabled()) {
-    		
-    		//show dialog for voice actions
-//        	VoiceActionsDialog m = new VoiceActionsDialog(menuItem);
- //       	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);   		
-        	
-    	}
-    	else {
-    		
-    		//stop voice actions
-     	   DataModel.getInstance().setVoiceActionsEnabled(false);
-     	   WordActivatorAPI.getInstance().stopListening();
-    		
-    		//relabel menu item
-     	   menuItem.setTitle(ResourceModel.getInstance().ENABLE_VOICE_ACTIONS);
-    		
-    	}
-    }
-    
-    public void stompModeDialog(MenuItem item) {
     	
-    	//tab file must be loaded for stomper
-    	DataModel dataModel = DataModel.getInstance();
-		if(dataModel.getSong()!=null && dataModel.getTrackNum() >=0) {
+    }
+    
+    public void showHandsFreeSettings() {
+
+    	//start new activity
+		Intent i = new Intent(this, HandsFreeSettingsPrefActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(i);												
     	
-	    	//enable stomper if not active
-	    	if(!stomper.isEnabled()) {
-	    		
-	    		//show stomper enabled dialog
-//				final Dialog dialog = new StomperEnableDialog(this,stomper,this,item);
-//				dialog.show();	    		    		
-				
-				
-	    	}	    	
-	    	else if(stomper.isEnabled()) {
-	    		
-	    		//stop stomper
-	    		stomper.stop();
-	    		
-	    		//change text on menu item
-				item.setTitle(ResourceModel.getInstance().ENABLE_STOMP_MODE);					    		
-	    	}
-	    	
-		}
-		else {
-			TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
-		}
+    }
+
+    public void showInstructionSettings() {
+
+    	//start new activity
+		Intent i = new Intent(this, InstructionSettingsPrefActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(i);												
+    	
     }
     
-    public void showSelectIncDialog() {
-    	DataModel dataModel = DataModel.getInstance();    	
-    	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {    	
-    		MeasureIncrementDialog m = new MeasureIncrementDialog(this);
-    		m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);    	
-    	}
-    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
-    	}
-    	else {
-    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
-    	}
+    public void showPlaybackOptions() {
+
+    	//start new activity
+		Intent i = new Intent(this, PlaybackOptionsPrefActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(i);												
+    	
     }
-    
-    public void showSetPlaybackSpeedDialog() {
-    	PlaybackSpeedDialog m = new PlaybackSpeedDialog(this);
-    	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);
-    }
-    
-    public void showSelectSectionDialog() {
-    	DataModel dataModel = DataModel.getInstance();
-    	if(dataModel.getSong()!=null && dataModel.getInstSegments()!=null && dataModel.getTrackNum()!=-1 && dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null) {
-        	SelectSectionDialog m = new SelectSectionDialog(this);
-        	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);    		
-    	}
-    	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {
-    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_DATA);
-    	}
-    	else {
-    		TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_NO_FILE_LOADED);
-    	}
-    }
-    
+                            
     public void playAudioIcon() {
     	DataModel dataModel = DataModel.getInstance();
     	if(dataModel.getSong()!=null && 
@@ -957,9 +856,18 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	}
 	
 	public void voiceOff_voiceCommand() {
-  	   DataModel.getInstance().setVoiceActionsEnabled(false);
-  	   WordActivatorAPI.getInstance().stopListening();
-  	   TextToSpeechAPI.speak(ResourceModel.getInstance().VOICE_OFF_NOTIF);
+			
+		//turn off
+  	    WordActivatorAPI.getInstance().stopListening();
+  	
+		//update data model
+ 	    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+ 	    Editor e =sharedPrefs.edit();
+ 	    e.putBoolean("enable_voice_actions_pref", true);
+ 	    e.commit();
+  	    
+  	    //notify user
+  	    TextToSpeechAPI.speak(ResourceModel.getInstance().VOICE_OFF_NOTIF);
 	}
 	
 	/**
@@ -1071,7 +979,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 				}
 				MainActivity.this.instructionsList.programmaticSelect(temp);
 
-				//find and read instruction using tts
+				//find and read instruction using TTS
 				String c_inst = null;
 				final DataModel dataModel = DataModel.getInstance();	
 				final Segment seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());				
@@ -1089,13 +997,6 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		});
 	}
 	
-	@Override
-	public void onSaveInstanceState(Bundle bundle) {
-		bundle.putBoolean(stomper.toString(), stomper.isEnabled());
-		bundle.putBoolean(WordActivatorAPI.getInstance().toString(), DataModel.getInstance().isVoiceActionsEnabled());
-		bundle.putBoolean(MidiServer.getInstance().toString(), MidiServer.getInstance().isRunning());
-	}
-
 	/**
 	 * @return the downButton
 	 */

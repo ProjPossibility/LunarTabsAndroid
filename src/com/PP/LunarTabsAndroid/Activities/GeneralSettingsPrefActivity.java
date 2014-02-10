@@ -1,13 +1,13 @@
 package com.PP.LunarTabsAndroid.Activities;
 
-import com.PP.LunarTabsAndroid.Dialogs.SetHomeDirectoryDialog;
-import com.example.lunartabsandroid.R;
-
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+
+import com.PP.LunarTabsAndroid.Dialogs.SetHomeDirectoryDialog;
+import com.example.lunartabsandroid.R;
 
 
 public class GeneralSettingsPrefActivity extends PreferenceActivity {
@@ -29,17 +29,17 @@ public class GeneralSettingsPrefActivity extends PreferenceActivity {
     {
         @Override
         public void onCreate(final Bundle savedInstanceState)
-        {
-        	
+        {        	
         	//create
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.general_settings);
             
-            //set up tab home directorty preference
-            final Preference dialogPreference = (Preference) getPreferenceScreen().findPreference("set_tab_home_dir_pref");
+            //set up tab home directory preference
+            final Preference dialogPreference = getPreferenceScreen().findPreference("set_tab_home_dir_pref");
             if(dialogPreference!=null) {
 	            dialogPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-	                public boolean onPreferenceClick(Preference preference) {
+	                @Override
+					public boolean onPreferenceClick(Preference preference) {
 	            		SetHomeDirectoryDialog dialog = new SetHomeDirectoryDialog(dialogPreference.getContext());
 	            		dialog.show();                	
 	                    return true;

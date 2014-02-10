@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.APIs;
+package com.PP.APIs;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -57,7 +57,7 @@ public class MediaPlayerAPI implements MediaPlayer.OnCompletionListener {
 		mp.reset();
 		
 		//delete temporary files
-		TuxGuitarUtil.cleanUp(FileOpAPI.SAVE_PATH);
+		PlaybackEngineAPI.cleanUp(FileOpAPI.SAVE_PATH);
 		
 		//re-enable stt
 		

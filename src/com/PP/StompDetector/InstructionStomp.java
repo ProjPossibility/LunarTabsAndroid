@@ -1,6 +1,7 @@
 package com.PP.StompDetector;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.PP.LunarTabsAndroid.UI.DataModel;
 
 public class InstructionStomp implements StompListener  {
 	
@@ -20,8 +21,18 @@ public class InstructionStomp implements StompListener  {
 	@Override
 	public void trigger_callback(double ts) {
 		
-		//emulate click on button
-		mainActivity.getDownButton().performClick();
+		//emulate click on button (only if tab file loaded and we have stuff to click on)
+		DataModel dataModel = DataModel.getInstance();
+		if(dataModel.getSong()!=null &&
+				dataModel.getCurrentSegment()>=0 &&
+				dataModel.getTrackNum()>=0 && 
+				dataModel.getInstSegments()!=null &&
+				dataModel.getInstSegments().size()>0 &&
+				dataModel.getCurrentSegment()>=0) {
+					
+					//emulate click on next instruction button
+					mainActivity.getDownButton().performClick();
+		}
 		
 		/*
 		mainActivity.getDownButton().callOnClick();

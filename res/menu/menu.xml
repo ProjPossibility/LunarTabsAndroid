@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/SetHomeDirMenuItem"
-          android:title="@string/SetTabHomeDir" />
-    <item android:id="@+id/SecIncMenuItem"
-          android:title="@string/SectionIncrement" />
-    <item android:id="@+id/GoToMenuItem"
-          android:title="@string/GoTo" />
-    <item android:id="@+id/PlaybackSpeedMenuItem"
-          android:title="@string/PlaybackSpeed" />
-    <item android:id="@+id/VoiceActionsMenuItem"
-          android:title="@string/EnableVoiceActions" />
-    <item android:id="@+id/CalibStompModeMenuItem"
-          android:title="@string/CalibStompMode" />
-    <item android:id="@+id/StompModeMenuItem"
-          android:title="@string/EnableStompMode" />
-    <item android:id="@+id/MidiFollowingMenuItem"
-          android:title="@string/EnableMidiFollowing" />
+    
+    <item android:id="@+id/GeneralSettingsMenuItem"
+          android:title="@string/general_settings_title" />
+    <item android:id="@+id/HandsFreeMenuItem"
+          android:title="@string/hands_free_settings_title" />
+    <item android:id="@+id/PlayBackOptionsMenuItem"
+          android:title="@string/play_back_options_title" />
+    <item android:id="@+id/InstrSettingsMenuItem"
+          android:title="@string/instruction_settings_title" />
+    <item android:id="@+id/UtilitiesMenuItem"
+          android:title="@string/utilities_title" />
+
 </menu>

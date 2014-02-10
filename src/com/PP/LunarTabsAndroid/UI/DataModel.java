@@ -5,16 +5,14 @@ import java.util.List;
 import org.herac.tuxguitar.song.models.TGSong;
 import org.herac.tuxguitar.song.models.TGTrack;
 
-import android.content.Context;
-
+import com.PP.APIs.TuxGuitarUtil;
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Segment;
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.LunarTabsAndroid.Activities.MainActivity;
 
 public class DataModel implements Serializable {
 	
 	//Presentation model params
-	protected String filePath;
 	protected String fileName;
 	protected TGSong song;
 	protected int trackNum;
@@ -23,22 +21,21 @@ public class DataModel implements Serializable {
 	protected int currentSegment;
 	protected int selectedInstructionIndex;	
 	protected boolean verbose;
-	protected volatile double tempoScale;	
 	protected AbstractSegmenter segmenter;
-	protected volatile boolean voiceActionsEnabled;
-
+	protected MainActivity mainActivity;
+	protected List<Integer> playbackTrackInds;
+	
 	//singleton
 	protected DataModel() {
 		song = null;
 		trackNum = -1;
 		currentSegment = -1;
-		filePath = null;
 		fileName = null;
 		tracksList = null;
 		verbose = false;
 		selectedInstructionIndex = -1;
-		voiceActionsEnabled = false;
-		tempoScale = 1.00;
+		mainActivity = null;
+		playbackTrackInds = null;
 	}
 	protected static DataModel instance = null;
 	public static DataModel getInstance() {
@@ -109,20 +106,6 @@ public class DataModel implements Serializable {
 	 */
 	public void setTrackNum(int trackNum) {
 		this.trackNum = trackNum;
-	}
-
-	/**
-	 * @return the filePath
-	 */
-	public String getFilePath() {
-		return filePath;
-	}
-
-	/**
-	 * @param filePath the filePath to set
-	 */
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
 	}
 
 	/**
@@ -228,30 +211,30 @@ public class DataModel implements Serializable {
 	}
 
 	/**
-	 * @return the voiceActionsEnabled
+	 * @return the mainActivity
 	 */
-	public boolean isVoiceActionsEnabled() {
-		return voiceActionsEnabled;
+	public MainActivity getMainActivity() {
+		return mainActivity;
 	}
 
 	/**
-	 * @param voiceActionsEnabled the voiceActionsEnabled to set
+	 * @param mainActivity the mainActivity to set
 	 */
-	public void setVoiceActionsEnabled(boolean voiceActionsEnabled) {
-		this.voiceActionsEnabled = voiceActionsEnabled;
+	public void setMainActivity(MainActivity mainActivity) {
+		this.mainActivity = mainActivity;
 	}
 
 	/**
-	 * @return the tempoScale
+	 * @return the playbackTrackInds
 	 */
-	public double getTempoScale() {
-		return tempoScale;
+	public List<Integer> getPlaybackTrackInds() {
+		return playbackTrackInds;
 	}
 
 	/**
-	 * @param tempoScale the tempoScale to set
+	 * @param playbackTrackInds the playbackTrackInds to set
 	 */
-	public void setTempoScale(double tempoScale) {
-		this.tempoScale = tempoScale;
+	public void setPlaybackTrackInds(List<Integer> playbackTrackInds) {
+		this.playbackTrackInds = playbackTrackInds;
 	}
 }

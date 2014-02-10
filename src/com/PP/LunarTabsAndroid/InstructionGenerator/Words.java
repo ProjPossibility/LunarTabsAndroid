@@ -1,10 +1,6 @@
 package com.PP.LunarTabsAndroid.InstructionGenerator;
 
-import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.example.lunartabsandroid.R;
-
-import android.content.Context;
 
 /**
  * This class specially written to convert the given number into words. It will support upto 1 crore.

@@ -6,12 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.example.lunartabsandroid.R;
-
-import android.content.Context;
 import android.util.Log;
+
+import com.PP.LunarTabsAndroid.UI.ResourceModel;
 
 public class ChordDB {
 	

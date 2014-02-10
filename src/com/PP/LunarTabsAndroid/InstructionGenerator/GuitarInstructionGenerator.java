@@ -5,14 +5,10 @@ import java.util.List;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGNote;
 
-import android.content.Context;
-
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.PP.LunarTabsAndroid.InstrumentModels.GuitarModel;
-import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.example.lunartabsandroid.R;
 
 public class GuitarInstructionGenerator extends InstructionGenerator {
 	

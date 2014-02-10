@@ -16,7 +16,6 @@
 package com.root.gast.speech.activation;
 
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 import android.content.Context;
 import android.content.Intent;

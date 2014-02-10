@@ -20,7 +20,7 @@
 	<string name="VoiceActionsTitle">Voice Actions</string>		
 	<string name="VoiceActionsYes">Enable Voice Actions?</string>
 	<string name="VoiceActionsNo">Cancel</string>							
-	<string name="VoiceActionsText">By enabling voice actions, you can automate the application with voice commands. The following voice commands are available: up, down, next, back, toggle, play, and sample.</string>			
+	<string name="VoiceActionsText">By enabling voice actions, you can automate the application with voice commands. The following voice commands are available: up, down, next, back, toggle, play, play next, sample, stomp on, stomp off, voice off.</string>			
 	<string name="OK_button_text">OK</string>
 	<string name="Cancel_button_text">Cancel</string>	
     <string name="up_acc">Previous Instruction</string>
@@ -290,7 +290,8 @@
         <item>3 Measures</item>
         <item>4 Measures</item>
         <item>5 Measures</item>
-        <item>10 Measures</item>        
+        <item>10 Measures</item>      
+        <item>Entire Tab at Once</item>  
         <item>Segment by Repetition</item>
         <item>Segment by Tab Sections</item>
     </string-array>
@@ -301,6 +302,7 @@
         <item>4</item>
         <item>5</item>
         <item>10</item>        
+        <item>Entire Tab at Once</item>  
         <item>Segment by Repetition</item>        
         <item>Segment by Tab Sections</item>
     </string-array>
@@ -399,4 +401,35 @@
 	<bool name="enable_midi_following_default_value">false</bool>
 	<string name="calibrate_stomp_mode_pref_title">Calibrate Stomp Mode</string>
 	<string name="calibrate_stomp_mode_pref_summary">Calibrate sensitivity and responsiveness parameters of Stomp Mode.</string>
+	<string name="play_back_options_title">Playback Options</string>
+	<string name="instruction_settings_title">Instruction Settings</string>
+	<string name="utilities_title">Additional Utilities</string>
+	<string-array name="file_selection_methods">
+	    <item>Google Drive</item>
+	    <item>Phone Disk</item>
+	</string-array>
+	<string name="file_selection_dialog_title">Get file from...</string>
+	<string name="set_section_increment_summary">Modify how instructions are grouped into sections.</string>
+	<string name="screen_reader_speed_title">Screen Reader Speed</string>
+	<string name="screen_reader_speed_summary">Modify speed of screen reader voice.</string>
+	<string-array name="screen_reader_speeds">
+	    <item>Slow</item>
+	    <item>Medium</item>
+	    <item>Normal</item>
+	    <item>Fast</item>
+	</string-array>
+	<string-array name="screen_reader_speeds_alias">
+	    <item>Slow</item>
+	    <item>Medium</item>
+	    <item>Normal</item>
+	    <item>Fast</item>
+	</string-array>
+	<string name="screen_reader_speed_default_value">Normal</string>	
+	<string name="playback_speed_default_value">1.00</string>	
+	<string name="playback_speed_summary">Adjust playback speed of midi synthesis.</string>
+	<string name="sel_pbtracks_title">Play/Mute Tracks</string>
+	<string name="sel_pbtracks_summary">Specify which tracks to include in playback and which ones to mute.</string>
+	<string name="sel_pbtracks_dialog_title">Checkmark tracks to include in playback:</string>
+	<string name="go_to_summary">Skip to a particular section of the tab file.</string>
+	<string name="Loading">Loading...</string>
 </resources>

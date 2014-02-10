@@ -1,14 +1,13 @@
-package com.PP.LunarTabsAndroid.APIs;
+package com.PP.APIs;
 
 import java.util.HashMap;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
-
-import com.PP.LunarTabsAndroid.UI.DataModel;
 
 /**
  * Wrapper for speech API (for use of use)
@@ -19,6 +18,7 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 	
 	//fields
 	protected TextToSpeech tts;
+	protected static Activity mainActivity;
 	
 	//singleton instance
 	protected static TextToSpeechAPI instance = null;
@@ -28,6 +28,7 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 	 * @param mainActivity
 	 */
 	public static void init(Activity mainActivity) {
+		TextToSpeechAPI.mainActivity = mainActivity;
 		if(instance==null) {
 			instance = new TextToSpeechAPI();
 		}
@@ -44,7 +45,7 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 		if(instance!=null && instance.tts!=null && text!=null && !text.trim().equals((""))) {
 			
 			//turn of stt (if currently running)
-			if(DataModel.getInstance().isVoiceActionsEnabled()) {
+			if(PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext()).getBoolean("enable_voice_actions_pref", false)) {		
 				WordActivatorAPI.getInstance().stopListening();
 			}
 			
@@ -70,7 +71,7 @@ public class TextToSpeechAPI implements TextToSpeech.OnInitListener {
 	            	
 	            	//restart stt (if currently user enabled)
 	            	Log.d("END", "FINISHED: " + utteranceId);
-	    			if(DataModel.getInstance().isVoiceActionsEnabled()) {
+	    			if(PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext()).getBoolean("enable_voice_actions_pref", false)) {		
 	    				WordActivatorAPI.getInstance().start();                	
 	    			}
 	            }

@@ -1,10 +1,6 @@
 package com.PP.LunarTabsAndroid.InstrumentModels;
 
-import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.example.lunartabsandroid.R;
-
-import android.content.Context;
 
 public class DrumModel {
 		

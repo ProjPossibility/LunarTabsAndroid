@@ -15,14 +15,7 @@ import com.PP.LunarTabsAndroid.UI.ResourceModel;
 import com.example.lunartabsandroid.R;
 
 public class SelectSectionDialog extends DialogFragment {
-	
-	//parent
-	protected MainActivity parent;
-	
-	public SelectSectionDialog(MainActivity parent) {
-		this.parent = parent;
-	}
-	
+		
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
@@ -49,7 +42,6 @@ public class SelectSectionDialog extends DialogFragment {
 	    			DataModel dataModel = DataModel.getInstance();
 	    			dataModel.setCurrentSegment(which);
 	    			dataModel.clearSelectedInstructionIndex();
-	            	parent.refreshGUI();	    			
 	    		}
 	    		catch(Exception e) {
 	    			e.printStackTrace();

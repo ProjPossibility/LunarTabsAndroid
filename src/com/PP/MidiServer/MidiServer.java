@@ -17,9 +17,6 @@ public class MidiServer {
 	
 	//state
 	protected boolean running;
-
-	//stop/resume state
-	protected volatile boolean onStop_state = false;	
 	
 	//singleton
 	protected MidiServer() {
@@ -209,14 +206,13 @@ public class MidiServer {
 	}		
 	
 	public void onStop() {
-		onStop_state = running;
-		if(onStop_state) {
+		if(running) {
 			this.stop();
 		}
 	}
 	
-	public void onResume() {
-		if(onStop_state) {
+	public void onResume(boolean restart) {
+		if(restart) {
 			this.start();
 		}
 	}

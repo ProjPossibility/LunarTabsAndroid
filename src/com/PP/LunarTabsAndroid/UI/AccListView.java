@@ -10,9 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.PP.LunarTabsAndroid.APIs.MediaPlayerAPI;
-import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
-import com.example.lunartabsandroid.R;
+import com.PP.APIs.MediaPlayerAPI;
 
 public class AccListView extends ListView {
 	

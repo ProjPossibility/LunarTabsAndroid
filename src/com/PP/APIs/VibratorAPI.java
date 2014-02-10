@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.APIs;
+package com.PP.APIs;
 
 import android.app.Activity;
 import android.content.Context;

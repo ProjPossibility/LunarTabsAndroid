@@ -5,22 +5,20 @@ import java.io.FileInputStream;
 
 import org.herac.tuxguitar.song.models.TGSong;
 
-import android.R;
 import android.app.Dialog;
 import android.content.Context;
+import android.preference.PreferenceManager;
 
-import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.PP.APIs.TextToSpeechAPI;
+import com.PP.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.PP.LunarTabsAndroid.UI.SerializedParams;
 import com.daidalos.afiledialog.FileChooserDialog;
 
 public class GuitarFileLoaderDialog extends FileChooserDialog {
 
 	public GuitarFileLoaderDialog(final Context context, final MainActivity mainActivity) {
-		super(context,SerializedParams.getInstance().getHomeDir());
+		super(context,PreferenceManager.getDefaultSharedPreferences(context).getString("set_tab_home_dir", null));
 		setCanCreateFiles(false);
 		setFilter(".*gp1|.*gp2|.*gp3|.*gp4|.*gp5|.*gpx|.*ptb");
 	    addListener(new FileChooserDialog.OnFileSelectedListener() {
@@ -32,43 +30,9 @@ public class GuitarFileLoaderDialog extends FileChooserDialog {
 	             	             
 	             //attempt file load and populate tracks
 	             try {
-	            	 
-		             //populate GUI with selection       
-//		             fileField.setText(file.getName());
-//	            	 fileField.setContentDescription(file.getName());
-	            	 
-	            	 //load song and store in gui data model
+	            	 //load song and call update function.
 	            	 TGSong song = TuxGuitarUtil.loadSong(new FileInputStream(file.getPath()));
-//	            	 fileField.setText(song.getName());
-//	            	 fileField.setContentDescription(song.getName());
-	            	 DataModel dataModel = DataModel.getInstance();
-	            	 dataModel.setFilePath(file.getPath());
-		             dataModel.setFileName(song.getName());	            	 
-	            	 if(song!=null) {
-	            		 dataModel.setSong(song);
-	            	 }
-	            	 
-	            	 //create tracks
-	            	 mainActivity.createTrackOptions();
-	            	 
-	             	//set first segment selected and load instructions
-	             	if(dataModel.getTracksList().size() >0) {
-	             		
-	             		//set params
-	             		dataModel.setTrackNum(0);
-	             		dataModel.setCurrentSegment(0);
-	             		
-		             	//enable instructions list
-		             	mainActivity.getInstructionsList().setHilightEnabled(true);
-	             		
-		             	//perform load and show on GUI
-	         			mainActivity.loadInstructions();				    	
-	         			DataModel.getInstance().clearSelectedInstructionIndex();
-	         			mainActivity.getInstructionsList().refreshGUI();	         			
-	             	}	            	 
-	             		            	 
-	            	 //notify user that track successfully loaded
-	            	 TextToSpeechAPI.speak(ResourceModel.getInstance().FILE_LOADED_SPEECH);
+	            	 mainActivity.updateOnFileLoad(song, file);
 	             }
 	             catch(Exception e) {
 	            	 //say could not be loaded

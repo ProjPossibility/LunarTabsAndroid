@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.PP.LunarTabsAndroid.APIs.MetronomeAPI;
+import com.PP.APIs.MetronomeAPI;
 
 public class MetronomeAsyncTask extends AsyncTask<Void,Void,String> {
 	protected Metronome metronome;

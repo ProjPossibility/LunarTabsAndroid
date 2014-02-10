@@ -1,10 +1,10 @@
-package com.PP.LunarTabsAndroid.APIs;
+package com.PP.APIs;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.preference.PreferenceManager;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.DataModel;
 import com.root.gast.speech.activation.WordActivator;
 
 public class WordActivatorAPI {
@@ -12,10 +12,7 @@ public class WordActivatorAPI {
 	//Word Activator object and parent
 	protected MainActivity parent;
 	protected volatile WordActivator wa = null;
-	
-	//on stop/resume state
-	protected volatile boolean onStop_state = false;
-		
+			
 	//singleton
 	protected WordActivatorAPI(){}
 	protected static WordActivatorAPI instance=null;
@@ -102,7 +99,7 @@ public class WordActivatorAPI {
 				try {
 					WordActivatorAPI.getInstance().stopListening();
 					Thread.sleep(ms_wait);
-					if(DataModel.getInstance().isVoiceActionsEnabled()) {
+					if(PreferenceManager.getDefaultSharedPreferences(parent.getApplicationContext()).getBoolean("enable_voice_actions_pref", false)) {		
 						WordActivatorAPI.getInstance().start();
 					}
 				}
@@ -116,18 +113,16 @@ public class WordActivatorAPI {
 	}
 	
 	public void onStop() {
-		onStop_state = DataModel.getInstance().isVoiceActionsEnabled();
-		if(onStop_state) {
-     	   DataModel.getInstance().setVoiceActionsEnabled(false);
-     	   WordActivatorAPI.getInstance().stopListening();
+		if(PreferenceManager.getDefaultSharedPreferences(parent.getApplicationContext()).getBoolean("enable_voice_actions_pref", false)) {
+			//stop voice actions
+     	   	WordActivatorAPI.getInstance().stopListening();
 		}		
 	}
 	
 	public void onResume() {
-		if(onStop_state) {
-     	   //start voice actions
-     	   DataModel.getInstance().setVoiceActionsEnabled(true);
-     	   WordActivatorAPI.getInstance().start();
+		if(PreferenceManager.getDefaultSharedPreferences(parent.getApplicationContext()).getBoolean("enable_voice_actions_pref", false)) {
+			//start voice actions
+			WordActivatorAPI.getInstance().start();		
 		}
 	}
 }

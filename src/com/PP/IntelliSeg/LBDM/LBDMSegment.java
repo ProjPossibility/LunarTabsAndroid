@@ -1,8 +1,10 @@
 package com.PP.IntelliSeg.LBDM;
 
+import android.preference.PreferenceManager;
+
+import com.PP.APIs.FileOpAPI;
+import com.PP.APIs.PlaybackEngineAPI;
 import com.PP.IntelliSeg.Abstract.Segment;
-import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.UI.DataModel;
 
 public class LBDMSegment extends Segment {
@@ -19,7 +21,10 @@ public class LBDMSegment extends Segment {
 	@Override
 	public void play() {
 		DataModel dataModel = DataModel.getInstance();
-		TuxGuitarUtil.playClip_beats(dataModel.getSong(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum(), dataModel.getTempoScale());		
+        String tempo_str = PreferenceManager.getDefaultSharedPreferences(dataModel.getMainActivity().getApplicationContext())
+        		.getString("playback_speed_pref", "1.00");
+        double tempoScale = Double.parseDouble(tempo_str);
+		PlaybackEngineAPI.playClip_beats(dataModel.getSong(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum(), tempoScale);		
 	}
 
 	@Override

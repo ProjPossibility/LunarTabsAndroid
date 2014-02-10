@@ -8,11 +8,7 @@ import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGVoice;
 
-import android.R;
-import android.content.Context;
-
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
 
 public abstract class InstructionGenerator {

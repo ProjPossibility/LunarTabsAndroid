@@ -3,7 +3,8 @@ import java.text.DecimalFormat;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -12,6 +13,7 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.PP.ChartBean.TimeSeriesChartBean;
-import com.PP.LunarTabsAndroid.UI.SerializedParams;
 import com.PP.StompDetector.StompDetector;
 import com.PP.StompDetector.StompListener;
 import com.example.lunartabsandroid.R;
@@ -128,7 +129,7 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 		if(bean!=null) {
 			bean.onResume();
 		}
-		detector.onResume();
+		detector.onResume(true); //always restart stomper on resuming this activity
 
 	}
 
@@ -138,9 +139,6 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 		//on stop calls
 		super.onStop();
 		detector.onStop();
-
-		//save
-		SerializedParams.getInstance().saveInstance();
 	}	
 
 
@@ -185,13 +183,24 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 	public void incThreshold() {
 		float thresh = detector.getSensitivity();
 		if((thresh+THRESHOLD_INCREMENT) <= MAX_THRESHOLD) {
+			
+			//update thresh
 			thresh = thresh + THRESHOLD_INCREMENT;
-			SerializedParams.getInstance().setStomperSensitivity(thresh);
+			
+			//update data model
+      	    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+     	    Editor e =sharedPrefs.edit();
+     	    e.putFloat("stomper_senitivity_pref", thresh);
+     	    e.commit();
+     	    
+     	    //update settings for GUI			
 			updateParamSettings();
 		}
 	}
 
 	public void decThreshold() {
+		
+		//update thresh
 		float thresh = detector.getSensitivity();
 		if((thresh-THRESHOLD_INCREMENT) >= MIN_THRESHOLD) {
 			thresh = thresh - THRESHOLD_INCREMENT;
@@ -199,20 +208,38 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 		else {
 			thresh = MIN_THRESHOLD;
 		}
-		SerializedParams.getInstance().setStomperSensitivity(thresh);
-		updateParamSettings();
+		
+		//update data model
+  	    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+ 	    Editor e =sharedPrefs.edit();
+ 	    e.putFloat("stomper_senitivity_pref", thresh);
+ 	    e.commit();
+
+ 	    //update settings for GUI
+ 	    updateParamSettings();
 	}
 
 	public void incDelay() {
 		int delay = detector.getUntrigger_delay();
 		if(delay+DELAY_INCREMENT <= MAX_DELAY) {
+			
+			//update delay
 			delay = delay + DELAY_INCREMENT;
-			SerializedParams.getInstance().setStomperDelay(delay);
+			
+			//update data model
+      	    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+     	    Editor e =sharedPrefs.edit();
+     	    e.putInt("stomper_untrigger_delay_pref", delay);
+     	    e.commit();
+     	    
+     	    //update settings for GUI
 			updateParamSettings();			
 		}
 	}
 
 	public void decDelay() {
+		
+		//update delay
 		int delay = detector.getUntrigger_delay();
 		if((delay-DELAY_INCREMENT) >= MIN_DELAY) {
 			delay = delay - DELAY_INCREMENT;
@@ -220,7 +247,14 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 		else {
 			delay = MIN_DELAY;
 		}
-		SerializedParams.getInstance().setStomperDelay(delay);
+		
+		//update data model
+  	    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+ 	    Editor e =sharedPrefs.edit();
+ 	    e.putInt("stomper_untrigger_delay_pref", delay);
+ 	    e.commit();
+ 	    
+ 	    //update settings for GUI
 		updateParamSettings();
 	}
 
@@ -230,20 +264,26 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 		finish();
 
 		//return to main activity
+		/*
 		Intent i = new Intent(this, MainActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(i);												
+		*/
 	}
 
 	public void updateParamSettings() {
 
 		//set stomper params
-		detector.setSensitivity(SerializedParams.getInstance().getStomperSensitivity());
-		detector.setUntrigger_delay(SerializedParams.getInstance().getStomperDelay());
+		float sensitivityParam = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+				.getFloat("stomper_senitivity_pref", StompDetector.DEFAULT_SENSITIVITY);
+		int untriggerDelayParam = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+				.getInt("stomper_untrigger_delay_pref",StompDetector.UNTRIGGER_DELAY_DEFAULT);
+		detector.setSensitivity(sensitivityParam);
+		detector.setUntrigger_delay(untriggerDelayParam);
 
 		//update display
-		thresholdTV.setText("Thresh: " + decFormat.format(SerializedParams.getInstance().getStomperSensitivity()));					
-		delayTV.setText("Delay: " + SerializedParams.getInstance().getStomperDelay() + "ms");			
+		thresholdTV.setText("Thresh: " + decFormat.format(sensitivityParam));					
+		delayTV.setText("Delay: " + untriggerDelayParam + "ms");			
 	}
 
 }

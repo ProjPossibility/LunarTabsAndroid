@@ -9,9 +9,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.preference.PreferenceManager;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.SerializedParams;
 
 public class StompDetector implements SensorEventListener {
 	
@@ -30,10 +30,7 @@ public class StompDetector implements SensorEventListener {
 	protected volatile boolean active;
 	protected volatile boolean prevTriggered;
 	protected float lastVal;
-	
-	//stop/resume state
-	protected volatile boolean onStop_state = false;
-	
+		
 	//sensor managers and parent
 	protected SensorManager mSensorManager;
 	protected Sensor mAccel;	
@@ -65,8 +62,12 @@ public class StompDetector implements SensorEventListener {
 	public void start() {
 								
 		//look up and set params
-		this.setSensitivity(SerializedParams.getInstance().getStomperSensitivity());
-		this.setUntrigger_delay(SerializedParams.getInstance().getStomperDelay());
+		float sensitivityParam = PreferenceManager.getDefaultSharedPreferences(parent.getApplicationContext())
+				.getFloat("stomper_senitivity_pref", DEFAULT_SENSITIVITY);
+		int untriggerDelayParam = PreferenceManager.getDefaultSharedPreferences(parent.getApplicationContext())
+				.getInt("stomper_untrigger_delay_pref",UNTRIGGER_DELAY_DEFAULT);
+		this.setSensitivity(sensitivityParam);
+		this.setUntrigger_delay(untriggerDelayParam);
 		
 		//make inactive for start wait
 		enabled = true;		
@@ -233,8 +234,7 @@ public class StompDetector implements SensorEventListener {
 	 * On stop
 	 */
 	public void onStop() {
-		onStop_state = this.isEnabled();
-		if(onStop_state) {
+		if(this.isEnabled()) {
 			this.stop();
 		}
 	}
@@ -242,8 +242,8 @@ public class StompDetector implements SensorEventListener {
 	/**
 	 * On resume
 	 */
-	public void onResume() {
-		if(onStop_state) {			
+	public void onResume(boolean restart) {
+		if(restart) {
 			this.start();
 		}
 	}
@@ -259,7 +259,5 @@ public class StompDetector implements SensorEventListener {
 				is.setMainActivity(mainActivity);
 			}
 		}
-	}
-	
-	
+	}	
 }

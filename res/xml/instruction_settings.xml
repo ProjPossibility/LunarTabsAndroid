@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory 
+		android:title="@string/instruction_settings_title"
+		android:key="instruction_settings">
+
+		<ListPreference 
+		    android:summary="@string/screen_reader_speed_summary" 
+		    android:title="@string/screen_reader_speed_title" 
+		    android:key="screen_reader_speed_pref" 
+		    android:entries="@array/screen_reader_speeds"
+		    android:entryValues="@array/screen_reader_speeds_alias" 
+		    android:dialogTitle="@string/screen_reader_speed_title"
+			android:defaultValue="@string/screen_reader_speed_default_value" 
+		/>
+	    	    
+		<Preference
+			android:key="set_section_increment_pref"
+			android:title="@string/SectionIncrement" 
+			android:summary="@string/set_section_increment_summary"
+		/>
+		
+		<Preference
+			android:key="go_to_pref"
+			android:title="@string/GoTo" 
+			android:summary="@string/go_to_summary"
+		/>
+											    	    				
+	</PreferenceCategory>
+	
+</PreferenceScreen>
