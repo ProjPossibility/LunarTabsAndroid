@@ -1,5 +1,6 @@
 package com.PP.AudioIcon;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +116,7 @@ public class AudioIconAPI {
 			
 				//write MIDI file for selection
 				TuxGuitarUtil.exportToGP4(FileOpAPI.SAVE_PATH + FileOpAPI.TEMP_GP4, newSong);		
-				TGSong s3 = TuxGuitarUtil.loadSong(FileOpAPI.SAVE_PATH + FileOpAPI.TEMP_GP4);			
+				TGSong s3 = TuxGuitarUtil.loadSong(new FileInputStream(FileOpAPI.SAVE_PATH + FileOpAPI.TEMP_GP4));			
 				TuxGuitarUtil.exportToMidi(FileOpAPI.SAVE_PATH + FileOpAPI.TEMP_MID, s3);
 				
 				//play

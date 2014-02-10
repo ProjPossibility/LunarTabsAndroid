@@ -113,6 +113,11 @@
 		<item>Up</item>
 		<item>Down</item>	
 		<item>Sample</item>
+		<item>Play next</item>
+		<item>Play previous</item>		
+		<item>Stomp On</item>
+		<item>Stomp Off</item>
+		<item>Voice Off</item>
 	</string-array>
 	<string name="guitar_inst_gen_string">string</string>
 	<string name="guitar_inst_gen_fret">string</string>
@@ -223,11 +228,11 @@
 	   	<item>Square Click</item> 
   		<item>Metronome Click</item> 
   		<item>Metronome Bell</item> 
-	    <item>Acoustic Bass Drum</item>
+	    <item>Bass</item>
 	    <item>Slide Stick</item>	     
-   	    <item>Acoustic Snare</item>	    
+   	    <item>Snare</item>	    
 	    <item>Hand Clap</item>	    
-	   	<item>Electric Snare</item> 
+	   	<item>Snare</item> 
 	   	<item>Low Floor Tom</item> 
   		<item>Closed Hi-Hat</item> 
   		<item>High Floor Tom</item> 
@@ -236,17 +241,17 @@
         <item>Open Hi-Hat</item>
         <item>Low-Mid Tom</item>
         <item>Hi-Mid Tom</item>
-        <item>Crash Cymbal 1</item>
+        <item>Crash</item>
         <item>High Tom</item>
-        <item>Ride Cymbal 1</item>
+        <item>Ride Cymbal</item>
         <item>Chinese Cymbal</item>
         <item>Ride Bell</item>
         <item>Tambourine</item>
         <item>Splash Cymbal</item>
         <item>Cowbell</item>
-        <item>Crash Cymbal 2</item>
+        <item>Crash</item>
         <item>Vibraslap</item>
-        <item>Ride Cymbal 2</item>
+        <item>Ride Cymbal</item>
         <item>High Bongo</item>
         <item>Low Bongo</item>
         <item>Mute Hi Conga</item>
@@ -356,4 +361,42 @@
     <color name="white">#ffffff</color>  
 	<color name="background_holo_light">#ff00ddff</color>    
     <integer name="ACTIVATOR_DELAY">5000</integer>	
+    <string name="stomp_mode_enabled_notif">Stomp Mode is now on.</string>
+    <string name="stomp_mode_disabled_notif">Stomp Mode is now off.</string>
+    <string name="midi_following_enabled_notif">Midi Following is now on.</string>
+    <string name="midi_following_disabled_notif">Midi Following is now off.</string>    
+    <string name="voice_disabled_notif">Voice Commands are now disabled.</string>        
+    <string name="general_settings_title">General Settings</string>
+	<string name="set_tab_home_dir_title">Set Tab Home Directory</string>
+	<string name="set_tab_home_dir_summary">Choose home directory for your guitar tab files to enable quick access to your tab library.</string>
+	<string name="enable_google_drive_title">Google Drive Integration</string>
+	<string name="enable_google_drive_summary">Allow Lunar Tabs to load guitar tabs from your Google Drive.</string>
+	<bool name="enable_google_drive_default_value">false</bool>
+	<string name="adjust_vol_title">Dynamic Volume Control</string>
+	<string name="adjust_vol_summary">Dynamically adjusts application volume on start up.</string>
+	<string name="language_settings_title">Language Settings</string>
+	<string name="language_settings_summary">Set language used for Lunar Tabs instruction.</string>
+	<string-array name="supported_languages">
+	    <item>English</item>
+		<item>Spanish</item>    
+	</string-array>	
+	<string-array name="supported_languages_alias">
+	    <item>en-US</item>
+		<item>es-ES</item>    
+	</string-array>		
+	<string name="language_settings_dialog_title">Please select a language:</string>
+	<string name="language_settings_default_value">English</string>
+	<bool name="adjust_vol_default_value">false</bool>
+	<string name="hands_free_settings_title">Hands-Free Settings</string>
+	<string name="enable_voice_actions_title">Enable Voice Actions</string>
+	<string name="enable_voice_actions_summary">Use voice commands to automate Lunar Tabs.</string>
+	<bool name="enable_voice_actions_default_value">false</bool>
+	<string name="enable_stomp_mode_title">Enable Stomp Mode</string>
+	<string name="enable_stomp_mode_summary">Use footsteps detected via accelerometer to control Lunar Tabs.</string>
+	<bool name="enable_stomp_mode_default_value">false</bool>
+	<string name="enable_midi_following_title">Enable Midi Following</string>
+	<string name="enable_midi_following_summary">Enable Lunar Tabs to follow you as you play (requires midi device).</string>
+	<bool name="enable_midi_following_default_value">false</bool>
+	<string name="calibrate_stomp_mode_pref_title">Calibrate Stomp Mode</string>
+	<string name="calibrate_stomp_mode_pref_summary">Calibrate sensitivity and responsiveness parameters of Stomp Mode.</string>
 </resources>

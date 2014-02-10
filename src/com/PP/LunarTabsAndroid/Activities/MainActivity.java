@@ -196,9 +196,11 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         //init Audio Icon
         AudioIconAPI.getInstance().init(this);
         
-        //set application volume
-//        VolumeAPI.getInstance().init(this);
- //       VolumeAPI.getInstance().setVolume(VolumeAPI.DEFAULT_VOLUME_FACTOR);
+        //set application volume (if talkback not on)
+        /*
+        VolumeAPI.getInstance().init(this);
+        VolumeAPI.getInstance().setVolume(VolumeAPI.DEFAULT_VOLUME_FACTOR);
+        */
                         
 	}
 		
@@ -557,7 +559,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	}
 	
 	public void showHomeDirectoryDialog() {
-		SetHomeDirectoryDialog dialog = new SetHomeDirectoryDialog(this,this);
+		SetHomeDirectoryDialog dialog = new SetHomeDirectoryDialog(this);
 		dialog.show();
 	}
 	
@@ -731,8 +733,8 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	    	if(!MidiServer.getInstance().isRunning()) {
 	    		
 	    		//ask if enable midi follower
-				final Dialog dialog = new MidiFollowingEnableDialog(this,this,item);
-				dialog.show();
+//				final Dialog dialog = new MidiFollowingEnableDialog(this,this,item);
+//				dialog.show();
 								
 	    	}	    	
 	    	else if(MidiServer.getInstance().isRunning()) {
@@ -766,8 +768,8 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     	if(!DataModel.getInstance().isVoiceActionsEnabled()) {
     		
     		//show dialog for voice actions
-        	VoiceActionsDialog m = new VoiceActionsDialog(menuItem);
-        	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);   		
+//        	VoiceActionsDialog m = new VoiceActionsDialog(menuItem);
+ //       	m.show(getFragmentManager(), FRAGMENT_MANAGER_TAG);   		
         	
     	}
     	else {
@@ -792,8 +794,8 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	    	if(!stomper.isEnabled()) {
 	    		
 	    		//show stomper enabled dialog
-				final Dialog dialog = new StomperEnableDialog(this,stomper,this,item);
-				dialog.show();	    		    		
+//				final Dialog dialog = new StomperEnableDialog(this,stomper,this,item);
+//				dialog.show();	    		    		
 				
 				
 	    	}	    	
@@ -909,8 +911,57 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[6])) {
 			playAudioIcon();
 		}		
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[7])) {
+			playNext_voiceCommand();
+		}
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[8])) {
+			playPrevious_voiceCommand();
+		}
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[9])) {
+			stompOn_voiceCommand();
+		}
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[10])) {
+			stompOff_voiceCommand();
+		}
+		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[11])) {
+			voiceOff_voiceCommand();
+		}
 	}
-
+	
+	public void playNext_voiceCommand() {
+		int cSeg = DataModel.getInstance().getCurrentSegment();
+		nextMeasure();
+		int nSeg = DataModel.getInstance().getCurrentSegment();
+		if(cSeg!=nSeg) {
+			playSample();
+		}
+	}
+	
+	public void playPrevious_voiceCommand() {
+		int cSeg = DataModel.getInstance().getCurrentSegment();
+		prevMeasure();
+		int nSeg = DataModel.getInstance().getCurrentSegment();
+		if(cSeg!=nSeg) {
+			playSample();
+		}
+	}
+	
+	public void stompOn_voiceCommand() {
+		stomper.start();
+		TextToSpeechAPI.speak(ResourceModel.getInstance().STOMP_ON_NOTIF);
+	}
+	
+	public void stompOff_voiceCommand() {
+		stomper.stop();
+		TextToSpeechAPI.speak(ResourceModel.getInstance().STOMP_OFF_NOTIF);		
+	}
+	
+	public void voiceOff_voiceCommand() {
+  	   DataModel.getInstance().setVoiceActionsEnabled(false);
+  	   WordActivatorAPI.getInstance().stopListening();
+  	   TextToSpeechAPI.speak(ResourceModel.getInstance().VOICE_OFF_NOTIF);
+	}
+	
 	/**
 	 * @return the instructionsList
 	 */

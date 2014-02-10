@@ -16,6 +16,7 @@
 package com.root.gast.speech.activation;
 
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 
+import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import com.root.gast.speech.SpeechRecognitionUtil;
 import com.root.gast.speech.text.WordList;
 import com.root.gast.speech.text.match.SoundsLikeWordMatcher;
@@ -37,23 +39,28 @@ import com.root.gast.speech.text.match.SoundsLikeWordMatcher;
  */
 public class WordActivator implements SpeechActivator, RecognitionListener
 {
+	
+	public static final long DEFAULT_SLEEP_TIME = 10000;
 		
     private static final String TAG = "WordActivator";
+    protected MainActivity parent;
     private Context context;
     private SpeechRecognizer recognizer;
     private SoundsLikeWordMatcher matcher;
     protected Intent recognizerIntent = null;
     private SpeechActivationListener resultListener;
     protected volatile boolean listening = false;
+    protected TimeoutMonitor cTimeoutMonitor;
     
-    public WordActivator(Context context,
+    public WordActivator(MainActivity parent,
             SpeechActivationListener resultListener, String... targetWords)
     {
-        this.context = context;
+    	this.parent = parent;
+        this.context = parent.getApplicationContext();
         this.matcher = new SoundsLikeWordMatcher(targetWords);
-        this.resultListener = resultListener;
+        this.resultListener = resultListener;        
     }
-
+    
     @Override
     public void detectActivation()
     {
@@ -71,12 +78,39 @@ public class WordActivator implements SpeechActivator, RecognitionListener
 	                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 	        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 	                RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
-        // accept partial results if they come
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+	        // accept partial results if they come
+	        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
     	}
     	if(listening) {
+    		    		
+    		//fire intent
+    		Log.d("FIRED INTENT", "FIRED");
     		SpeechRecognitionUtil.recognizeSpeechDirectly(context,
                 recognizerIntent, this, getSpeechRecognizer());
+    		
+    		//start timeout monitor
+    		cTimeoutMonitor = new TimeoutMonitor(10000) {
+
+				@Override
+				protected void timeout() {
+					
+					//restart speech activator on time out
+					//if listening
+					parent.runOnUiThread(new Runnable() {
+						
+						
+						@Override
+						public void run() {
+							if(listening) {
+								stopListening();
+								detectActivation();
+							}
+			    		}
+					});					
+				}
+    		};
+    		cTimeoutMonitor.start();
+    		
     	}
     }
         
@@ -98,11 +132,6 @@ public class WordActivator implements SpeechActivator, RecognitionListener
         }
     }
 	
-	public void stop2() {
-		listening = false;
-		stop();
-	}
-
     @Override
     public void onResults(Bundle results)
     {
@@ -121,7 +150,11 @@ public class WordActivator implements SpeechActivator, RecognitionListener
      * common method to process any results bundle from {@link SpeechRecognizer}
      */
     private void receiveResults(Bundle results)
-    {
+    {   
+    	//tell success to timeout monitor
+    	cTimeoutMonitor.success();    	
+    	
+    	//parse results
         if ((results != null)
                 && results.containsKey(SpeechRecognizer.RESULTS_RECOGNITION))
         {
@@ -180,15 +213,19 @@ public class WordActivator implements SpeechActivator, RecognitionListener
     {
         if ((errorCode == SpeechRecognizer.ERROR_NO_MATCH)
                 || (errorCode == SpeechRecognizer.ERROR_SPEECH_TIMEOUT))
-        {
+        {        	
             Log.d(TAG, "didn't recognize anything");
+            
+        	//tell success to timeout monitor
+        	cTimeoutMonitor.success();    	
+            
             // keep going
             if(listening) {
             	recognizeSpeechDirectly();
             }
         }
         else
-        {
+        {        	
             Log.d(TAG,
                     "FAILED "
                             + SpeechRecognitionUtil

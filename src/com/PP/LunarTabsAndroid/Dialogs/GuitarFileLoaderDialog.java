@@ -1,6 +1,7 @@
 package com.PP.LunarTabsAndroid.Dialogs;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import org.herac.tuxguitar.song.models.TGSong;
 
@@ -37,7 +38,7 @@ public class GuitarFileLoaderDialog extends FileChooserDialog {
 //	            	 fileField.setContentDescription(file.getName());
 	            	 
 	            	 //load song and store in gui data model
-	            	 TGSong song = TuxGuitarUtil.loadSong(file.getPath());
+	            	 TGSong song = TuxGuitarUtil.loadSong(new FileInputStream(file.getPath()));
 //	            	 fileField.setText(song.getName());
 //	            	 fileField.setContentDescription(song.getName());
 	            	 DataModel dataModel = DataModel.getInstance();

@@ -4,7 +4,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
@@ -15,10 +20,12 @@ import com.example.lunartabsandroid.R;
 public class VoiceActionsDialog extends DialogFragment {
 	
 	//menu item to relabel
-	protected MenuItem menuItem;
+//	protected MenuItem menuItem;
+	protected CheckBoxPreference checkBox;
 	
-	public VoiceActionsDialog(MenuItem menuItem) {
-		this.menuItem = menuItem;
+	public VoiceActionsDialog(CheckBoxPreference checkBox) {
+//		this.menuItem = menuItem;
+		this.checkBox = checkBox;
 	}
 	
     @Override
@@ -30,19 +37,32 @@ public class VoiceActionsDialog extends DialogFragment {
                .setPositiveButton(R.string.VoiceActionsYes, new DialogInterface.OnClickListener() {
                    @Override
 				public void onClick(DialogInterface dialog, int id) {
-                	   
+                	                   	   
                 	   //start voice actions
-                	   DataModel.getInstance().setVoiceActionsEnabled(true);
-                	   WordActivatorAPI.getInstance().start();
-                	   
+                	   Log.d("V", "VOICE ACTIONS STARTED");
+//                	   DataModel.getInstance().setVoiceActionsEnabled(true);
+//                	   WordActivatorAPI.getInstance().start();
+                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                	   Editor e =sharedPrefs.edit();
+                	   e.putBoolean("enable_voice_actions_pref", true);
+                	   e.commit();
+                	                   	   
                 	   //relabel menu item
-                	   menuItem.setTitle(ResourceModel.getInstance().DISABLE_VOICE_ACTIONS);
+                	   checkBox.setChecked(true);
+//                	   menuItem.setTitle(ResourceModel.getInstance().DISABLE_VOICE_ACTIONS);
                 	   
                    }
                })
                .setNegativeButton(R.string.VoiceActionsNo, new DialogInterface.OnClickListener() {
                    @Override
 				public void onClick(DialogInterface dialog, int id) {
+                	   
+                	   //set false
+                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                	   Editor e =sharedPrefs.edit();
+                	   e.putBoolean("enable_voice_actions_pref", false);
+                	   e.commit();
+                	   checkBox.setChecked(false);
                 	   
                    }
                });

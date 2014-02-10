@@ -48,9 +48,11 @@ public class AccListView extends ListView {
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
             	
             	//insert activator delay into stt for finishing explore by touch speaking.
+            	/*
             	if(DataModel.getInstance().isVoiceActionsEnabled()) {
             		WordActivatorAPI.getInstance().disableFor(ResourceModel.getInstance().ACTIVATOR_DELAY);
             	}
+            	*/
             	
             	//stop media player
             	MediaPlayerAPI.getInstance().stop();

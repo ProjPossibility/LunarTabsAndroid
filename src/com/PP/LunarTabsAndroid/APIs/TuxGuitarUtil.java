@@ -93,8 +93,9 @@ public class TuxGuitarUtil {
 			}
 						
 			//write MIDI file for selection
-			TuxGuitarUtil.exportToGP4(dirPath + FileOpAPI.TEMP_GP4, newSong);		
-			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOpAPI.TEMP_GP4);
+			TuxGuitarUtil.exportToGP4(dirPath + FileOpAPI.TEMP_GP4, newSong);
+			FileInputStream fs = new FileInputStream(dirPath + FileOpAPI.TEMP_GP4);
+			TGSong s3 = TuxGuitarUtil.loadSong(fs);
 			scaleTempo(s3,tempoScale);			
 			TuxGuitarUtil.exportToMidi(dirPath + FileOpAPI.TEMP_MID, s3);
 			
@@ -125,7 +126,7 @@ public class TuxGuitarUtil {
 			//write MIDI file for selection
 			TGSong newSong = TuxGuitarUtil.extractMeasures(song, track,m0, mf);
 			TuxGuitarUtil.exportToGP4(dirPath + FileOpAPI.TEMP_GP4, newSong);		
-			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOpAPI.TEMP_GP4);			
+			TGSong s3 = TuxGuitarUtil.loadSong(new FileInputStream(dirPath + FileOpAPI.TEMP_GP4));			
 			scaleTempo(s3, tempoScale); //scale tempo for playback speed			
 			TuxGuitarUtil.exportToMidi(dirPath + FileOpAPI.TEMP_MID, s3);
 			
@@ -344,22 +345,23 @@ public class TuxGuitarUtil {
 	}
 	
 	/**
-	 * Load song from user hard disk
-	 * @param file
+	 * 
+	 * @param is
 	 * @return
 	 * @throws Exception
 	 */
-	public static TGSong loadSong(String file) throws Exception{
+	public static TGSong loadSong(InputStream is) throws Exception {
 		
 		//load song using song loader
 		TGSongLoader l = new TGSongLoader();
-		TGSong song = l.load(new TGFactory(), new FileInputStream(file));
+		TGSong song = l.load(new TGFactory(), is);
 		
 		//reformat structure to add lyrics to beat objects
 		addDerivedLyricsToBeatsOfSong(song);
 		
 		//return
 		return song;
+		
 	}
 	
 	/**

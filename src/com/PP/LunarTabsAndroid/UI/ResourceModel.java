@@ -59,6 +59,9 @@ public class ResourceModel {
 	public String[] DRUMS;
 	public String UNKNOWN_DRUM;
 	public int ACTIVATOR_DELAY;
+	public String STOMP_ON_NOTIF;
+	public String STOMP_OFF_NOTIF;
+	public String VOICE_OFF_NOTIF;
 	
 	//singleton
 	protected ResourceModel() {
@@ -121,6 +124,8 @@ public class ResourceModel {
 		DRUMS = context.getResources().getStringArray(R.array.DRUMS);
 		UNKNOWN_DRUM = context.getResources().getString(R.string.unknown_drum);
 		ACTIVATOR_DELAY = context.getResources().getInteger(R.integer.ACTIVATOR_DELAY);
-		
+		STOMP_ON_NOTIF = context.getResources().getString(R.string.stomp_mode_enabled_notif);
+		STOMP_OFF_NOTIF = context.getResources().getString(R.string.stomp_mode_disabled_notif);
+		VOICE_OFF_NOTIF = context.getResources().getString(R.string.voice_disabled_notif);
 	}
 }
