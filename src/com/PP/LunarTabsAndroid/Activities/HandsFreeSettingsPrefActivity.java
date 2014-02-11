@@ -13,6 +13,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.PP.LunarTabsAndroid.Dialogs.MetronomeDialog;
 import com.PP.LunarTabsAndroid.Dialogs.MidiFollowingEnableDialog;
 import com.PP.LunarTabsAndroid.Dialogs.StomperEnableDialog;
 import com.PP.LunarTabsAndroid.Dialogs.VoiceActionsDialog;
@@ -75,6 +76,39 @@ public class HandsFreeSettingsPrefActivity extends PreferenceActivity {
 		                	   //update data model that voice is off
 		                	   Editor e =sharedPrefs.edit();
 		                	   e.putBoolean("enable_voice_actions_pref", false);
+		                	   e.commit();
+		            	 }
+		            	 
+		            	 //finish
+		            	 return true;
+	                }
+	            });            
+            }
+            
+            //set up voice actions preference
+            final CheckBoxPreference metronomePreference = (CheckBoxPreference) getPreferenceScreen().findPreference("enable_voice_activated_metronome_pref");
+            if(metronomePreference!=null) {
+	            metronomePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+	                @Override
+					public boolean onPreferenceClick(Preference preference) {
+	                	 
+	                	 //get whether just enabled or disabled
+		            	 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(preference.getContext().getApplicationContext());
+		            	 boolean currentlyEnabled = sharedPrefs.getBoolean("enable_voice_activated_metronome_pref", false);
+		            	 if(currentlyEnabled) {
+		            		 
+		            		 //keep disabled for now
+		            		 metronomePreference.setChecked(false);
+		            		 		            		 
+		            		 //just tried to turn metronome on
+		            		 MetronomeDialog dialog = new MetronomeDialog(metronomePreference);
+		            		 dialog.show(parent.getFragmentManager(),"LOZ");		            		 
+		            	 }
+		            	 else {
+		            		 
+		                	   //update data model that voice is off
+		                	   Editor e =sharedPrefs.edit();
+		                	   e.putBoolean("enable_voice_activated_metronome_pref", false);
 		                	   e.commit();
 		            	 }
 		            	 

@@ -5,16 +5,6 @@
 	<PreferenceCategory 
 		android:title="@string/instruction_settings_title"
 		android:key="instruction_settings">
-
-		<ListPreference 
-		    android:summary="@string/screen_reader_speed_summary" 
-		    android:title="@string/screen_reader_speed_title" 
-		    android:key="screen_reader_speed_pref" 
-		    android:entries="@array/screen_reader_speeds"
-		    android:entryValues="@array/screen_reader_speeds_alias" 
-		    android:dialogTitle="@string/screen_reader_speed_title"
-			android:defaultValue="@string/screen_reader_speed_default_value" 
-		/>
 	    	    
 		<Preference
 			android:key="set_section_increment_pref"

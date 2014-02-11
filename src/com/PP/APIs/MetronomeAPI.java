@@ -9,7 +9,7 @@ import com.pntanasis.android.metronome.MetronomeAsyncTask;
 public class MetronomeAPI {
 	
 	//params
-	protected short bpm = 100;
+	protected short bpm = 120;
 	protected short noteValue = 4;
 	protected short beats = 4;
 	protected double beatSound = 1440;
@@ -37,8 +37,10 @@ public class MetronomeAPI {
 	}
 	
 	public void stop() {
-		metroTask.stop();
-		metroTask = new MetronomeAsyncTask();
+		if(metroTask!=null) {
+			metroTask.stop();
+		}
+		metroTask = null;
 		Runtime.getRuntime().gc();		
 	}
 	

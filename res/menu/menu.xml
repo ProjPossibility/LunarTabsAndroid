@@ -9,7 +9,4 @@
           android:title="@string/play_back_options_title" />
     <item android:id="@+id/InstrSettingsMenuItem"
           android:title="@string/instruction_settings_title" />
-    <item android:id="@+id/UtilitiesMenuItem"
-          android:title="@string/utilities_title" />
-
 </menu>

@@ -51,8 +51,6 @@ public class MetronomeAsyncTask extends AsyncTask<Void,Void,String> {
     	return new Handler() {
             @Override
             public void handleMessage(Message msg) {
-            	String message = (String)msg.obj;
-            	Log.d("M",message);
             }
         };
     }

@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.PP.APIs.FileOpAPI;
 import com.PP.APIs.MediaPlayerAPI;
+import com.PP.APIs.MetronomeAPI;
 import com.PP.APIs.PlaybackEngineAPI;
 import com.PP.APIs.TextToSpeechAPI;
 import com.PP.APIs.VolumeAPI;
@@ -789,6 +790,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		//handle activation
 		Log.d("ACTIVATED", wordHeard);
 		String[] VOICE_COMMANDS = ResourceModel.getInstance().voiceCommands;
+		String[] DIRECT_MATCH = ResourceModel.getInstance().VOICE_ACTIONS_DIRECT_MATCH;
 		if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[0])) {
 			this.toggleModesButton.performClick();
 		}
@@ -824,6 +826,37 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 		}
 		else if(wordHeard.equalsIgnoreCase(VOICE_COMMANDS[11])) {
 			voiceOff_voiceCommand();
+		}
+		else {
+			
+			//if metronome actions enabled, use them.
+			if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("enable_voice_activated_metronome_pref", false)) {
+				if(wordHeard.equalsIgnoreCase(DIRECT_MATCH[0]) || wordHeard.equalsIgnoreCase(DIRECT_MATCH[1])){
+					MetronomeAPI.getInstance().stop();			
+				}
+				else if(wordHeard.equalsIgnoreCase(DIRECT_MATCH[2])) {
+					MetronomeAPI.getInstance().stop();						
+					MetronomeAPI.getInstance().setBeats((short) 4);
+				}
+				else if(wordHeard.equalsIgnoreCase(DIRECT_MATCH[3])) {
+					MetronomeAPI.getInstance().stop();			
+					MetronomeAPI.getInstance().setBeats((short) 3);
+				}		
+				else if(wordHeard.equalsIgnoreCase(DIRECT_MATCH[4])) {
+					MetronomeAPI.getInstance().stop();						
+					MetronomeAPI.getInstance().setBeats((short) 2);
+				}
+				else if(wordHeard.toLowerCase().indexOf("metronome") > -1) {
+					try {
+						String[] toks = wordHeard.split(" ");
+						int bpm = Integer.parseInt(toks[1]);
+						MetronomeAPI.getInstance().stop();
+						MetronomeAPI.getInstance().setBpm((short)bpm);
+						MetronomeAPI.getInstance().start();
+					}
+					catch(Exception e) {}
+				}
+			}
 		}
 	}
 	

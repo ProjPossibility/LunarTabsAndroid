@@ -26,6 +26,7 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.PP.LunarTabsAndroid.UI.ResourceModel;
 import com.root.gast.speech.SpeechRecognitionUtil;
 import com.root.gast.speech.text.WordList;
 import com.root.gast.speech.text.match.SoundsLikeWordMatcher;
@@ -171,19 +172,39 @@ public class WordActivator implements SpeechActivator, RecognitionListener
 
     private void receiveWhatWasHeard(List<String> heard, float[] scores)
     {
+    	
+    	//vars
         boolean heardTargetWord = false;
-        // find the target word
         String wordHeard="";
-        for (String possible : heard)
-        {
-            WordList wordList = new WordList(possible);
-            if (matcher.isIn(wordList.getWords()))
-            {
-                Log.d(TAG, "HEARD IT!");
-                heardTargetWord = true;
-                wordHeard = possible;
-                break;
-            }
+    	
+        //try direct match        
+        String[] voiceCommands = ResourceModel.getInstance().VOICE_ACTIONS_DIRECT_MATCH;        
+        outer:for(String possible : heard) {
+        	Log.d(possible, possible);
+        	String test = possible.toLowerCase();
+        	for(int x=(voiceCommands.length-1); x>=0; x--) {
+        		String vc = voiceCommands[x];
+        		if(test.indexOf(vc.toLowerCase()) > -1) {
+        			Log.d("FOUND", vc);
+        			wordHeard = vc;
+        			heardTargetWord = true;
+        			break outer;
+        		}
+        	}
+        }
+        
+        //find the target word using soundex matcher
+        if(!heardTargetWord) {
+	        for (String possible : heard)
+	        {
+	            WordList wordList = new WordList(possible);
+	            if (matcher.isIn(wordList.getWords()))
+	            {
+	                heardTargetWord = true;
+	                wordHeard = possible;
+	                break;
+	            }
+	        }
         }
 
         if (heardTargetWord)

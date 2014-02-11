@@ -12,7 +12,15 @@
 			android:title="@string/enable_voice_actions_title" 
 			android:defaultValue="@bool/enable_voice_actions_default_value"
 		/>
-
+		
+		<CheckBoxPreference 
+			android:key="enable_voice_activated_metronome_pref"
+			android:summary="@string/metronome_summary"
+			android:title="@string/metronome_title" 
+			android:defaultValue="@bool/metronome_default_value"
+			android:dependency="enable_voice_actions_pref"
+		/>
+		
 		<CheckBoxPreference 
 			android:key="enable_stomp_mode_pref"
 			android:summary="@string/enable_stomp_mode_summary"

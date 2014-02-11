@@ -62,6 +62,7 @@ public class ResourceModel {
 	public String STOMP_ON_NOTIF;
 	public String STOMP_OFF_NOTIF;
 	public String VOICE_OFF_NOTIF;
+	public String[] VOICE_ACTIONS_DIRECT_MATCH;
 	
 	//singleton
 	protected ResourceModel() {
@@ -127,5 +128,6 @@ public class ResourceModel {
 		STOMP_ON_NOTIF = context.getResources().getString(R.string.stomp_mode_enabled_notif);
 		STOMP_OFF_NOTIF = context.getResources().getString(R.string.stomp_mode_disabled_notif);
 		VOICE_OFF_NOTIF = context.getResources().getString(R.string.voice_disabled_notif);
+		VOICE_ACTIONS_DIRECT_MATCH = context.getResources().getStringArray(R.array.VOICE_COMMANDS_DIRECT_MATCH);
 	}
 }
