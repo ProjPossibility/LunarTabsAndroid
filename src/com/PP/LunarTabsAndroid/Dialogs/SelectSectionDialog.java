@@ -11,7 +11,6 @@ import android.os.Bundle;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
 import com.example.lunartabsandroid.R;
 
 public class SelectSectionDialog extends DialogFragment {
@@ -32,13 +31,7 @@ public class SelectSectionDialog extends DialogFragment {
 		CharSequence[] items = new CharSequence[segments.size()];
 		for(int x=0; x < segments.size(); x++) {
 			Segment segment = segments.get(x);
-<<<<<<< HEAD
-			String MEASURE = ResourceModel.getInstance().MEASURE;
-			String TO_MEASURE = ResourceModel.getInstance().TO_MEASURE;
-			items[x] = MEASURE + " " + (segment.getStart()+1) + " " + TO_MEASURE + " "+ (segment.getEnd()+1);
-=======
-			items[x] = "Measure " + segment.getStart() + " to Measure " + segment.getEnd();
->>>>>>> parent of 6146a03... Supports Repeat Instructions, Assorted Bug Fixes
+			items[x] = "Measure " + (segment.getStart()+1) + " to Measure " + (segment.getEnd()+1);
 		}
 	    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	    builder.setTitle(R.string.GoTo);

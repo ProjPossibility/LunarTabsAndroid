@@ -16,6 +16,7 @@ import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
+import com.PP.IntelliSeg.Abstract.Instruction;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.base.SMRSegment;
 import com.PP.IntelliSeg.Util.SelStruct;
@@ -99,11 +100,7 @@ public class SMRSegmenter extends AbstractSegmenter {
 			int start = startSet.get(0);
 			int end = start+ s.getGram().length()-1;
 			List<TGMeasure> measures = TuxGuitarUtil.extractMeasures_rtnMeas(t, start,end);
-
-			List<String> chordInst = new ArrayList<String>();
-			List<String> sfI = new ArrayList<String>();
-			List<TGBeat> beatsI = new ArrayList<TGBeat>(); 
-			List<String> targets = new ArrayList<String>();
+			List<Instruction> instructions = new ArrayList<Instruction>();
 			for(int z=0; z < measures.size(); z++) {
 				//generate playing instructions for beats
 				List<TGBeat> beats = measures.get(z).getBeats();
@@ -123,25 +120,25 @@ public class SMRSegmenter extends AbstractSegmenter {
 						i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);					
 						i3 = ChordRecognizer.getMatchTarget(b);
 					}
-					chordInst.add(i1);
-					sfI.add(i2);
-					targets.add(i3);					
-					beatsI.add(b);
+					Instruction inst;
+					if(i1.toLowerCase().indexOf("rest") > -1) {
+						inst = new Instruction(Instruction.REST_INSTRUCTION);
+					}
+					else {
+						inst = new Instruction(Instruction.PLAY_INSTRUCTION);
+					}
+					inst.setBeat(b);
+					inst.setChordInst(i1);
+					inst.setSfInst(i2);
+					inst.setMatchTarget(i3);
+					instructions.add(inst);
 				}				
 			}	
 			
 			//add segment
-<<<<<<< HEAD
 			SMRSegment seg = new SMRSegment(start,end,s.getStartSet());
 			seg.setInstructions(instructions);
 			seg.computeTotalRepeatCount(repeats);
-=======
-			Segment seg = new SMRSegment(start,end,s.getStartSet());
-			seg.setSfInst(sfI);
-			seg.setChordInst(chordInst);
-			seg.setBeats(beatsI);
-			seg.setMatchTargets(targets);
->>>>>>> parent of 6146a03... Supports Repeat Instructions, Assorted Bug Fixes
 			rtn.add(seg);
 		}
 		return rtn;

@@ -5,30 +5,23 @@ import java.util.List;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGNote;
 
-import android.content.Context;
-
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.PP.LunarTabsAndroid.InstrumentModels.GuitarModel;
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.example.lunartabsandroid.R;
 
 public class GuitarInstructionGenerator extends InstructionGenerator {
 	
 	//constants
-	public static String[] langMod;
-	
+	public static String[] langMod = {"Open","First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth","Eleventh", "Twelfth", "Thirteenth", "Fourteenth", "Fifteenth", "Sixteenth", "Seventeenth", "Eighteenth", "Nineteenth", "Twentieth", "Twenty-first", "Twenty-second", "Twenty-third", "Twenty-fourth", "Twenty-fifth", "Twenty-sixth", "Twenty-seventh", "Twenty-eight", "Twenty-ninth", "Thirtieth", "Thirty-first","Thirty-second","Thirty-third","Thirty-fourth","Thirty-fifth","Thirty-sixth","Thirty-seventh","Thirty-eigth","Thirty-nineth","Fortieth"};
+				
 	//singleton pattern
 	private static GuitarInstructionGenerator instance;
 	
 	/**
 	 * ctr
 	 */
-	protected GuitarInstructionGenerator(){
-		langMod = ResourceModel.getInstance().langMod;
-	}
-		
+	protected GuitarInstructionGenerator(){}
+	
 	/**
 	 * Singleton
 	 * @return
@@ -60,8 +53,7 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 				}
 				
 				//return chord instruction
-				String CHORD = ResourceModel.getInstance().CHORD;
-				String instruction = ChordRecognizer.getChordName(notes) + " "+CHORD+", " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
+				String instruction = ChordRecognizer.getChordName(notes) + " chord, " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
 				instruction = instruction.trim();
 				String lyricInstruction = this.getLyricInstruction(beat);
 				if(lyricInstruction!=null) {
@@ -73,8 +65,7 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 				TGNote singleNote = notes.get(0);
 				int string = singleNote.getString();
 				int fret = singleNote.getValue()+offset+1; //correct for offset
-				String SHARP = ResourceModel.getInstance().SHARP;
-				String instruction= GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-"+SHARP) + ", " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
+				String instruction= GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ", " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
 				instruction = instruction.trim();				
 				String lyricInstruction = this.getLyricInstruction(beat);
 				if(lyricInstruction!=null) {
@@ -110,7 +101,7 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 					fret = langMod.length - 1;
 				
 				//create instruction
-				instruction = instruction + " " + langMod[string] + " " + ResourceModel.getInstance().GUITAR_INST_GEN_STRING+", " + langMod[fret] + " "+ResourceModel.getInstance().GUITAR_INST_GEN_FRET+". ";
+				instruction = instruction + " " + langMod[string] + " string, " + langMod[fret] + " fret. ";
 			}
 			
 			//add duration

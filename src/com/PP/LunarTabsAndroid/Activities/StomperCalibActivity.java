@@ -19,14 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.PP.ChartBean.TimeSeriesChartBean;
-import com.PP.LunarTabsAndroid.UI.SerializedParams;
+import com.PP.LunarTabsAndroid.UI.StomperParams;
 import com.PP.StompDetector.StompDetector;
 import com.PP.StompDetector.StompListener;
 import com.example.lunartabsandroid.R;
 
 
 public class StomperCalibActivity extends Activity implements SensorEventListener, StompListener, OnClickListener  {
-
+	
 	//const
 	public static final float THRESHOLD_INCREMENT = 0.05f;
 	public static final int DELAY_INCREMENT = 200;
@@ -34,30 +34,30 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 	public static final int MIN_DELAY = 0;
 	public static final float MAX_THRESHOLD = 10.0f;
 	public static final float MIN_THRESHOLD = 0.01f;
-
+	
 	//vars
 	protected TimeSeriesChartBean bean;
 	protected DecimalFormat decFormat;
-
+	
 	//sensor
 	protected SensorManager mSensorManager;
 	protected Sensor mAccel;	
 	protected StompDetector detector;
-
+	
 	//buttons
 	protected Button incThresholdButton;
 	protected Button decThresholdButton;
 	protected Button incDelayButton;
 	protected Button decDelayButton;
 	protected Button okButton;
-
+	
 	//Text View and layouts
 	protected TextView thresholdTV;
 	protected TextView delayTV;
 	protected LinearLayout thresholdLayout;
 	protected LinearLayout delayLayout;
 	protected LinearLayout buttonLayout;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +67,7 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
         bean = new TimeSeriesChartBean(this,"Accelerometer Monitor", "Time","Accel Reading", new String[] {"Accelerometer","Upper Sensitivity Threshold","Lower Sensitivity Threshold"}, new int[] {Color.BLUE,Color.RED, Color.RED});
         bean.getMRenderer().setYAxisMin(5);
         bean.getMRenderer().setYAxisMax(20);        
-
+	    
 	    //load components
         incThresholdButton = (Button) findViewById(R.id.incThresholdButton);	    
         decThresholdButton = (Button) findViewById(R.id.decThresholdButton);	    
@@ -115,32 +115,32 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 	    mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 	    mAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 	    mSensorManager.registerListener(this, mAccel,SensorManager.SENSOR_DELAY_GAME);
-
+	    
 	    //starting params
 	    updateParamSettings();
 	}
-
+	
 	@Override
 	protected void onResume() {
-
+		
 		//on resume calls
 		super.onResume();		
 		if(bean!=null) {
 			bean.onResume();
 		}
 		detector.onResume();
-
+		
 	}
-
+	
 	@Override
 	public void onStop() {
-
+		
 		//on stop calls
 		super.onStop();
 		detector.onStop();
-
+		
 		//save
-		SerializedParams.getInstance().saveInstance();
+		StomperParams.getInstance().saveInstance();
 	}	
 
 
@@ -153,7 +153,7 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 			bean.addToTimeSeries(2, 10-detector.getSensitivity(), false);
 		}
 	}
-
+	
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
@@ -181,16 +181,16 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 			clickOkay();
 		}
 	}
-
+	
 	public void incThreshold() {
 		float thresh = detector.getSensitivity();
 		if((thresh+THRESHOLD_INCREMENT) <= MAX_THRESHOLD) {
 			thresh = thresh + THRESHOLD_INCREMENT;
-			SerializedParams.getInstance().setStomperSensitivity(thresh);
+			StomperParams.getInstance().setStomperSensitivity(thresh);
 			updateParamSettings();
 		}
 	}
-
+	
 	public void decThreshold() {
 		float thresh = detector.getSensitivity();
 		if((thresh-THRESHOLD_INCREMENT) >= MIN_THRESHOLD) {
@@ -199,19 +199,19 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 		else {
 			thresh = MIN_THRESHOLD;
 		}
-		SerializedParams.getInstance().setStomperSensitivity(thresh);
+		StomperParams.getInstance().setStomperSensitivity(thresh);
 		updateParamSettings();
 	}
-
+	
 	public void incDelay() {
 		int delay = detector.getUntrigger_delay();
 		if(delay+DELAY_INCREMENT <= MAX_DELAY) {
 			delay = delay + DELAY_INCREMENT;
-			SerializedParams.getInstance().setStomperDelay(delay);
+			StomperParams.getInstance().setStomperDelay(delay);
 			updateParamSettings();			
 		}
 	}
-
+	
 	public void decDelay() {
 		int delay = detector.getUntrigger_delay();
 		if((delay-DELAY_INCREMENT) >= MIN_DELAY) {
@@ -220,30 +220,30 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 		else {
 			delay = MIN_DELAY;
 		}
-		SerializedParams.getInstance().setStomperDelay(delay);
+		StomperParams.getInstance().setStomperDelay(delay);
 		updateParamSettings();
 	}
-
+	
 	public void clickOkay() {
-
+		
 		//finish activity
 		finish();
-
+		
 		//return to main activity
 		Intent i = new Intent(this, MainActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(i);												
 	}
-
+	
 	public void updateParamSettings() {
-
+		
 		//set stomper params
-		detector.setSensitivity(SerializedParams.getInstance().getStomperSensitivity());
-		detector.setUntrigger_delay(SerializedParams.getInstance().getStomperDelay());
-
+		detector.setSensitivity(StomperParams.getInstance().getStomperSensitivity());
+		detector.setUntrigger_delay(StomperParams.getInstance().getStomperDelay());
+		
 		//update display
-		thresholdTV.setText("Thresh: " + decFormat.format(SerializedParams.getInstance().getStomperSensitivity()));					
-		delayTV.setText("Delay: " + SerializedParams.getInstance().getStomperDelay() + "ms");			
+		thresholdTV.setText("Thresh: " + decFormat.format(StomperParams.getInstance().getStomperSensitivity()));					
+		delayTV.setText("Delay: " + StomperParams.getInstance().getStomperDelay() + "ms");			
 	}
-
+	
 }

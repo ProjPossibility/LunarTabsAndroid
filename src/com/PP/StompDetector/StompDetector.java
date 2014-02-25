@@ -11,7 +11,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.SerializedParams;
+import com.PP.LunarTabsAndroid.UI.StomperParams;
 
 public class StompDetector implements SensorEventListener {
 	
@@ -65,8 +65,8 @@ public class StompDetector implements SensorEventListener {
 	public void start() {
 								
 		//look up and set params
-		this.setSensitivity(SerializedParams.getInstance().getStomperSensitivity());
-		this.setUntrigger_delay(SerializedParams.getInstance().getStomperDelay());
+		this.setSensitivity(StomperParams.getInstance().getStomperSensitivity());
+		this.setUntrigger_delay(StomperParams.getInstance().getStomperDelay());
 		
 		//make inactive for start wait
 		enabled = true;		

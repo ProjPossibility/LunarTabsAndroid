@@ -135,8 +135,10 @@ public abstract class TGBeat {
 	}
 
 	public void clearVoices() {
-		
-		
+		TGFactory factory = new TGFactory();
+		for( int i = 0 ; i < MAX_VOICES ; i ++ ){
+			this.setVoice(i, factory.newVoice(i));
+		}
 	}
 
 	/**

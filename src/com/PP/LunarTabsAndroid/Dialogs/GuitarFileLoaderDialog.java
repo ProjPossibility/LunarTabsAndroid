@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.herac.tuxguitar.song.models.TGSong;
 
-import android.R;
 import android.app.Dialog;
 import android.content.Context;
 
@@ -12,14 +11,13 @@ import com.PP.LunarTabsAndroid.APIs.TextToSpeechAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.PP.LunarTabsAndroid.UI.SerializedParams;
+import com.PP.LunarTabsAndroid.UI.SpeechConst;
 import com.daidalos.afiledialog.FileChooserDialog;
 
 public class GuitarFileLoaderDialog extends FileChooserDialog {
 
-	public GuitarFileLoaderDialog(final Context context, final MainActivity mainActivity) {
-		super(context,SerializedParams.getInstance().getHomeDir());
+	public GuitarFileLoaderDialog(Context context, final MainActivity mainActivity) {
+		super(context);
 		setCanCreateFiles(false);
 		setFilter(".*gp1|.*gp2|.*gp3|.*gp4|.*gp5|.*gpx|.*ptb");
 	    addListener(new FileChooserDialog.OnFileSelectedListener() {
@@ -67,15 +65,17 @@ public class GuitarFileLoaderDialog extends FileChooserDialog {
 	             	}	            	 
 	             		            	 
 	            	 //notify user that track successfully loaded
-	            	 TextToSpeechAPI.speak(ResourceModel.getInstance().FILE_LOADED_SPEECH);
+	            	 TextToSpeechAPI.speak(SpeechConst.FILE_LOADED);
 	             }
 	             catch(Exception e) {
 	            	 //say could not be loaded
-	            	 TextToSpeechAPI.speak(ResourceModel.getInstance().ERROR_FILE_NOT_LOADED);
+	            	 TextToSpeechAPI.speak(SpeechConst.ERROR_FILE_NOT_LOADED);
 	             }	             
 	         }
 	         @Override
 			public void onFileSelected(Dialog source, File folder, String name) {}
 	     });		    
+		
 	}
+
 }

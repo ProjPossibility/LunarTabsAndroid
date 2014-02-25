@@ -10,9 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.PP.LunarTabsAndroid.APIs.MediaPlayerAPI;
 import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
-import com.example.lunartabsandroid.R;
 
 public class AccListView extends ListView {
 	
@@ -49,11 +47,8 @@ public class AccListView extends ListView {
             	
             	//insert activator delay into stt for finishing explore by touch speaking.
             	if(DataModel.getInstance().isVoiceActionsEnabled()) {
-            		WordActivatorAPI.getInstance().disableFor(ResourceModel.getInstance().ACTIVATOR_DELAY);
+            		WordActivatorAPI.getInstance().disableFor(SpeechConst.ACTIVATOR_DELAY);
             	}
-            	
-            	//stop media player
-            	MediaPlayerAPI.getInstance().stop();
             	
             	//debug
             	Log.d("CLICKED", "SEL: " + position + 

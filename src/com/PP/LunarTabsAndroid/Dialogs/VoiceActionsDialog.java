@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
 import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
 import com.example.lunartabsandroid.R;
 
 public class VoiceActionsDialog extends DialogFragment {
@@ -36,7 +35,8 @@ public class VoiceActionsDialog extends DialogFragment {
                 	   WordActivatorAPI.getInstance().start();
                 	   
                 	   //relabel menu item
-                	   menuItem.setTitle(ResourceModel.getInstance().DISABLE_VOICE_ACTIONS);
+                	   String new_title = getResources().getString(R.string.DisableVoiceActions);
+                	   menuItem.setTitle(new_title);
                 	   
                    }
                })

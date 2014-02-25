@@ -18,12 +18,10 @@ import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGChannel;
 import org.herac.tuxguitar.song.models.TGLyric;
-import org.herac.tuxguitar.song.models.TGMarker;
 import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGMeasureHeader;
 import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGSong;
-import org.herac.tuxguitar.song.models.TGString;
 import org.herac.tuxguitar.song.models.TGTempo;
 import org.herac.tuxguitar.song.models.TGTrack;
 import org.herac.tuxguitar.song.models.TGVoice;
@@ -153,9 +151,12 @@ public class TuxGuitarUtil {
 		TGTrack trackObj = originalSong.getTrack(track);
 		List<TGMeasure> relMeasures = new ArrayList<TGMeasure>();
 		List<TGMeasureHeader> relHeaders = new ArrayList<TGMeasureHeader>();
+		TGFactory f = new TGFactory();
 		for(int x=m0; x <= mf; x++) {
-			relMeasures.add(trackObj.getMeasure(x));
-			relHeaders.add(originalSong.getMeasureHeader(x));
+			TGMeasureHeader clonedMeasureHeader = originalSong.getMeasureHeader(x).clone(f);
+			TGMeasure clonedMeasure = trackObj.getMeasure(x).clone(f,clonedMeasureHeader);
+			relMeasures.add(clonedMeasure);
+			relHeaders.add(clonedMeasureHeader);
 		}
 				
 		//create new TGSong (cloned)
@@ -163,8 +164,16 @@ public class TuxGuitarUtil {
 		song.getTrack(0).clear();
 		song.clearMeasureHeaders();
 		for(int x=0; x < relMeasures.size(); x++) {
+			
+			//get
 			TGMeasure m = relMeasures.get(x);
 			TGMeasureHeader h = relHeaders.get(x);
+			
+			//remove repeats
+			h.setRepeatOpen(false);
+			h.setRepeatClose(0);
+			
+			//add
 			song.addMeasureHeader(h);
 			song.getTrack(0).addMeasure(m);
 		}
@@ -358,8 +367,6 @@ public class TuxGuitarUtil {
 	public static void addDerivedLyricsToBeatsOfSong(TGSong song) {
 		for(int x=0; x < song.countTracks(); x++) {
 			TGTrack track = song.getTrack(x);
-			
-			//lyrics stored by beat
 			TGLyric lyrics = track.getLyrics();
 			if(lyrics!=null) {
 				String[] lyricBeats = lyrics.getLyricBeats();
@@ -377,8 +384,8 @@ public class TuxGuitarUtil {
 							}
 						}
 					}
-				}				
-			}			
+				}
+			}
 		}
 	}
 }

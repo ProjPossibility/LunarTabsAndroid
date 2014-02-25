@@ -180,6 +180,10 @@ public class MidiServer {
 		chordRecListeners.remove(l);
 	}
 	
+	public void clearChordRecognitionListeners() {
+		chordRecListeners.clear();
+	}
+	
 	/**
 	 * Notify listeners that particular sequence of notes has been recognized.
 	 * @param chord

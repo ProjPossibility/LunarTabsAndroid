@@ -8,15 +8,10 @@ import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGVoice;
 
-import android.R;
-import android.content.Context;
-
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
 
 public abstract class InstructionGenerator {
-				
+			
 	/*
 	 * Returns an instruction about the duration of the beat.
 	 */
@@ -31,20 +26,20 @@ public abstract class InstructionGenerator {
 		List<TGNote> notes = TuxGuitarUtil.getNotesForBeat(beat);
 		for(TGNote note : notes) {
 			if(note.isTiedNote()) {
-				tiedMod = ResourceModel.getInstance().TIED_MOD;
+				tiedMod = "tied";
 			}
 		}
 		
 		//determine whether dotted
 		String dottedMod = "";
 		if(duration.isDotted()) {
-			dottedMod = ResourceModel.getInstance().DOTTED_MOD;
+			dottedMod = "dotted";
 		}
 		
 		//determine whether double dotted
 		String doubleDottedMod = "";
 		if(duration.isDoubleDotted()) {
-			doubleDottedMod = ResourceModel.getInstance().DOUBLE_DOTTED_MOD;
+			doubleDottedMod = "double dotted";
 		}
 		
 		//create mod string
@@ -56,41 +51,36 @@ public abstract class InstructionGenerator {
 		if(!mod.equals("")) {
 			mod = mod + " ";
 		}
-		
-		//get context parts
-		String REST_STR =ResourceModel.getInstance().REST_STR; 
-		String[] DURATIONS = ResourceModel.getInstance().DURATIONS;
-		
-		//instructions
+				
 		if(beat.isRestBeat())
 		{
 			if(duration.getValue() == TGDuration.EIGHTH)
 			{
-				return REST_STR + ", " + mod + DURATIONS[0] +".";
+				return "Rest, " + mod + "eighth note.";
 			}
 			if(duration.getValue() == TGDuration.HALF)
 			{
-				return REST_STR+", " + mod+ DURATIONS[1]+".";
+				return "Rest, " + mod+ "half note.";
 			}
 			if(duration.getValue() == TGDuration.QUARTER)
 			{
-				return REST_STR+", " + mod + DURATIONS[2]+".";
+				return "Rest, " + mod + "quarter note.";
 			}
 			if(duration.getValue() == TGDuration.SIXTEENTH)
 			{
-				return REST_STR+", " + mod + DURATIONS[3]+".";
+				return "Rest, " + mod + "sixteenth note.";
 			}
 			if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 			{
-				return REST_STR+", " + mod + DURATIONS[4]+".";
+				return "Rest, " + mod + "sixty-fourth note.";
 			}
 			if(duration.getValue() == TGDuration.THIRTY_SECOND)
 			{
-				return REST_STR+", " + mod + DURATIONS[5]+".";
+				return "Rest, " + mod + "thirty-second note.";
 			}
 			if(duration.getValue() == TGDuration.WHOLE)
 			{
-				return REST_STR+", " + mod + DURATIONS[6]+".";
+				return "Rest, " + mod + "whole note.";
 			}
 
 		}
@@ -100,62 +90,62 @@ public abstract class InstructionGenerator {
 			{
 				if(duration.getValue() == TGDuration.EIGHTH)
 				{
-					return mod + DURATIONS[0];
+					return mod + "eighth note";
 				}
 				if(duration.getValue() == TGDuration.HALF)
 				{
-					return mod + DURATIONS[1];
+					return mod + "half note";
 				}
 				if(duration.getValue() == TGDuration.QUARTER)
 				{
-					return mod + DURATIONS[2];
+					return mod + "quarter note";
 				}
 				if(duration.getValue() == TGDuration.SIXTEENTH)
 				{
-					return mod + DURATIONS[3];
+					return mod + "sixteenth note";
 				}
 				if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 				{
-					return mod + DURATIONS[4];
+					return mod + "sixty-fourth note";
 				}
 				if(duration.getValue() == TGDuration.THIRTY_SECOND)
 				{
-					return mod + DURATIONS[5];
+					return mod + "thirty-second note";
 				}
 				if(duration.getValue() == TGDuration.WHOLE)
 				{
-					return mod + DURATIONS[6];
+					return mod + "whole note";
 				}
 			}
 			else
 			{
 				if(duration.getValue() == TGDuration.EIGHTH)
 				{
-					return mod + DURATIONS[0];
+					return mod + "eighth note";
 				}
 				if(duration.getValue() == TGDuration.HALF)
 				{
-					return mod + DURATIONS[1];
+					return mod + "half note";
 				}
 				if(duration.getValue() == TGDuration.QUARTER)
 				{
-					return mod + DURATIONS[2];
+					return mod + "quarter note";
 				}
 				if(duration.getValue() == TGDuration.SIXTEENTH)
 				{
-					return mod + DURATIONS[3];
+					return mod + "sixteenth note";
 				}
 				if(duration.getValue() == TGDuration.SIXTY_FOURTH)
 				{
-					return mod + DURATIONS[4];
+					return mod + "sixty-fourth note";
 				}
 				if(duration.getValue() == TGDuration.THIRTY_SECOND)
 				{
-					return mod + DURATIONS[5];
+					return mod + "thirty-second note";
 				}
 				if(duration.getValue() == TGDuration.WHOLE)
 				{
-					return mod + DURATIONS[6];
+					return mod + "whole note";
 				}
 			}
 		}
@@ -184,14 +174,12 @@ public abstract class InstructionGenerator {
 		}
 		else {
 			StringBuffer rtn = new StringBuffer();
-			String PLAY_WITH = ResourceModel.getInstance().PLAY_WITH;
-			String AND = ResourceModel.getInstance().AND;
-			rtn.append(PLAY_WITH + " ");
+			rtn.append("Play with ");
 			if(noteEffects.size()==1) {
 				rtn.append(noteEffects.get(0) + ".");
 			}
 			else if(noteEffects.size()==2) {
-				rtn.append(noteEffects.get(0) + " "+AND+" " + noteEffects.get(1) + ".");
+				rtn.append(noteEffects.get(0) + " and " + noteEffects.get(1) + ".");
 			}
 			else {
 				for(int x=0; x < noteEffects.size(); x++) {
@@ -200,11 +188,10 @@ public abstract class InstructionGenerator {
 						rtn.append(effect + ", ");
 					}
 					else {
-						rtn.append(AND+" " + effect + ".");
+						rtn.append("and " + effect + ".");
 					}
 				}
 			}
-			Log.d("NOTE EFFECT STR", rtn.toString());
 			return rtn.toString();
 		}
 	}
@@ -216,86 +203,85 @@ public abstract class InstructionGenerator {
 		
 		//rtn structure
 		List<String> rtn = new ArrayList<String>();
-		String[] NOTE_EFFECTS = ResourceModel.getInstance().NOTE_EFFECTS;
 		
 		//create instructions for effects
 		if(n.getEffect().hasAnyEffect())
 		{
 			if(n.getEffect().isAccentuatedNote())
 			{
-				rtn.add(NOTE_EFFECTS[0]);
+				rtn.add("accentuated emphasis");
 			}
 			if(n.getEffect().isBend())
 			{
-				rtn.add(NOTE_EFFECTS[1]);
+				rtn.add("pitch bend effect");
 			}
 			if(n.getEffect().isDeadNote())
 			{
-				rtn.add(NOTE_EFFECTS[2]);
+				rtn.add("dead note effect");
 			}
 			if(n.getEffect().isFadeIn())
 			{
-				rtn.add(NOTE_EFFECTS[3]);
+				rtn.add("fade in");
 			}
 			if(n.getEffect().isGhostNote())
 			{
-				rtn.add(NOTE_EFFECTS[4]);
+				rtn.add("ghost note effect");
 			}
 			if(n.getEffect().isGrace())
 			{
-				rtn.add(NOTE_EFFECTS[5]);
+				rtn.add("grace note effect");
 			}
 			if(n.getEffect().isHammer())
 			{
-				rtn.add(NOTE_EFFECTS[6]);
+				rtn.add("hammer-on");
 			}
 			if(n.getEffect().isHarmonic())
 			{
-				rtn.add(NOTE_EFFECTS[7]);
+				rtn.add("harmonic effect");
 			}
 			if(n.getEffect().isHeavyAccentuatedNote())
 			{
-				rtn.add(NOTE_EFFECTS[8]);
+				rtn.add("heavy accentuated emphasis");
 			}
 			if(n.getEffect().isPalmMute())
 			{
-				rtn.add(NOTE_EFFECTS[9]);
+				rtn.add("palm mute");
 			}
 			if(n.getEffect().isPopping())
 			{
-				rtn.add(NOTE_EFFECTS[10]);
+				rtn.add("pop");
 			}
 			if(n.getEffect().isSlapping())
 			{
-				rtn.add(NOTE_EFFECTS[11]);
+				rtn.add("slap");
 			}
 			if(n.getEffect().isSlide())
 			{
-				rtn.add(NOTE_EFFECTS[12]);
+				rtn.add("slide");
 			}
 			if(n.getEffect().isTremoloBar())
 			{
-				rtn.add(NOTE_EFFECTS[13]);
+				rtn.add("tremolo bar");
 			}
 			if(n.getEffect().isStaccato())
 			{
-				rtn.add(NOTE_EFFECTS[14]);
+				rtn.add("stacatto");
 			}
 			if(n.getEffect().isTapping())
 			{
-				rtn.add(NOTE_EFFECTS[15]);
+				rtn.add("tap effect");
 			}
 			if(n.getEffect().isTremoloPicking())
 			{
-				rtn.add(NOTE_EFFECTS[16]);
+				rtn.add("tremolo picking");
 			}
 			if(n.getEffect().isTrill())
 			{
-				rtn.add(NOTE_EFFECTS[17]);
+				rtn.add("trill");
 			}
 			if(n.getEffect().isVibrato())
 			{
-				rtn.add(NOTE_EFFECTS[18]);
+				rtn.add("vibrato");
 			}
 		}
 		
@@ -304,7 +290,7 @@ public abstract class InstructionGenerator {
 	
 	public String getLyricInstruction(TGBeat beat) {
 		if(beat.getStoredLyric()!=null && !beat.getStoredLyric().trim().equals("")) {
-			return ResourceModel.getInstance().LYRIC+": " + beat.getStoredLyric();
+			return "Lyric: " + beat.getStoredLyric();
 		}
 		else {
 			return null;

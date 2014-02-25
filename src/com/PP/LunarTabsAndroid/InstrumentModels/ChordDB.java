@@ -6,11 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.PP.LunarTabsAndroid.UI.ResourceModel;
-import com.example.lunartabsandroid.R;
-
-import android.content.Context;
 import android.util.Log;
 
 public class ChordDB {
@@ -109,7 +104,11 @@ public class ChordDB {
 	 * @return
 	 */
 	protected String[] getDescriptors() {
-		return ResourceModel.getInstance().CHORD_DESCRIPTORS;
+		String[] descriptors = {"major", "sus", "minor", "aug", "dim", "major 6th", 
+				"major 7th", "dom 7th", "dom 7th (sus 4)", "minor 6th", "minor (maj 7)",
+				"minor 7th", "Major 7th (#5)", "aug 7th",
+				"minor 7th (b5)", "dim 7th", "add 4"};		
+		return descriptors;
 	}
 	
 	/**
@@ -139,7 +138,7 @@ public class ChordDB {
 			for(int y=0; y < formulas.size(); y++) {
 				
 				//generate data
-				String chordName = GuitarModel.MUSIC_NOTES_SHARP[x].replaceAll("#", "-"+ResourceModel.getInstance().SHARP) + " " + getDescriptors()[y];
+				String chordName = GuitarModel.MUSIC_NOTES_SHARP[x].replaceAll("#", "-Sharp") + " " + getDescriptors()[y];
 				List<String> notesInChord = generateChord(GuitarModel.MUSIC_NOTES_SHARP[x],formulas.get(y),getDescriptors()[y]);
 				String chordHash = chordHash(notesInChord);
 				
