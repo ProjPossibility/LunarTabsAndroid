@@ -6,8 +6,6 @@
  */
 package com.tuxguitar.song.models;
 
-import java.io.Serializable;
-
 import com.tuxguitar.song.factory.TGFactory;
 
 /**
@@ -15,7 +13,7 @@ import com.tuxguitar.song.factory.TGFactory;
  * 
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGBeat implements Serializable {
+public abstract class TGBeat {
 	
 	public static final int MAX_VOICES = 2;
 	
@@ -131,9 +129,5 @@ public abstract class TGBeat implements Serializable {
 			beat.setText( this.text.clone(factory));
 		}
 		return beat;
-	}
-	
-	public void clearVoices() {
-		voices = new TGVoice[0];
 	}
 }

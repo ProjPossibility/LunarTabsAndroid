@@ -9,7 +9,6 @@
 	<string name="GoTo">Go To Section</string>
 	<string name="EnableStompMode">Enable Stomp Mode</string>
 	<string name="DisableStompMode">Disable Stomp Mode</string>
-	<string name="CalibStompMode">Calibrate Stomp Mode</string>	
 	<string name="StopModeText">Place the phone down on the floor next to your feet. Sit comfortably with the guitar in your hands. In stomp mode, when you want to go to the next playing instruction, just stomp in front of the phone to create nearby vibration that is picked up as motion spikes by the accelerometer. DO NOT STOMP ON YOUR PHONE. Best results are on carpet or with the phone placed on a towel on a hard floor. When you are ready, please OK.</string>
 	<string name="EnableVoiceActions">Enable Voice Actions</string>
 	<string name="DisableVoiceActions">Disable Voice Actions</string>	
@@ -25,17 +24,15 @@
         <item>4 Measures</item>
         <item>5 Measures</item>
         <item>10 Measures</item>        
-        <item>Segment by Repetition</item>
     </string-array>
-    <string-array name="MeasureIncArr">
+    <integer-array name="MeasureIncArr">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
         <item>10</item>        
-        <item>Segment by Repetition</item>        
-    </string-array>
+    </integer-array>
     <string-array name="empty_instruct">
         <item></item>
         <item></item>

@@ -6,7 +6,6 @@
  */
 package com.tuxguitar.song.managers;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +31,7 @@ import com.tuxguitar.song.models.TGTrack;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class TGSongManager implements Serializable {
+public class TGSongManager {
 	public static final short MAX_CHANNELS = 16;
 	
 	private TGFactory factory;

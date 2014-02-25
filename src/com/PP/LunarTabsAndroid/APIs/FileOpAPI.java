@@ -6,37 +6,24 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
-import com.PP.LunarTabsAndroid.UI.StomperParams;
-
 import android.os.Environment;
-import android.util.Log;
 
 public class FileOpAPI {
 	
 	//global storage path
-	public static final String SAVE_PATH_DIR = "/Android/data/com.PP.LunarTabsAndroid/files/";
-	public static final String SAVE_PATH = Environment.getExternalStoragePublicDirectory(SAVE_PATH_DIR).getPath() + "/";
-	
+	public static final String SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
+
 	//temporary files created for playback
 	public static final String TEMP_GP4 = "tmp.gp4";
 	public static final String TEMP_MID = "tmp.mid";
 	
-	//model files
+	//model file
 	public static final String GUI_MODEL_FILE = "MOD.tmp";
-	public static final String STOMPER_MODEL_FILE = "STOMPER_MOD.tmp";
-	
-	/**
-	 * Called to init directory structure.
-	 */
-	public static void init() {
-		File f = Environment.getExternalStoragePublicDirectory(SAVE_PATH_DIR);
-		boolean created = f.mkdirs();
-	}
 	
 	/*
 	 * Serialize model to file.
 	 */
-	public static void writeModel(StomperParams m, String file) {
+	public static void writeModel(GUIDataModel m, String file) {
 		try {
 			String path = SAVE_PATH+file;		  
 			File f = new File(path);
@@ -50,14 +37,13 @@ public class FileOpAPI {
 		}
 	}
 	
-	
-	public static StomperParams readModel(String file) {
+	public static GUIDataModel readModel(String file) {
 		try {
 			String path = SAVE_PATH+file;		  
 			File f = new File(path);
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream is = new ObjectInputStream(fis);
-			StomperParams rtn = (StomperParams) is.readObject();
+			GUIDataModel rtn = (GUIDataModel) is.readObject();
 			is.close();
 			return rtn;
 		}

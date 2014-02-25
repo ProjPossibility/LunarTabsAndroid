@@ -1,12 +1,10 @@
 package com.tuxguitar.song.models.effects;
 
-import java.io.Serializable;
-
 import com.tuxguitar.song.factory.TGFactory;
 import com.tuxguitar.song.models.TGDuration;
 import com.tuxguitar.song.models.TGVelocities;
 
-public abstract class TGEffectGrace implements Serializable {
+public abstract class TGEffectGrace {
 	
 	public static final int TRANSITION_NONE = 0;
 	

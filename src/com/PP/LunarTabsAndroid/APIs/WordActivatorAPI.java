@@ -12,9 +12,6 @@ public class WordActivatorAPI {
 	//Word Activator object and parent
 	protected MainActivity parent;
 	protected volatile WordActivator wa = null;
-	
-	//on stop/resume state
-	protected volatile boolean onStop_state = false;
 		
 	//singleton
 	protected WordActivatorAPI(){}
@@ -109,21 +106,5 @@ public class WordActivatorAPI {
 			
 		};
 		t.start();
-	}
-	
-	public void onStop() {
-		onStop_state = GUIDataModel.getInstance().isVoiceActionsEnabled();
-		if(onStop_state) {
-     	   GUIDataModel.getInstance().setVoiceActionsEnabled(false);
-     	   WordActivatorAPI.getInstance().stopListening();
-		}		
-	}
-	
-	public void onResume() {
-		if(onStop_state) {
-     	   //start voice actions
-     	   GUIDataModel.getInstance().setVoiceActionsEnabled(true);
-     	   WordActivatorAPI.getInstance().start();
-		}
 	}
 }

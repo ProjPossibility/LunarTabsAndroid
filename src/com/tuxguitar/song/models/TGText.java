@@ -1,10 +1,8 @@
 package com.tuxguitar.song.models;
 
-import java.io.Serializable;
-
 import com.tuxguitar.song.factory.TGFactory;
 
-public class TGText implements Serializable {
+public class TGText{
 	
 	private String value;
 	private TGBeat beat;

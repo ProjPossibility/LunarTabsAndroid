@@ -1,6 +1,5 @@
 package com.tuxguitar.song.managers;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +11,7 @@ import com.tuxguitar.song.models.TGMeasureHeader;
 import com.tuxguitar.song.models.TGTrack;
 
 
-public class TGTrackManager implements Serializable {
+public class TGTrackManager {
 	private TGSongManager songManager;
 	
 	public TGTrackManager(TGSongManager songManager){

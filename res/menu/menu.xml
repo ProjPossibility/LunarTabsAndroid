@@ -4,10 +4,8 @@
           android:title="@string/SectionIncrement" />
     <item android:id="@+id/GoToMenuItem"
           android:title="@string/GoTo" />
-    <item android:id="@+id/VoiceActionsMenuItem"
-          android:title="@string/EnableVoiceActions" />
     <item android:id="@+id/StompModeMenuItem"
           android:title="@string/EnableStompMode" />
-    <item android:id="@+id/CalibStompModeMenuItem"
-          android:title="@string/CalibStompMode" />
+    <item android:id="@+id/VoiceActionsMenuItem"
+          android:title="@string/EnableVoiceActions" />
 </menu>

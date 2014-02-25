@@ -2,7 +2,6 @@ package com.PP.IntelliSeg.Util;
 
 import java.util.*;
 
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.tuxguitar.song.models.TGBeat;
 import com.tuxguitar.song.models.TGMeasure;
 import com.tuxguitar.song.models.TGNote;
@@ -27,7 +26,7 @@ public class StringRepr {
 	public static Map<String,List<String>> getStringsforTracks(TGSong song, int type) {
 				
 		//extract all measures for tracks		
-		Map<String, List<TGMeasure>> trackMeasures = TuxGuitarUtil.extractAllMeasures(song, 0, song.countTracks()-1);
+		Map<String, List<TGMeasure>> trackMeasures = extractAllMeasures(song, 0, song.countTracks()-1);
 		
 		//rtn
 		Map<String,List<String>> rtn = new HashMap<String,List<String>>();
@@ -39,7 +38,7 @@ public class StringRepr {
 		
 		return rtn;
 	}
-		
+	
 	/**
 	 * 
 	 * Generate beat strings for list of measures
@@ -54,76 +53,51 @@ public class StringRepr {
 			TGMeasure m = mList.get(x);
 			for(Object b : m.getBeats()) {
 				TGBeat beat = (TGBeat)b;
-				String beatStr = beatToString(beat,m,type);				
+				String beatStr="";
+								
+				//get pitch (i.e. note) string
+				if(type==StringRepr.NOTE_STRING) {
+					for(int y=0; y < beat.countVoices(); y++) {
+						TGVoice v = beat.getVoice(y);
+						for(Object n : v.getNotes()) {
+							TGNote note = (TGNote) n;
+							beatStr = beatStr + getNoteID(note) + ",";
+						}					
+					}
+				}
+				
+				//get duration string
+				if(type==StringRepr.DUR_STRING) {
+					for(int y=0; y < beat.countVoices(); y++) {
+						TGVoice v = beat.getVoice(y);
+						beatStr = beatStr + v.getDuration().getTime() + ",";
+					}					
+				}
+				
+				//get tempo string
+				if(type==StringRepr.TEMPO_STRING) {
+					for(int y=0; y < beat.countVoices(); y++) {
+						beatStr = beatStr + m.getTempo().getValue();
+					}
+				}
+				
+				//get time signature  string
+				if(type==StringRepr.TIME_SIG_STRING) {
+					for(int y=0; y < beat.countVoices(); y++) {
+						beatStr = beatStr + m.getKeySignature();
+					}					
+				}
+								
+				//remove last comma
+				if(beatStr.length() > 0) {
+					beatStr = beatStr.substring(0,beatStr.length()-1); 
+				}
+				
+				//add
 				rtn.add(beatStr);
 			}
 		}
 		return rtn;
-	}
-	
-	public static List<List<String>> getBeatStringPerMeasure(List<TGMeasure> mList, int type) {
-		List<List<String>> rtn = new ArrayList<List<String>>();
-		for(int x=0; x < mList.size(); x++) {
-			TGMeasure m = mList.get(x);
-			List<String> toAdd = new ArrayList<String>();
-			for(Object b : m.getBeats()) {
-				TGBeat beat = (TGBeat) b;
-				toAdd.add(beatToString(beat,m,type));
-			}
-			rtn.add(toAdd);
-		}
-		return rtn;
-	}
-	
-	/**
-	 * Converts beat object to string
-	 * @param beat
-	 * @param m
-	 * @param type
-	 * @return
-	 */
-	public static String beatToString(TGBeat beat, TGMeasure m, int type) { 
-		String beatStr="";
-		
-		//get pitch (i.e. note) string
-		if(type==StringRepr.NOTE_STRING) {
-			for(int y=0; y < beat.countVoices(); y++) {
-				TGVoice v = beat.getVoice(y);
-				for(Object n : v.getNotes()) {
-					TGNote note = (TGNote) n;
-					beatStr = beatStr + getNoteID(note) + ",";
-				}					
-			}
-		}
-		
-		//get duration string
-		if(type==StringRepr.DUR_STRING) {
-			for(int y=0; y < beat.countVoices(); y++) {
-				TGVoice v = beat.getVoice(y);
-				beatStr = beatStr + v.getDuration().getTime() + ",";
-			}					
-		}
-		
-		//get tempo string
-		if(type==StringRepr.TEMPO_STRING) {
-			for(int y=0; y < beat.countVoices(); y++) {
-				beatStr = beatStr + m.getTempo().getValue();
-			}
-		}
-		
-		//get time signature  string
-		if(type==StringRepr.TIME_SIG_STRING) {
-			for(int y=0; y < beat.countVoices(); y++) {
-				beatStr = beatStr + m.getKeySignature();
-			}					
-		}
-						
-		//remove last comma
-		if(beatStr.length() > 0) {
-			beatStr = beatStr.substring(0,beatStr.length()-1); 
-		}
-		return beatStr;
-		
 	}
 	
 	/**
@@ -137,83 +111,41 @@ public class StringRepr {
 		int[] fretStarts = {25,20,16,11,6,1}; 
 		int val = fretStarts[string] + fret; //unique hash for each note on the guitar
 		return "" + val;
+	}	
+	
+	/**
+	 * Extract measures for particular track range
+	 * @param song
+	 * @param minTrack
+	 * @param maxTrack
+	 * @return
+	 */
+	public static Map<String, List<TGMeasure>> extractAllMeasures(TGSong song, int minTrack, int maxTrack) 
+	{
+		Map<String, List<TGMeasure>> rtn = new LinkedHashMap<String,List<TGMeasure>>();
+		for(int x=minTrack; x <= maxTrack && x < song.countTracks(); x++) {
+			TGTrack t = song.getTrack(x);
+			String name = "T" + x + "_" + t.getChannel().getInstrument() + "_" + t.getName();
+			List<TGMeasure> measures = extractMeasures(song, x, 0, t.countMeasures()-1);
+			rtn.put(name, measures);
+		}
+		return rtn;
 	}
 	
-	public static String getBeatStringSequence(TGTrack track, int type) {
-		
-		//get beat strings
-		List<TGMeasure> measures = TuxGuitarUtil.extractMeasures(track);
-		List<String> beatStrs= getBeatString(measures,type);
-		
-		//create melody string
-		StringBuffer rtn = new StringBuffer();
-		int elemCnt=0;
-		Map<String,Character> elemHashTbl = new HashMap<String,Character>(); 
-		for(String elem : beatStrs) {
-			String hash = elemHash(elem);
-			char c;
-			if(elemHashTbl.containsKey(hash)) {
-				c = elemHashTbl.get(hash);
-			}
-			else {
-				c = (char) (elemCnt+64);
-				elemHashTbl.put(hash,c);
-				elemCnt++;
-			}
-			rtn.append(c);
+	/**
+	 * Extract measures from song for particular track
+	 * @param song
+	 * @param track
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public static List<TGMeasure> extractMeasures(TGSong song, int track, int min, int max) {
+		TGTrack t = song.getTrack(track);
+		List<TGMeasure> rtn = new ArrayList<TGMeasure>();
+		for(int x=min; x <= max; x++) {
+			rtn.add(t.getMeasure(x));
 		}
-		
-		return rtn.toString();
-	}
-
-	public static String getMeasureStringSequence(TGTrack track, int type) {
-		
-		//get beat strings
-		List<TGMeasure> measures = TuxGuitarUtil.extractMeasures(track);
-		List<List<String>> measStrs= getBeatStringPerMeasure(measures,type);
-		
-		//create melody measure string
-		StringBuffer rtn = new StringBuffer();
-		int elemCnt=0;
-		Map<String,Character> measHashTbl = new HashMap<String,Character>(); 
-		for(List<String> measStr : measStrs) {
-			String measHash = "";
-			for(String elem : measStr) {
-				String hash = elemHash(elem);
-				measHash = measHash + hash;
-			}
-			char c;
-			if(measHashTbl.containsKey(measHash)) {
-				c = measHashTbl.get(measHash);
-			}
-			else {
-				c = (char) (elemCnt+64);
-				measHashTbl.put(measHash,c);
-				elemCnt++;
-			}
-			rtn.append(c);
-		}
-		
-		return rtn.toString();
-	}
-
-	public static String elemHash(String elem) {
-		elem = elem.trim();
-		String[] toks = elem.split(",");
-		List<Integer> frets = new ArrayList<Integer>();
-		for(String tok : toks) {
-			tok = tok.trim();
-			if(!tok.equals("")) {
-				int parsed = Integer.parseInt(tok);
-				frets.add(parsed);
-			}
-		}
-		Collections.sort(frets);
-		StringBuffer rtn = new StringBuffer();
-		for(int f : frets) {
-			rtn.append(f + ",");
-		}
-		String rtnStr = rtn.toString();
-		return rtnStr;
+		return rtn;
 	}
 }

@@ -6,8 +6,6 @@
  */
 package com.tuxguitar.song.models;
 
-import java.io.Serializable;
-
 import com.tuxguitar.song.factory.TGFactory;
 
 /**
@@ -16,7 +14,7 @@ import com.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGMeasureHeader implements Serializable {
+public abstract class TGMeasureHeader {
 	public static final int TRIPLET_FEEL_NONE = 1;
 	public static final int TRIPLET_FEEL_EIGHTH = 2;
 	public static final int TRIPLET_FEEL_SIXTEENTH = 3;

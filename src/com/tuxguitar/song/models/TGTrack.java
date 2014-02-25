@@ -6,7 +6,6 @@
  */
 package com.tuxguitar.song.models;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +18,7 @@ import com.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGTrack implements Serializable {
+public abstract class TGTrack {
 	public static final int MAX_OFFSET = 24;
 	public static final int MIN_OFFSET = -24;
 	

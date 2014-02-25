@@ -51,7 +51,7 @@ public class LBDM {
 			double nextVal = seq.get(x+1);
 			if(cVal > lastVal && cVal > nextVal) {
 				int end = x;
-				Segment seg = new LBDMSegment(lastStart,end);
+				Segment seg = new Segment(lastStart,end);
 				rtn.add(seg);
 				lastStart = (x+1);
 			}
@@ -59,7 +59,7 @@ public class LBDM {
 		
 		//handle last segment
 		if(lastStart < (seq.size()-1)) {
-			Segment seg = new LBDMSegment(lastStart,seq.size()-1);
+			Segment seg = new Segment(lastStart,seq.size()-1);
 			rtn.add(seg);
 		}
 		

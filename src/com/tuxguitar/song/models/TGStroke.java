@@ -1,10 +1,8 @@
 package com.tuxguitar.song.models;
 
-import java.io.Serializable;
-
 import com.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGStroke implements Serializable {
+public abstract class TGStroke {
 	
 	public static final int STROKE_NONE = 0;
 	public static final int STROKE_UP = 1;

@@ -1,9 +1,7 @@
 package com.tuxguitar.util;
 
-import java.io.Serializable;
 
-
-public class TGSynchronizer implements Serializable {
+public class TGSynchronizer {
 	
 	private static TGSynchronizer instance;
 	

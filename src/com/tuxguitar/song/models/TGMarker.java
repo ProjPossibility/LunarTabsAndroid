@@ -1,10 +1,8 @@
 package com.tuxguitar.song.models;
 
-import java.io.Serializable;
-
 import com.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGMarker implements Serializable {
+public abstract class TGMarker {
 	private static final TGColor DEFAULT_COLOR = TGColor.RED;
 	private static final String DEFAULT_TITLE = "Untitled";
 	

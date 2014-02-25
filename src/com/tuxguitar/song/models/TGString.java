@@ -6,8 +6,6 @@
  */
 package com.tuxguitar.song.models;
 
-import java.io.Serializable;
-
 import com.tuxguitar.song.factory.TGFactory;
 
 /**
@@ -16,7 +14,7 @@ import com.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGString implements Serializable {
+public abstract class TGString {
 	private int number;
 	private int value;
 	

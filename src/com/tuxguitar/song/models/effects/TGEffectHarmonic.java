@@ -1,10 +1,8 @@
 package com.tuxguitar.song.models.effects;
 
-import java.io.Serializable;
-
 import com.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGEffectHarmonic implements Serializable {
+public abstract class TGEffectHarmonic {
 	public static final String KEY_NATURAL = "N.H";
 	
 	public static final String KEY_ARTIFICIAL = "A.H";

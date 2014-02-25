@@ -19,15 +19,12 @@ import com.tuxguitar.song.models.TGTrack;
  */
 public class MeasureIncrementSegmenter extends AbstractSegmenter {
 
-	//default params
-	public static final int increment_DEFAULT = 1;
-	
 	//parameters
 	protected int increment;
 		
 	//ctrs
 	public MeasureIncrementSegmenter() {
-		increment = increment_DEFAULT;
+		increment = 1;
 	}	
 	public MeasureIncrementSegmenter(int increment) {
 		this.increment = increment;
@@ -47,7 +44,6 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 		//init current segment structures
 		List<String> chordInst = new ArrayList<String>();
 		List<String> sfI = new ArrayList<String>();
-		List<TGBeat> beatsI = new ArrayList<TGBeat>();
 		int start=0;
 		int end=0;
 		int incCnt=0;
@@ -58,7 +54,7 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 			
 			//get measure and generate instructions for it
 			TGMeasure measure = measures.get(y);
-			List<TGBeat> beats = measure.getBeats();
+			List beats = measure.getBeats();
 			for(int x=0; x < beats.size(); x++) {
 				String i1="";
 				String i2="";
@@ -74,7 +70,6 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 				}
 				chordInst.add(i1);
 				sfI.add(i2);
-				beatsI.add(b);
 			}
 			incCnt++;
 			
@@ -83,16 +78,14 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 				
 				//create and store segment
 				end = y;
-				Segment s = new MeasureIncrementSegment(start,end);
+				Segment s = new Segment(start,end);
 				s.setSfInst(sfI);
 				s.setChordInst(chordInst);
-				s.setBeats(beatsI);
 				rtn.add(s);
 				
 				//reset state
 				chordInst = new ArrayList<String>();
 				sfI = new ArrayList<String>();
-				beatsI = new ArrayList<TGBeat>();
 				start = (y+1);
 				incCnt=0;
 			}
@@ -101,10 +94,9 @@ public class MeasureIncrementSegmenter extends AbstractSegmenter {
 		//do last one if needed
 		if(start!=measures.size()) {
 			end = measures.size()-1;
-			Segment s = new MeasureIncrementSegment(start,end);
+			Segment s = new Segment(start,end);
 			s.setSfInst(sfI);
 			s.setChordInst(chordInst);
-			s.setBeats(beatsI);
 			rtn.add(s);			
 		}
 		

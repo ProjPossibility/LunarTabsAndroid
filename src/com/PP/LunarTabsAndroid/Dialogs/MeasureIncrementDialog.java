@@ -1,7 +1,6 @@
 package com.PP.LunarTabsAndroid.Dialogs;
 
 import com.PP.IntelliSeg.MeasureIncrementSegmenter.MeasureIncrementSegmenter;
-import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.SMRSegmenter;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
 import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.example.lunartabsandroid.R;
@@ -34,41 +33,22 @@ public class MeasureIncrementDialog extends DialogFragment {
 	    		
 	    		//get choice
 	    		Resources r = getActivity().getResources();
-	    		String[] incChoices = r.getStringArray(R.array.MeasureIncArr);
-	    		if(which==(incChoices.length-1)) {
-	    			
-	    			//redo data model w/ repetition segmenter
-	    			GUIDataModel dataModel = GUIDataModel.getInstance();	    			
-	    	        dataModel.setSegmenter(new SMRSegmenter());	 
+	    		int[] incChoices = r.getIntArray(R.array.MeasureIncArr);
+	    		int newInc = incChoices[which];
+	    		
+	    		
+	    		//redo data model
+	    		try {
+	    			GUIDataModel dataModel = GUIDataModel.getInstance();
+	    			MeasureIncrementSegmenter m = (MeasureIncrementSegmenter) dataModel.getSegmenter();
+	    			m.setIncrement(newInc);
 	    			dataModel.genInstructions();
 	    			dataModel.setCurrentSegment(0);
 	    			dataModel.clearSelectedInstructionIndex();	    			
-	            	parent.refreshGUI();	    				    	        
-	    			
+	            	parent.refreshGUI();	    			
 	    		}
-	    		else {
-	    			
-		    		//redo data model w/ measurement increment
-		    		try {
-		    			int newInc = Integer.parseInt(incChoices[which]);
-		    			GUIDataModel dataModel = GUIDataModel.getInstance();
-		    			MeasureIncrementSegmenter m;
-		    			if(dataModel.getSegmenter() instanceof MeasureIncrementSegmenter) {
-		    				m = (MeasureIncrementSegmenter) dataModel.getSegmenter();
-		    			}
-		    			else {
-		    				m = new MeasureIncrementSegmenter();
-		    				dataModel.setSegmenter(m);
-		    			}
-		    			m.setIncrement(newInc);
-		    			dataModel.genInstructions();
-		    			dataModel.setCurrentSegment(0);
-		    			dataModel.clearSelectedInstructionIndex();	    			
-		            	parent.refreshGUI();	    			
-		    		}
-		    		catch(Exception e) {
-		    			e.printStackTrace();
-		    		}
+	    		catch(Exception e) {
+	    			e.printStackTrace();
 	    		}
 	    	}
 	    });

@@ -6,7 +6,6 @@ import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.StompDetector.StompDetector;
 import com.tuxguitar.song.models.TGSong;
 import com.tuxguitar.song.models.TGTrack;
 
@@ -23,7 +22,7 @@ public class GUIDataModel implements Serializable {
 	protected int selectedInstructionIndex;	
 	protected boolean verbose;
 	protected AbstractSegmenter segmenter;
-	protected volatile boolean voiceActionsEnabled;
+	protected boolean voiceActionsEnabled;
 
 	//singleton
 	protected GUIDataModel() {
@@ -40,7 +39,7 @@ public class GUIDataModel implements Serializable {
 	protected static GUIDataModel instance = null;
 	public static GUIDataModel getInstance() {
 		if(instance==null) {
-//			instance = FileOpAPI.readModel(FileOpAPI.GUI_MODEL_FILE);
+			instance = FileOpAPI.readModel(FileOpAPI.SAVE_PATH + FileOpAPI.GUI_MODEL_FILE);
 			if(instance==null) {
 				instance = new GUIDataModel();
 			}
@@ -52,7 +51,7 @@ public class GUIDataModel implements Serializable {
 	 * Serialize instance to file
 	 */
 	public void saveInstance() {
-//		FileOpAPI.writeModel(instance, FileOpAPI.GUI_MODEL_FILE);
+		FileOpAPI.writeModel(instance, FileOpAPI.SAVE_PATH + FileOpAPI.GUI_MODEL_FILE);
 	}
 	
 		
