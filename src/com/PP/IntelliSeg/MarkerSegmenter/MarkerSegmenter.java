@@ -9,12 +9,12 @@ import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGTrack;
 
 import com.PP.APIs.TuxGuitarUtil;
+import com.PP.InstructionGenerator.DrumInstructionGenerator;
+import com.PP.InstructionGenerator.GuitarInstructionGenerator;
+import com.PP.InstrumentModels.ChordRecognizer;
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Instruction;
 import com.PP.IntelliSeg.Abstract.Segment;
-import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 
 public class MarkerSegmenter extends AbstractSegmenter {
 

@@ -10,13 +10,13 @@ import org.herac.tuxguitar.song.models.TGTrack;
 import android.util.SparseArray;
 
 import com.PP.APIs.TuxGuitarUtil;
+import com.PP.InstructionGenerator.DrumInstructionGenerator;
+import com.PP.InstructionGenerator.GuitarInstructionGenerator;
+import com.PP.InstructionGenerator.RepeatInstructionGenerator;
+import com.PP.InstrumentModels.ChordRecognizer;
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Instruction;
 import com.PP.IntelliSeg.Abstract.Segment;
-import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstructionGenerator.RepeatInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 
 /**
  * Segmenter for measure increments.

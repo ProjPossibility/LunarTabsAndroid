@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.InstrumentModels;
+package com.PP.InstrumentModels;
 
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
 

@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.InstructionGenerator;
+package com.PP.InstructionGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

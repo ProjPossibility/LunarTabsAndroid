@@ -16,6 +16,10 @@ import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.PP.APIs.TuxGuitarUtil;
+import com.PP.InstructionGenerator.DrumInstructionGenerator;
+import com.PP.InstructionGenerator.GuitarInstructionGenerator;
+import com.PP.InstructionGenerator.RepeatInstructionGenerator;
+import com.PP.InstrumentModels.ChordRecognizer;
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
 import com.PP.IntelliSeg.Abstract.Instruction;
 import com.PP.IntelliSeg.Abstract.Segment;
@@ -23,10 +27,6 @@ import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.base.SMRSegment;
 import com.PP.IntelliSeg.Util.SelStruct;
 import com.PP.IntelliSeg.Util.SelectionFunction;
 import com.PP.IntelliSeg.Util.StringRepr2;
-import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstructionGenerator.RepeatInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 
 public class SMRSegmenter extends AbstractSegmenter {	
 					

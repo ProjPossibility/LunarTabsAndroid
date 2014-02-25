@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.InstructionGenerator;
+package com.PP.InstructionGenerator;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGNote;
 
 import com.PP.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
-import com.PP.LunarTabsAndroid.InstrumentModels.GuitarModel;
+import com.PP.InstrumentModels.ChordRecognizer;
+import com.PP.InstrumentModels.GuitarModel;
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
 
 public class GuitarInstructionGenerator extends InstructionGenerator {

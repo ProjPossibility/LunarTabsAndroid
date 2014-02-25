@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.InstructionGenerator;
+package com.PP.InstructionGenerator;
 
 import com.PP.LunarTabsAndroid.UI.ResourceModel;
 

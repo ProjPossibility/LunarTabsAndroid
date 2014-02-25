@@ -1,4 +1,4 @@
-package com.PP.LunarTabsAndroid.InstrumentModels;
+package com.PP.InstrumentModels;
 
 public class GuitarModel {
 
