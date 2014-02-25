@@ -184,7 +184,6 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
         }
         
         //init Midi Server and restart if bundle requires
-        MidiServer.getInstance().clearChordRecognitionListeners();
         MidiServer.getInstance().addChordRecognitionListener(this);
         if(savedInstanceState!=null && savedInstanceState.containsKey(MidiServer.getInstance().toString())) {
         	boolean turnOn = savedInstanceState.getBoolean(MidiServer.getInstance().toString());
@@ -852,6 +851,7 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
     			dataModel.getCurrentSegment()!=-1 && dataModel.getInstSegments()!=null
     			&& dataModel.getSelectedInstructionIndex()!=-1) {
     			
+<<<<<<< HEAD
     			//get beat and play (if not on percussion track)
     			if(!dataModel.isOnPercussionTrack()) {
 	    			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
@@ -861,6 +861,13 @@ public class MainActivity extends AbstractMidiServerActivity implements OnClickL
 	    				AudioIconAPI.getInstance().playBeatAudioIcon(beat);
 	    			}
     			}
+=======
+    			//get beat and play
+    			Segment c_seg = dataModel.getInstSegments().get(dataModel.getCurrentSegment());
+    			List<TGBeat> beats = c_seg.getBeats();
+    			TGBeat beat = beats.get(dataModel.getSelectedInstructionIndex());
+    			AudioIconAPI.getInstance().playBeatAudioIcon(beat);
+>>>>>>> parent of 6146a03... Supports Repeat Instructions, Assorted Bug Fixes
     			
     	}
     	else if(dataModel.getInstSegments()!=null && dataModel.getInstSegments().size()==0) {

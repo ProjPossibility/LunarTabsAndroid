@@ -13,7 +13,6 @@ import org.herac.tuxguitar.song.models.TGTrack;
 import android.util.Log;
 
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
-import com.PP.IntelliSeg.Abstract.Instruction;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.IntelliSeg.RepetionSegmenter.CrochemoreSegmenter.base.CrochemoreSegment;
 import com.PP.IntelliSeg.RepetionSegmenter.CrochemoreSegmenter.base.CrochemoreSolver;
@@ -23,7 +22,10 @@ import com.PP.IntelliSeg.Util.StringRepr;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
+<<<<<<< HEAD
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
+=======
+>>>>>>> parent of 6146a03... Supports Repeat Instructions, Assorted Bug Fixes
 
 public class CrochemoreMeasSegmenter extends AbstractSegmenter {	
 		
@@ -88,44 +90,39 @@ public class CrochemoreMeasSegmenter extends AbstractSegmenter {
 			int start = startSet.get(0);
 			int end = start+ s.getGram().length()-1;
 			List<TGMeasure> measures = TuxGuitarUtil.extractMeasures_rtnMeas(t, start,end);
-			List<Instruction> instructions = new ArrayList<Instruction>();
+
+			List<String> chordInst = new ArrayList<String>();
+			List<String> sfI = new ArrayList<String>();
 			for(int z=0; z < measures.size(); z++) {
 				//generate playing instructions for beats
 				List<TGBeat> beats = measures.get(z).getBeats();
 				for(int x=0; x < beats.size(); x++) {
 					String i1="";
 					String i2="";
+<<<<<<< HEAD
 					String i3="";
 					TGBeat b = beats.get(x);
+=======
+					TGBeat b = (TGBeat)beats.get(x);
+>>>>>>> parent of 6146a03... Supports Repeat Instructions, Assorted Bug Fixes
 					if(t.isPercussionTrack()) {
 						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 						i2 = i1;
-						i3 = "";
 					}
 					else {
 						i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b,offset);
 	//					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
 						i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);					
-						i3 = ChordRecognizer.getMatchTarget(b);						
 					}
-					Instruction inst;
-					if(i1.toLowerCase().indexOf("rest") > -1) {
-						inst = new Instruction(Instruction.REST_INSTRUCTION);
-					}
-					else {
-						inst = new Instruction(Instruction.PLAY_INSTRUCTION);
-					}
-					inst.setBeat(b);
-					inst.setChordInst(i1);
-					inst.setSfInst(i2);
-					inst.setMatchTarget(i3);
-					instructions.add(inst);
+					chordInst.add(i1);
+					sfI.add(i2);
 				}				
 			}	
 			
 			//add segment
 			Segment seg = new CrochemoreSegment(start,end);
-			seg.setInstructions(instructions);
+			seg.setSfInst(sfI);
+			seg.setChordInst(chordInst);
 			rtn.add(seg);
 			
 		}
