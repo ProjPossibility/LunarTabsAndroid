@@ -8,35 +8,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.herac.tuxguitar.song.models.TGBeat;
-import org.herac.tuxguitar.song.models.TGMeasure;
-import org.herac.tuxguitar.song.models.TGTrack;
-
 import android.util.Log;
-import android.util.SparseIntArray;
 
 import com.PP.IntelliSeg.Abstract.AbstractSegmenter;
-import com.PP.IntelliSeg.Abstract.Instruction;
 import com.PP.IntelliSeg.Abstract.Segment;
+import com.PP.IntelliSeg.RepetionSegmenter.CrochemoreSegmenter.base.CrochemoreSolver;
 import com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.base.SMRSegment;
 import com.PP.IntelliSeg.Util.SelStruct;
 import com.PP.IntelliSeg.Util.SelectionFunction;
-import com.PP.IntelliSeg.Util.StringRepr2;
+import com.PP.IntelliSeg.Util.StringRepr;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstructionGenerator.DrumInstructionGenerator;
 import com.PP.LunarTabsAndroid.InstructionGenerator.GuitarInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstructionGenerator.RepeatInstructionGenerator;
-import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
+import com.tuxguitar.song.models.TGBeat;
+import com.tuxguitar.song.models.TGMeasure;
+import com.tuxguitar.song.models.TGTrack;
 
 public class SMRSegmenter extends AbstractSegmenter {	
 					
 	@Override
 	public List<Segment> segment(TGTrack t) {
-				
+		
 		//convert to string representation
-		String str_repr = StringRepr2.getTrackHashString(t);
-				
-		//count repetition of measures (based on disjoint occurrences in string)
+		String str_repr = StringRepr.getMeasureStringSequence(t,StringRepr.NOTE_STRING);
+		
+		//count repetition of measures
 		Map<String,Set<Integer>> rep = new HashMap<String,Set<Integer>>();
 		for(int x=0; x < str_repr.length(); x++) {
 			String c = ""+str_repr.charAt(x);
@@ -81,14 +77,6 @@ public class SMRSegmenter extends AbstractSegmenter {
 	}
 	
 	public List<Segment> structsToSegs(List<SelStruct> structs, TGTrack t) {
-						
-		//get offset
-		int offset = t.getOffset();
-		
-		//get num repeats (based on repeat signs)
-		SparseIntArray repeats = RepeatInstructionGenerator.getNumRepeats(TuxGuitarUtil.getMeasures(t));
-		
-		//segments loop
 		List<Segment> rtn = new ArrayList<Segment>();
 		for(int y=0; y < structs.size(); y++) {
 			
@@ -100,45 +88,37 @@ public class SMRSegmenter extends AbstractSegmenter {
 			int start = startSet.get(0);
 			int end = start+ s.getGram().length()-1;
 			List<TGMeasure> measures = TuxGuitarUtil.extractMeasures_rtnMeas(t, start,end);
-			List<Instruction> instructions = new ArrayList<Instruction>();
+
+			List<String> chordInst = new ArrayList<String>();
+			List<String> sfI = new ArrayList<String>();
+			List<TGBeat> beatsI = new ArrayList<TGBeat>(); 
 			for(int z=0; z < measures.size(); z++) {
 				//generate playing instructions for beats
 				List<TGBeat> beats = measures.get(z).getBeats();
 				for(int x=0; x < beats.size(); x++) {
 					String i1;
 					String i2;
-					String i3;
-					TGBeat b = beats.get(x);
+					TGBeat b = (TGBeat)beats.get(x);
 					if(t.isPercussionTrack()) {
-						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b,offset);
+						i1 = DrumInstructionGenerator.getInstance().getPlayInstruction(b);
 						i2 = i1;
-						i3 = "";
 					}
 					else {
-						i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b,offset);
+						i1 = GuitarInstructionGenerator.getInstance().getPlayInstruction(b);
 	//					i2 = GuitarInstructionGenerator.getInstance().getStringFretInstruction(b);
 						i2 = GuitarInstructionGenerator.getInstance().getCondensedInstruction(b);					
-						i3 = ChordRecognizer.getMatchTarget(b);
 					}
-					Instruction inst;
-					if(i1.toLowerCase().indexOf("rest") > -1) {
-						inst = new Instruction(Instruction.REST_INSTRUCTION);
-					}
-					else {
-						inst = new Instruction(Instruction.PLAY_INSTRUCTION);
-					}
-					inst.setBeat(b);
-					inst.setChordInst(i1);
-					inst.setSfInst(i2);
-					inst.setMatchTarget(i3);
-					instructions.add(inst);
+					chordInst.add(i1);
+					sfI.add(i2);
+					beatsI.add(b);
 				}				
 			}	
 			
 			//add segment
-			SMRSegment seg = new SMRSegment(start,end,s.getStartSet());
-			seg.setInstructions(instructions);
-			seg.computeTotalRepeatCount(repeats);
+			Segment seg = new SMRSegment(start,end,s.getStartSet());
+			seg.setSfInst(sfI);
+			seg.setChordInst(chordInst);
+			seg.setBeats(beatsI);
 			rtn.add(seg);
 		}
 		return rtn;

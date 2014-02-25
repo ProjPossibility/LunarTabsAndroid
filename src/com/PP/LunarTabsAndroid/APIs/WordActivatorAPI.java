@@ -4,7 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 import com.root.gast.speech.activation.WordActivator;
 
 public class WordActivatorAPI {
@@ -32,17 +32,13 @@ public class WordActivatorAPI {
 	 * @param parent Main Activity parent (that implements speech listener)
 	 */
 	public void init(String[] targetWords, MainActivity parent) {
-		
-		//do only once
-		if(wa==null) {
-							
-			//preempt beeping noise of speech recognizer by turning it off
-			AudioManager amanager=(AudioManager)parent.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-			amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);        
-		}
-		
+				
 		//store parent
 		this.parent = parent;
+		
+		//preempt beeping noise of speech recognizer by turning it off
+		AudioManager amanager=(AudioManager)parent.getSystemService(Context.AUDIO_SERVICE);
+		amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);        
 		
 		//initialize word activator
 		boolean needGC = (wa!=null);
@@ -102,7 +98,7 @@ public class WordActivatorAPI {
 				try {
 					WordActivatorAPI.getInstance().stopListening();
 					Thread.sleep(ms_wait);
-					if(DataModel.getInstance().isVoiceActionsEnabled()) {
+					if(GUIDataModel.getInstance().isVoiceActionsEnabled()) {
 						WordActivatorAPI.getInstance().start();
 					}
 				}
@@ -116,9 +112,9 @@ public class WordActivatorAPI {
 	}
 	
 	public void onStop() {
-		onStop_state = DataModel.getInstance().isVoiceActionsEnabled();
+		onStop_state = GUIDataModel.getInstance().isVoiceActionsEnabled();
 		if(onStop_state) {
-     	   DataModel.getInstance().setVoiceActionsEnabled(false);
+     	   GUIDataModel.getInstance().setVoiceActionsEnabled(false);
      	   WordActivatorAPI.getInstance().stopListening();
 		}		
 	}
@@ -126,7 +122,7 @@ public class WordActivatorAPI {
 	public void onResume() {
 		if(onStop_state) {
      	   //start voice actions
-     	   DataModel.getInstance().setVoiceActionsEnabled(true);
+     	   GUIDataModel.getInstance().setVoiceActionsEnabled(true);
      	   WordActivatorAPI.getInstance().start();
 		}
 	}

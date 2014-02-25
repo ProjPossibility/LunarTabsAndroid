@@ -4,54 +4,47 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.herac.tuxguitar.io.base.TGSongLoader;
-import org.herac.tuxguitar.io.gtp.GP4OutputStream;
-import org.herac.tuxguitar.io.gtp.GTPSettings;
-import org.herac.tuxguitar.io.midi.MidiSongExporter;
-import org.herac.tuxguitar.song.factory.TGFactory;
-import org.herac.tuxguitar.song.models.TGBeat;
-import org.herac.tuxguitar.song.models.TGChannel;
-import org.herac.tuxguitar.song.models.TGLyric;
-import org.herac.tuxguitar.song.models.TGMeasure;
-import org.herac.tuxguitar.song.models.TGMeasureHeader;
-import org.herac.tuxguitar.song.models.TGNote;
-import org.herac.tuxguitar.song.models.TGSong;
-import org.herac.tuxguitar.song.models.TGTempo;
-import org.herac.tuxguitar.song.models.TGTrack;
-import org.herac.tuxguitar.song.models.TGVoice;
+
+import java.util.*;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
+import com.tuxguitar.io.base.TGSongLoader;
+import com.tuxguitar.io.gtp.GP4OutputStream;
+import com.tuxguitar.io.gtp.GTPSettings;
+import com.tuxguitar.io.midi.MidiSongExporter;
+import com.tuxguitar.song.factory.TGFactory;
+import com.tuxguitar.song.models.TGBeat;
+import com.tuxguitar.song.models.TGMeasure;
+import com.tuxguitar.song.models.TGMeasureHeader;
+import com.tuxguitar.song.models.TGNote;
+import com.tuxguitar.song.models.TGSong;
+import com.tuxguitar.song.models.TGTrack;
+import com.tuxguitar.song.models.TGVoice;
 
 public class TuxGuitarUtil {
 	
 	public static void cleanUp(String dirPath) {
 		try {
-			
-			//remove temporary files
 			File f1 = new File(dirPath + FileOpAPI.TEMP_GP4);
 			f1.delete();
 			File f2 = new File(dirPath + FileOpAPI.TEMP_MID);
 			f2.delete();
-			
-			//call garbage collector
-			System.gc();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void playClip_beats(TGSong song, String dirPath, int b0, int bf, int track, double tempoScale) {
+	public static void playClip_beats(String file, String dirPath, int b0, int bf, int track) {
 		try {
 			
 			//compute which measures to extract
+			TGSong song = TuxGuitarUtil.loadSong(file);
 			TGTrack trackObj = song.getTrack(track);
 			int m0=-1;
 			int m0_beat = -1;
@@ -89,11 +82,10 @@ public class TuxGuitarUtil {
 					beat_ctr++;
 				}
 			}
-						
+			
 			//write MIDI file for selection
 			TuxGuitarUtil.exportToGP4(dirPath + FileOpAPI.TEMP_GP4, newSong);		
-			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOpAPI.TEMP_GP4);
-			scaleTempo(s3,tempoScale);			
+			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOpAPI.TEMP_GP4);			
 			TuxGuitarUtil.exportToMidi(dirPath + FileOpAPI.TEMP_MID, s3);
 			
 			//play
@@ -105,37 +97,36 @@ public class TuxGuitarUtil {
 		}
 	}
 	
-	public static void scaleTempo(TGSong song, double tempoScale) {
-		for(int x=0; x < song.countTracks(); x++) {
-			TGTrack track = song.getTrack(x);
-			for(int y=0; y<track.countMeasures(); y++) {
-				TGMeasure m = track.getMeasure(y);
-				TGMeasureHeader h = m.getHeader();
-				TGTempo tempo = h.getTempo();
-				tempo.setValue((int)Math.round(tempo.getValue()*tempoScale));
-			}
-		}
-	}
-	
-	public static void playClip(TGSong song, String dirPath, int m0, int mf,int track, double tempoScale) {
+	public static void playClip(String file, String dirPath, int m0, int mf,int track) {
 		try {
 			
 			//write MIDI file for selection
+			TGSong song = TuxGuitarUtil.loadSong(file);
 			TGSong newSong = TuxGuitarUtil.extractMeasures(song, track,m0, mf);
 			TuxGuitarUtil.exportToGP4(dirPath + FileOpAPI.TEMP_GP4, newSong);		
 			TGSong s3 = TuxGuitarUtil.loadSong(dirPath + FileOpAPI.TEMP_GP4);			
-			scaleTempo(s3, tempoScale); //scale tempo for playback speed			
 			TuxGuitarUtil.exportToMidi(dirPath + FileOpAPI.TEMP_MID, s3);
 			
 			//play
 			MediaPlayerAPI.getInstance().play(dirPath + FileOpAPI.TEMP_MID);
-						
+			
+			/*
+			Sequence sequence = MidiSystem.getSequence(new File("test.mid"));
+			
+			// Create a sequencer for the sequence
+	        Sequencer sequencer = MidiSystem.getSequencer();
+	        sequencer.open();
+	        sequencer.setSequence(sequence);
+	        
+	//        Start playing
+	        sequencer.start();
+	        */
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static void exportToGP4(String file, TGSong song) {
 		GP4OutputStream g = new GP4OutputStream(new GTPSettings());
 		try {
@@ -151,42 +142,54 @@ public class TuxGuitarUtil {
 		TGTrack trackObj = originalSong.getTrack(track);
 		List<TGMeasure> relMeasures = new ArrayList<TGMeasure>();
 		List<TGMeasureHeader> relHeaders = new ArrayList<TGMeasureHeader>();
-		TGFactory f = new TGFactory();
 		for(int x=m0; x <= mf; x++) {
-			TGMeasureHeader clonedMeasureHeader = originalSong.getMeasureHeader(x).clone(f);
-			TGMeasure clonedMeasure = trackObj.getMeasure(x).clone(f,clonedMeasureHeader);
-			relMeasures.add(clonedMeasure);
-			relHeaders.add(clonedMeasureHeader);
+			relMeasures.add(trackObj.getMeasure(x));
+			relHeaders.add(originalSong.getMeasureHeader(x));
 		}
 				
-		//create new TGSong (cloned)
+		//create new TGSong
 		TGSong song = isolateTrack(originalSong, track);
 		song.getTrack(0).clear();
 		song.clearMeasureHeaders();
 		for(int x=0; x < relMeasures.size(); x++) {
-			
-			//get
 			TGMeasure m = relMeasures.get(x);
 			TGMeasureHeader h = relHeaders.get(x);
-			
-			//remove repeats
-			h.setRepeatOpen(false);
-			h.setRepeatClose(0);
-			
-			//add
 			song.addMeasureHeader(h);
 			song.getTrack(0).addMeasure(m);
 		}
 				
 		return song;
 	}
-			
+
+	public static TGSong isolateTrack(TGSong song, int t) {
+		TGSong rtn = song.clone(new TGFactory());
+		rtn.clearTracks();
+		TGTrack track = song.getTrack(t);
+		rtn.addTrack(track);
+		return rtn;
+	}
+	
+	public static TGSong loadSong(String file, AssetManager assManager) {
+		try {
+	        InputStream is = assManager.open(file);
+			TGSongLoader l = new TGSongLoader();	        
+	        return l.load(new TGFactory(), is);
+	    }
+		catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+		
+	public static TGSong loadSong(String file) throws Exception{
+		TGSongLoader l = new TGSongLoader();
+		return l.load(new TGFactory(), new FileInputStream(file));
+	}
+	
 	public static void exportToMidi(String file, TGSong song) {
 		MidiSongExporter e = new MidiSongExporter();
 		try {
-			e.init(new TGFactory(), new BufferedOutputStream(new FileOutputStream(file)));
-			e.configure(true);
-			e.exportSong(song);
+			e.exportSong(new BufferedOutputStream(new FileOutputStream(file)), song);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -203,7 +206,19 @@ public class TuxGuitarUtil {
         }
         return rtn;
     }
-        	
+    
+	public static List<TGMeasure> getMeasures(TGTrack track) {
+		List<TGMeasure> rtn = new ArrayList<TGMeasure>();
+		for(int x=0; x < track.countMeasures(); x++) {
+			rtn.add(track.getMeasure(x));
+		}
+		return rtn;
+	}
+	
+	public static TGTrack getTrack(TGSong song, int trackIndex) {
+		return song.getTrack(trackIndex);
+	}    
+	
 	/**
 	 * Extract measures for particular track range
 	 * @param song
@@ -216,8 +231,7 @@ public class TuxGuitarUtil {
 		Map<String, List<TGMeasure>> rtn = new LinkedHashMap<String,List<TGMeasure>>();
 		for(int x=minTrack; x <= maxTrack && x < song.countTracks(); x++) {
 			TGTrack t = song.getTrack(x);
-			TGChannel c= song.getChannel(x);
-			String name = "T" + x + "_" + c.getBank() + "_" + t.getName();
+			String name = "T" + x + "_" + t.getChannel().getInstrument() + "_" + t.getName();
 			List<TGMeasure> measures = extractMeasures_rtnMeas(song, x, 0, t.countMeasures()-1);
 			rtn.put(name, measures);
 		}
@@ -256,14 +270,16 @@ public class TuxGuitarUtil {
 		}
 		return rtn;
 	}
-		
-	/**
-	 * Extracts beat in particular range from track
-	 * @param track The track to extract from
-	 * @param b0 first beat (inclusive)
-	 * @param bf last beat (inclusive)
-	 * @return
-	 */
+	
+	public static List<TGMeasure> extractMeasures(TGTrack track) {
+		List<TGMeasure> rtn = new ArrayList<TGMeasure>();
+		for(int x=0; x < track.countMeasures(); x++) {
+			rtn.add(track.getMeasure(x));
+		}
+		return rtn;
+	}
+	
+	
 	public static List<TGBeat> getBeats(TGTrack track, int b0, int bf) {
 		List<TGBeat> rtn = new ArrayList<TGBeat>();
 		int beat_ctr=0;
@@ -280,112 +296,5 @@ public class TuxGuitarUtil {
 			}
 		}
 		return rtn;
-	}
-	
-	/**
-	 * Gets measures as list from track
-	 * @param track The track to extract measures from
-	 * @return
-	 */
-	public static List<TGMeasure> getMeasures(TGTrack track) {
-		List<TGMeasure> rtn = new ArrayList<TGMeasure>();
-		for(int x=0; x < track.countMeasures(); x++) {
-			rtn.add(track.getMeasure(x));
-		}
-		return rtn;
-	}
-	
-	/**
-	 * Returns track from song of particular index.
-	 * @param song Original Song
-	 * @param trackIndex The track index
-	 * @return
-	 */
-	public static TGTrack getTrack(TGSong song, int trackIndex) {
-		return song.getTrack(trackIndex);
-	} 
-	
-	/**
-	 * Returns song with particular track isolated. Song only contains 
-	 * specified track of track number.
-	 * @param song Original Song
-	 * @param t track number
-	 * @return
-	 */
-	public static TGSong isolateTrack(TGSong song, int t) {
-		TGSong rtn = song.clone(new TGFactory());
-		rtn.clearTracks();
-		TGTrack track = song.getTrack(t).clone(new TGFactory(), song);
-		rtn.addTrack(track);
-		rtn.clearChannels();
-		rtn.addChannel(song.getChannel(t));
-		return rtn;
-	}
-	
-	/**
-	 * Load song file from assets.
-	 * @param file
-	 * @param assManager
-	 * @return
-	 */
-	public static TGSong loadSong(String file, AssetManager assManager) {
-		InputStream is;
-		try {
-	        is = assManager.open(file);
-			TGSongLoader l = new TGSongLoader();	        
-	        return l.load(new TGFactory(), is);
-	    }
-		catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	}
-	
-	/**
-	 * Load song from user hard disk
-	 * @param file
-	 * @return
-	 * @throws Exception
-	 */
-	public static TGSong loadSong(String file) throws Exception{
-		
-		//load song using song loader
-		TGSongLoader l = new TGSongLoader();
-		TGSong song = l.load(new TGFactory(), new FileInputStream(file));
-		
-		//reformat structure to add lyrics to beat objects
-		addDerivedLyricsToBeatsOfSong(song);
-		
-		//return
-		return song;
-	}
-	
-	/**
-	 * Restore lyrics in beat objects of song.
-	 * @param song
-	 */
-	public static void addDerivedLyricsToBeatsOfSong(TGSong song) {
-		for(int x=0; x < song.countTracks(); x++) {
-			TGTrack track = song.getTrack(x);
-			TGLyric lyrics = track.getLyrics();
-			if(lyrics!=null) {
-				String[] lyricBeats = lyrics.getLyricBeats();
-				int lyricStart = lyrics.getFrom();
-				if(lyricStart >= 0) {
-					List<TGMeasure> measures = getMeasures(track);
-					int lyricBeatIndex=0;
-					for(int y=lyricStart; y< measures.size() && lyricBeatIndex < lyricBeats.length; y++) {
-						TGMeasure measure = measures.get(y);
-						for(int z=0; z < measure.countBeats() && lyricBeatIndex < lyricBeats.length; z++) {
-							TGBeat b = measure.getBeat(z);
-							if(!b.isRestBeat()) {
-								b.setStoredLyric(lyricBeats[lyricBeatIndex]);
-								lyricBeatIndex++;
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 }

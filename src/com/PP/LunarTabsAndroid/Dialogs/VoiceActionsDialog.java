@@ -1,15 +1,15 @@
 package com.PP.LunarTabsAndroid.Dialogs;
 
+import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.example.lunartabsandroid.R;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
-
-import com.PP.LunarTabsAndroid.APIs.WordActivatorAPI;
-import com.PP.LunarTabsAndroid.UI.DataModel;
-import com.example.lunartabsandroid.R;
 
 public class VoiceActionsDialog extends DialogFragment {
 	
@@ -31,7 +31,7 @@ public class VoiceActionsDialog extends DialogFragment {
 				public void onClick(DialogInterface dialog, int id) {
                 	   
                 	   //start voice actions
-                	   DataModel.getInstance().setVoiceActionsEnabled(true);
+                	   GUIDataModel.getInstance().setVoiceActionsEnabled(true);
                 	   WordActivatorAPI.getInstance().start();
                 	   
                 	   //relabel menu item

@@ -3,15 +3,14 @@ package com.PP.StompDetector;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.PP.LunarTabsAndroid.UI.StomperParams;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
-import com.PP.LunarTabsAndroid.Activities.MainActivity;
-import com.PP.LunarTabsAndroid.UI.StomperParams;
 
 public class StompDetector implements SensorEventListener {
 	
@@ -54,16 +53,17 @@ public class StompDetector implements SensorEventListener {
 		stompListeners = new ArrayList<StompListener>();
 		
 		//init sensors
-	    mSensorManager = (SensorManager) parent.getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
+	    mSensorManager = (SensorManager)parent.getSystemService(Context.SENSOR_SERVICE);
 	    mAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 	    mSensorManager.registerListener(this, mAccel,SensorManager.SENSOR_DELAY_NORMAL);	    
+	    
 	}
 		
 	/**
 	 * start function
 	 */
 	public void start() {
-								
+						
 		//look up and set params
 		this.setSensitivity(StomperParams.getInstance().getStomperSensitivity());
 		this.setUntrigger_delay(StomperParams.getInstance().getStomperDelay());
@@ -150,6 +150,7 @@ public class StompDetector implements SensorEventListener {
 				float accZ = event.values[2];
 				if(trigger(accZ)) {
 					double timestamp = System.currentTimeMillis();
+//					trigger_callback(timestamp);
 					for(StompListener l : stompListeners) {
 						l.trigger_callback(timestamp);
 					}
@@ -219,14 +220,11 @@ public class StompDetector implements SensorEventListener {
 	}	
 	
 	//interface methods
-	public void addStompListener(StompListener l) {
+	public void addStompListening(StompListener l) {
 		stompListeners.add(l);
 	}
 	public void removeStompListener(StompListener l) {
 		stompListeners.remove(l);
-	}	
-	public void clearStompListeners() {
-		stompListeners.clear();
 	}
 	
 	/**
@@ -243,23 +241,8 @@ public class StompDetector implements SensorEventListener {
 	 * On resume
 	 */
 	public void onResume() {
-		if(onStop_state) {			
+		if(onStop_state) {
 			this.start();
 		}
 	}
-
-	/**
-	 * @param mainActivity the mainActivity to set
-	 */
-	public void setMainActivity(MainActivity mainActivity) {
-		this.parent = mainActivity;
-		for(StompListener l : stompListeners) {
-			if(l instanceof InstructionStomp) {
-				InstructionStomp is = (InstructionStomp) l;
-				is.setMainActivity(mainActivity);
-			}
-		}
-	}
-	
-	
 }

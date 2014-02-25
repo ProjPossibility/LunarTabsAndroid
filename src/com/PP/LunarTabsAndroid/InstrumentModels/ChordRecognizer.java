@@ -1,13 +1,7 @@
 package com.PP.LunarTabsAndroid.InstrumentModels;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-import org.herac.tuxguitar.song.models.TGBeat;
-import org.herac.tuxguitar.song.models.TGNote;
-
-import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
+import com.tuxguitar.song.models.TGNote;
 
 public class ChordRecognizer {
 			
@@ -37,39 +31,6 @@ public class ChordRecognizer {
 			return bestMatch;
 			
 		}		
-	}
-	
-	/**
-	 * Function for getting match target out of beat.
-	 * @param beat
-	 * @return
-	 */
-	public static String getMatchTarget(TGBeat beat) {
-		if(beat.isRestBeat()) {
-			return "";
-		}
-		else {
-			
-			//get notes in beat
-			List<TGNote> notes = TuxGuitarUtil.getNotesForBeat(beat);
-
-			//convert notes to name of notes list			
-			List<String> chordNotes = getChordNoteNames(notes);
-			
-			//get unique elements and sort input into lex order
-			chordNotes = ListUtil.unique(chordNotes);
-			Collections.sort(chordNotes);
-			
-			//convert to string
-			String target = "";
-			for(int x=0; x < chordNotes.size(); x++) {
-				target = target + chordNotes.get(x) + " ";
-			}
-			
-			//return
-			return target.trim();
-			
-		}
 	}
 	
 	protected static List<String> getChordNoteNames(List<TGNote> notes) {
@@ -122,72 +83,4 @@ public class ChordRecognizer {
 		return bestMatch;
 //		return rtn + " : " + bestMatch + " : " + maxScore;
 	}	
-	
-	/**
-	 * Converts Midi hash to chord hash
-	 * @param str
-	 * @return
-	 */
-	public static String getChordHash(String str) {
-		
-		//remove numbers
-		StringBuffer rtn = new StringBuffer();
-		for(int x=0; x < str.length(); x++) {
-			char c = str.charAt(x);
-			if(!(c >= '0' && c<= '9')) {
-				rtn.append(str.charAt(x));
-			}
-		}
-		
-		//tokenize and sort
-		String[] toks = rtn.toString().split(" ");
-		List<String> chordNotes = Arrays.asList(toks);
-		chordNotes = ListUtil.unique(chordNotes);
-		Collections.sort(chordNotes);
-		
-		//recreate hash
-		String hash = "";
-		for(int x=0; x < chordNotes.size(); x++) {
-			hash = hash + chordNotes.get(x) + " ";
-		}
-		hash = hash.trim();
-		
-		//return
-		return hash;
-	}
-	
-	public static boolean robustMidiMatch(String played, String target) {
-		
-		//get parts
-		String[] playedNotes = played.split(" ");
-		String[] targetNotes = target.split(" ");
-		
-		//checks
-		outer:for(String playedNote : playedNotes) {
-			for(String targetNote : targetNotes) {
-				
-				//if target note, matched.
-				if(targetNote.equalsIgnoreCase(playedNote)) {
-					continue outer;
-				}
-				
-				//if half-pertubation of target note, matched.
-				int playedIndex = GuitarModel.getInstance().getNoteIndex(playedNote);
-				int targetIndex = GuitarModel.getInstance().getNoteIndex(targetNote);
-				int distance = Math.abs(playedIndex - targetIndex);
-				if(distance==1 || distance==11) {
-					continue outer;
-				}
-				
-			}	
-			
-			//failed because not matched.
-			return false;			
-		}
-		
-		//success because all matched.
-		return true;
-		
-	}
-
 }

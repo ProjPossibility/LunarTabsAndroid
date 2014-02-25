@@ -1,10 +1,10 @@
 
 package com.PP.LunarTabsAndroid.APIs;
 
+import com.pntanasis.android.metronome.MetronomeAsyncTask;
+
 import android.os.AsyncTask;
 import android.os.Build;
-
-import com.pntanasis.android.metronome.MetronomeAsyncTask;
 
 public class MetronomeAPI {
 	

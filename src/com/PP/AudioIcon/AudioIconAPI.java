@@ -3,19 +3,19 @@ package com.PP.AudioIcon;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.herac.tuxguitar.song.models.TGBeat;
-import org.herac.tuxguitar.song.models.TGMeasure;
-import org.herac.tuxguitar.song.models.TGNote;
-import org.herac.tuxguitar.song.models.TGSong;
-import org.herac.tuxguitar.song.models.TGTrack;
-import org.herac.tuxguitar.song.models.TGVoice;
-
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.MediaPlayerAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.Activities.MainActivity;
+import com.tuxguitar.song.models.TGBeat;
+import com.tuxguitar.song.models.TGMeasure;
+import com.tuxguitar.song.models.TGNote;
+import com.tuxguitar.song.models.TGSong;
+import com.tuxguitar.song.models.TGTrack;
+import com.tuxguitar.song.models.TGVoice;
 
 public class AudioIconAPI {
 	

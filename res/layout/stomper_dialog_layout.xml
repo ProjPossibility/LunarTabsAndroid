@@ -15,30 +15,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/imageView1"
-        android:text="@string/StompModeText" />
-    
-	<LinearLayout
-		android:id="@+id/buttonLayout"
-		android:orientation="horizontal"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"  
-	    android:layout_below="@+id/textView1"              		
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+        android:text="@string/StopModeText" />
 
-	    <Button
-	        android:id="@+id/CANCEL_BUTTON_STOMPER_DIALOG"
-	        android:layout_width="0dp"
-	        android:layout_weight="1"
-	        android:layout_height="wrap_content"
-	        android:text="@string/Cancel_button_text" />
-	        
-	    <Button
-	        android:id="@+id/OK_BUTTON_STOMPER_DIALOG"
-	        android:layout_width="0dp"
-	        android:layout_weight="1"
-	        android:layout_height="wrap_content"
-	        android:text="@string/OK_button_text" />
-	    
-	</LinearLayout> 
+    <Button
+        android:id="@+id/OK_BUTTON_DIALOG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:text="@string/OK" />
+  
 </RelativeLayout>

@@ -19,9 +19,12 @@
 
 package com.daidalos.afiledialog;
 
-import java.io.File;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.daidalos.afiledialog.view.FileItem;
+import com.example.lunartabsandroid.R;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -32,9 +35,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
-import com.daidalos.afiledialog.view.FileItem;
-import com.example.lunartabsandroid.R;
 
 /**
  * This class implements the common features of a file chooser.

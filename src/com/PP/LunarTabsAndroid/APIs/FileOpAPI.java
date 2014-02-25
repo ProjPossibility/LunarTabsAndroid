@@ -5,10 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.StomperParams;
 
 import android.os.Environment;
-
-import com.PP.LunarTabsAndroid.UI.StomperParams;
+import android.util.Log;
 
 public class FileOpAPI {
 	
@@ -29,9 +30,7 @@ public class FileOpAPI {
 	 */
 	public static void init() {
 		File f = Environment.getExternalStoragePublicDirectory(SAVE_PATH_DIR);
-		if(!f.exists()) {
-			boolean created = f.mkdirs();
-		}
+		boolean created = f.mkdirs();
 	}
 	
 	/*

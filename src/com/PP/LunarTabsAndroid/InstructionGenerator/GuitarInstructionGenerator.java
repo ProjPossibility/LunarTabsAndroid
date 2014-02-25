@@ -2,12 +2,11 @@ package com.PP.LunarTabsAndroid.InstructionGenerator;
 
 import java.util.List;
 
-import org.herac.tuxguitar.song.models.TGBeat;
-import org.herac.tuxguitar.song.models.TGNote;
-
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
 import com.PP.LunarTabsAndroid.InstrumentModels.ChordRecognizer;
 import com.PP.LunarTabsAndroid.InstrumentModels.GuitarModel;
+import com.tuxguitar.song.models.TGBeat;
+import com.tuxguitar.song.models.TGNote;
 
 public class GuitarInstructionGenerator extends InstructionGenerator {
 	
@@ -38,40 +37,20 @@ public class GuitarInstructionGenerator extends InstructionGenerator {
 	 * Get play instruction
 	 */
 	@Override
-	public String getPlayInstruction(TGBeat beat, int offset) {
+	public String getPlayInstruction(TGBeat beat) {
 		if(beat.isRestBeat()) {
 			return getDurationInstruction(beat);
 		}
 		else {
 			List<TGNote> notes = TuxGuitarUtil.getNotesForBeat(beat);		
 			if(notes.size() > 1) {
-				
-				//correct notes for offset
-				for(int x=0; x < notes.size(); x++) {
-					TGNote note = notes.get(x);
-					note.setValue(note.getValue()+offset);
-				}
-				
-				//return chord instruction
-				String instruction = ChordRecognizer.getChordName(notes) + " chord, " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
-				instruction = instruction.trim();
-				String lyricInstruction = this.getLyricInstruction(beat);
-				if(lyricInstruction!=null) {
-					instruction = instruction + "\n" + lyricInstruction;
-				}
-				return instruction.trim();
+				return ChordRecognizer.getChordName(notes) + " chord, " + getDurationInstruction(beat) + ".";
 			}
 			else {
 				TGNote singleNote = notes.get(0);
 				int string = singleNote.getString();
-				int fret = singleNote.getValue()+offset+1; //correct for offset
-				String instruction= GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ", " + getDurationInstruction(beat) + ". " + getNoteEffectInstruction(beat);
-				instruction = instruction.trim();				
-				String lyricInstruction = this.getLyricInstruction(beat);
-				if(lyricInstruction!=null) {
-					instruction = instruction + "\n" + lyricInstruction;
-				}
-				return instruction.trim();
+				int fret = singleNote.getValue();
+				return GuitarModel.getInstance().getNoteName(string, fret)[0].replaceAll("#", "-sharp") + ". " + getDurationInstruction(beat) + ".";
 			}
 		}
 	}

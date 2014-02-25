@@ -3,7 +3,7 @@ package com.PP.IntelliSeg.RepetionSegmenter.CrochemoreSegmenter.base;
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 
 public class CrochemoreSegment extends Segment {
 
@@ -18,9 +18,9 @@ public class CrochemoreSegment extends Segment {
 	
 	@Override
 	public void play() {
-		DataModel dataModel = DataModel.getInstance();
+		GUIDataModel dataModel = GUIDataModel.getInstance();
 //		TuxGuitarUtil.playClip_beats(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum());
-		TuxGuitarUtil.playClip(dataModel.getSong(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum(), dataModel.getTempoScale());				
+		TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum());				
 	}
 	
 	@Override

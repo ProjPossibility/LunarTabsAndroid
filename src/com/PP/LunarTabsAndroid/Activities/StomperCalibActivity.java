@@ -1,6 +1,19 @@
 package com.PP.LunarTabsAndroid.Activities;
 import java.text.DecimalFormat;
 
+import com.PP.ChartBean.TimeSeriesChartBean;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
+import com.PP.LunarTabsAndroid.UI.StomperParams;
+import com.PP.StompDetector.StompDetector;
+import com.PP.StompDetector.StompListener;
+import com.example.lunartabsandroid.R;
+
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,20 +22,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.PP.ChartBean.TimeSeriesChartBean;
-import com.PP.LunarTabsAndroid.UI.StomperParams;
-import com.PP.StompDetector.StompDetector;
-import com.PP.StompDetector.StompListener;
-import com.example.lunartabsandroid.R;
 
 
 public class StomperCalibActivity extends Activity implements SensorEventListener, StompListener, OnClickListener  {
@@ -58,12 +59,11 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 	protected LinearLayout delayLayout;
 	protected LinearLayout buttonLayout;
 	
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         //set up chart bean
-        setContentView(R.layout.stomp_calib_layout);  
+        setContentView(R.layout.chart_layout);  
         bean = new TimeSeriesChartBean(this,"Accelerometer Monitor", "Time","Accel Reading", new String[] {"Accelerometer","Upper Sensitivity Threshold","Lower Sensitivity Threshold"}, new int[] {Color.BLUE,Color.RED, Color.RED});
         bean.getMRenderer().setYAxisMin(5);
         bean.getMRenderer().setYAxisMax(20);        
@@ -109,7 +109,7 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
                 
         //start sensor stuff
 	    detector = new StompDetector(this);
-	    detector.addStompListener(this);
+	    detector.addStompListening(this);
 	    detector.setStart_wait(0);
 	    detector.start();
 	    mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
@@ -120,7 +120,6 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 	    updateParamSettings();
 	}
 	
-	@Override
 	protected void onResume() {
 		
 		//on resume calls
@@ -132,7 +131,6 @@ public class StomperCalibActivity extends Activity implements SensorEventListene
 		
 	}
 	
-	@Override
 	public void onStop() {
 		
 		//on stop calls

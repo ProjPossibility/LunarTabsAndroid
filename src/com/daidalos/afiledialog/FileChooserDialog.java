@@ -23,14 +23,14 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.example.lunartabsandroid.R;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-
-import com.example.lunartabsandroid.R;
 
 /**
  * A file chooser implemented in a Dialog. 

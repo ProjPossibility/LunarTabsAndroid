@@ -1,13 +1,14 @@
 package com.PP.IntelliSeg.RepetionSegmenter.SMRSegmenter.base;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
-
-import android.util.SparseIntArray;
 
 import com.PP.IntelliSeg.Abstract.Segment;
 import com.PP.LunarTabsAndroid.APIs.FileOpAPI;
 import com.PP.LunarTabsAndroid.APIs.TuxGuitarUtil;
-import com.PP.LunarTabsAndroid.UI.DataModel;
+import com.PP.LunarTabsAndroid.UI.GUIDataModel;
 
 public class SMRSegment extends Segment {
 	
@@ -15,11 +16,6 @@ public class SMRSegment extends Segment {
 	 * Start set for segment 
 	 */
 	protected Set<Integer> startSet;
-	
-	/**
-	 * Computed total repeat count.
-	 */
-	protected int totalRepeatCount=0;
 	
 	/**
 	 * Instantiate
@@ -33,8 +29,8 @@ public class SMRSegment extends Segment {
 	
 	@Override
 	public void play() {
-		DataModel dataModel = DataModel.getInstance();
-		TuxGuitarUtil.playClip(dataModel.getSong(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum(), dataModel.getTempoScale());				
+		GUIDataModel dataModel = GUIDataModel.getInstance();
+		TuxGuitarUtil.playClip(dataModel.getFilePath(), FileOpAPI.SAVE_PATH, getStart(),getEnd(),dataModel.getTrackNum());				
 	}
 	
 	@Override
@@ -52,18 +48,7 @@ public class SMRSegment extends Segment {
 		rtn.append(")");
 		return rtn.toString();
 		*/
-		return "(M" + (this.getStart()+1) + " x" + totalRepeatCount + ")";
-	}
-	
-	/**
-	 * Computes total repeat count based on both explicit and implicit repeats.
-	 * @param repeats
-	 */
-	public void computeTotalRepeatCount(SparseIntArray repeats) {
-		totalRepeatCount = startSet.size();
-		for(int start : startSet) {
-			totalRepeatCount = totalRepeatCount + repeats.get((start+1));
-		}
+		return "(M" + this.getStart() + " x" + startSet.size() + ")";
 	}
 	
 }
