@@ -1,0 +1,2 @@
+# LunarTabsAndroid
+Lunar Tabs is a screen reader friendly guitar tablature reader that makes the millions of guitar tabs online accessible to persons with low vision. This is the new Android version currently under development that is usable with Explore by Touch/Talkback. The older desktop version usable with VoiceOver and NVDA is available at: https://github.com/ProjPossibility/Lunar-Tabs-Desktop
