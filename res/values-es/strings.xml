@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lunar Tabs</string>
+	<string name="LoadTabFile">Abrir tablatura</string>
+	<string name="ChooseTrack">Elegir pista: </string>
+	<string name="SetTabHomeDir">Establecer carpeta por defecto</string>
+	<string name="GenerateInstructions">Generar instrucciones</string>
+	<string name="BAT">Breakfast_at_Tiffanys.gpx</string>
+	<string name="SectionIncrement">Establecer secciones</string>
+	<string name="PlaybackSpeed">Velocidad de reproducción</string>
+	<string name="GoTo">Ir a la sección</string>
+	<string name="EnableStompMode">Activar Stomp Mode</string>
+	<string name="DisableStompMode">Desactivar Stomp Mode</string>
+	<string name="EnableMidiFollowing">Activar seguimiento por Midi</string>
+	<string name="DisableMidiFollowing">Desactivar seguimiento por Midi</string>
+	<string name="CalibStompMode">Calibrar Stomp Mode</string>
+	<string name="StompModeText"> El Stomp Mode le permitirá controlar Lunar Tabs con tus pies. Sitúe su dispositivo Android en el suelo y en paralelo a sus pies. Siéntese cómodamente con su guitarra. Graciais al Stomp Mode, cuando desee ir a la siguiente instrucción, simplemente dé un pisotón delante de tu dispositivo Android. Gracias a esto, la vibración será recogida por el acelerómetro de su dispositivo. Los mejores resultados se han obtenido poniendo el dispositivo sobre una alfombra, en el caso de tener un suelo duro, recomendamos poner el dispositivo envuelto en una toalla. AVISO: NO PISES EL DISPOSITIVO, TRATA DE MANTENER UNA DISTANCIA DE SEGURIDAD PARA EVITAR DESASTRES. Cuando esté listo para activar el Stomp Mode, pulse Ok.</string>
+	<string name="MidiFollowingText">Con el seguimiento por Midi, Lunar Tabs le seguirá a medida que va tocando. Si su guitarra está dotada de una controladora Midi (como la Fishman Triple Play ó Sonnus) ó es una guitarra Midi, simplemente enchufe el receptor USB a su dispositivo Android usando un cable On-The-Go. Entonces, cuando usted está tocando la guitarra, o practicando una tablatura, Lunar Tabs le seguirá a medida que vaya tocando las secuencias de intrucciones.</string>
+        <string name="EnableVoiceActions">Activar controls por voz</string>
+	<string name="DisableVoiceActions">Desactivar control por voz</string>
+	<string name="VoiceActionsTitle">Control por voz</string>
+	<string name="VoiceActionsYes">¿Desea activar el control por voz?</string>
+	<string name="VoiceActionsNo">Cancelar</string>
+	<string name="VoiceActionsText">Al activar el control por voz, usted podrá controlar la aplicación mediante comandos de voz. Los actuales commandos reconocidos son: up, down, next, back, toggle, play, y sample.</string>			
+	<string name="OK_button_text">OK</string>
+	<string name="Cancel_button_text">Cancelar</string>
+    <string name="up_acc">Instrucción anterior</string>
+    <string name="down_acc">Siguiente instrucción</string>
+    <string name="back_acc">Sección anterior</string>
+    <string name="forward_acc">Siguiente sección</string>
+    <string name="ToggleModes">Modo de nomenclatura</string>
+    <string name="PlayMeasure">Reproducir</string>
+    <string name="FILE_LOADED">El archivo se ha cargado correctamente, por favor, escoja la pista con el intrumento deseado.</string>
+	<string name="ERROR_FILE_NOT_LOADED">Error: El archivo no pudo cargarse.</string>
+	<string name="ERROR_NO_DATA">Error: La pista no contiene datos.</string>
+	<string name="ERROR_NO_FILE_LOADED">Error: No se ha cargado ninguna tablatura, abra una antes de comenzar.</string>
+	<string name="ERROR_FIRST_SECTION">Error: Se encuentra en el principio de la pista. No hay una sección anterior.</string>
+	<string name="ERROR_LAST_SECTION">"Error: Se encuentra al final de la pista. No quedan más secciones."</string>
+	<string name="ERROR_NO_INST_SELECTED">Error: No hay ninguna instrucción seleccionada.</string>
+	<string name="ERROR_NO_PREV_INST">Error: Se encuentra en la primera instrucción de la sección.</string>
+	<string name="ERROR_NO_NEXT_INST">Error: Se encuentra en la última instrucción de la sección.</string>
+	<string name="HOME_DIR_SET_SUCCESS">Carpeta por defecto actualizada correctamente.</string>
+    <string name="daidalos_select">Seleccionar</string>
+    <string name="daidalos_cancel">Cancelar</string>
+    <string name="daidalos_ok">Ok</string>
+    <string name="daidalos_new_file">Nuevo</string>
+    <string name="daidalos_create_file">Crear fichero</string>
+    <string name="daidalos_create_folder">Crear carpeta</string>
+    <string name="daidalos_accept">Aceptar</string>
+    <string name="daidalos_enter_file_name">Introduzca el nombre del fichero que desea crear</string>
+    <string name="daidalos_enter_folder_name">Introduzca el nombre del directorio que desea crear</string>
+    <string name="daidalos_yes">Sí</string>
+    <string name="daidalos_no">No</string>
+    <string name="daidalos_confirm_select_file">¿Está seguro que quiere usar el nombre de fichero \'$file_name\'?</string>
+    <string name="daidalos_confirm_create_file">El fichero \'$file_name\' no existe, ¿está seguro que quiere crearlo?</string>
+    <string name="daidalos_confirm_select_folder">¿Está seguro que desea seleccionar la carpeta \'$file_name\'?</string>
+    <string name="daidalos_confirm_create_folder">La carpeta \'$file_name\' no existe, ¿está seguro que desea crearla?</string>
+    <string name="stomper_calib_graph_title">Monitor del acelerómetro</string>
+    <string name="stomper_calib_graph_x_axis_label">Tiempo</string>
+    <string name="stomper_calib_graph_y_axis_label">Velocidad de lectura</string>
+    <string name="stomper_calib_graph_accel_series_label">Acelerómetro</string>
+    <string name="select_section_dialog_measure">Compás</string>
+    <string name="select_section_dialog_to_measure">al compás</string>
+    <string name="stomper_enable_dialog_title">Activar Stomp Mode</string>
+    <string name="midi_following_dialog_title">Desactivar Midi Following</string>
+    	<string-array name="LANG_MOD">
+	    <item>Open</item>
+		<item>Primera</item>
+		<item>Segunda</item>
+		<item>Tercera</item>
+		<item>Cuarta</item>
+		<item>Quinta</item>
+		<item>Sexta</item>
+		<item>Séptima</item>
+		<item>Octava</item>
+		<item>Novena</item>
+		<item>Décima</item>
+		<item>Undécima</item>
+		<item>Duodécima</item>
+		<item>Decimotercera</item>
+		<item>Decimocuarta</item>
+		<item>Decimoquinta</item>
+		<item>Decimosexta</item>
+		<item>Decimoséptima</item>
+		<item>Decimooctava</item>
+		<item>Decimonovena</item>
+		<item>Vigésima</item>
+		<item>Vigesimoprimera</item>
+		<item>Vigesimosegunda</item>
+		<item>Vigesimotercera</item>
+		<item>Vigesimocuarta</item>
+		<item>Vigesimoquinta</item>
+		<item>Vigesimosexta</item>
+		<item>Vigesimoséptima</item>
+		<item>Vigesimoctava</item>
+		<item>Vigesimonovena</item>
+		<item>Trigésima</item>
+		<item>Trigesimoprimera</item>
+		<item>Trigesimosegunda</item>
+		<item>Trigesimotercera</item>
+		<item>Trigesimocuarta</item>
+		<item>Trigesimoquinta</item>
+		<item>Trigesimosexta</item>
+		<item>Trigesimoséptima</item>
+		<item>Trigesimooctava</item>
+		<item>Trigesimonovena</item>
+		<item>Cuadragésima</item>
+	</string-array>
+	<string-array name="VOICE_COMMANDS">
+	   	<item>Toggle</item>
+		<item>Play</item>
+		<item>Next</item>
+		<item>Back</item>
+		<item>Up</item>
+		<item>Down</item>
+		<item>Sample</item>
+	</string-array>
+	<string name="guitar_inst_gen_string">cuerda</string>
+	<string name="guitar_inst_gen_fret">cuerda</string>
+	<string name="guitar_inst_gen_chord">acorde</string>
+	<string name="guitar_inst_gen_sharp">sostenido</string>
+	<string name="inst_gen_tied">ligado</string>
+	<string name="inst_gen_dotted">punteado</string>
+	<string name="inst_gen_double_dotted">punteado doble</string>
+	<string name="inst_gen_rest">silencio</string>
+	<string name="inst_gen_play_with">Reproducir con</string>
+	<string name="inst_gen_and">y</string>
+	<string name="inst_gen_lyric">Letra</string>
+	<string-array name="INST_GEN_DURATIONS">
+	    <item>octava</item>
+	    <item>semitono</item>
+   	    <item>cuatritono</item>
+	    <item>sexta</item>
+	    <item>semifusa</item>
+	    <item>fusa</item>
+  	    <item>redonda</item>
+	</string-array>
+	<string-array name="INST_GEN_NOTE_EFFECTS">
+	    <item>accentuated emphasis</item>
+	    <item>pitch bend effect</item>
+   	    <item>dead note effect</item>
+	    <item>fade in</item>
+	   	<item>ghost note effect</item>
+	   	<item>grace note effect</item>
+  		<item>hammer-on</item>
+  		<item>harmonic effect</item>
+	   	<item>heavy accentuated emphasis</item>
+  		<item>palm mute</item>
+  		<item>pop</item>
+	   	<item>slap</item>
+  		<item>slide</item>
+  		<item>tremolo bar</item>
+	   	<item>stacatto</item>
+  		<item>tap effect</item>
+  		<item>tremolo picking</item>
+  		<item>trill</item>
+  		<item>vibrato</item>
+ 	</string-array>
+ 	<string name="repeat_inst_gen_repeat_measure">Repetir compás</string>
+ 	<string name="repeat_inst_gen_repeat_measures">Repetir compases</string>
+ 	<string name="repeat_inst_gen_times">veces</string>
+	<string name="repeat_inst_gen_to">a</string>
+	<string name="repeat_inst_gen_more_times">más veces</string>
+	<string-array name="BASE_NUMBERS">
+	    <item>one</item>
+	    <item>two</item>
+   	    <item>three</item>
+	    <item>four</item>
+	   	<item>five</item>
+	   	<item>six</item>
+  		<item>seven</item>
+  		<item>eight</item>
+	   	<item>nine</item>
+  		<item>ten</item>
+  		<item>eleven</item>
+	   	<item>twelve</item>
+  		<item>thirteen</item>
+  		<item>fourteen</item>
+	   	<item>fifteen</item>
+  		<item>sixteen</item>
+  		<item>seventeen</item>
+  		<item>eighteen</item>
+  		<item>nineteen</item>
+ 	</string-array>
+	<string-array name="TENS_DIGIT">
+	    <item>twenty</item>
+	    <item>thirty</item>
+   	    <item>fourty</item>
+	    <item>fifty</item>
+	   	<item>sixty</item>
+	   	<item>seventy</item>
+  		<item>eighty</item>
+  		<item>ninety</item>
+ 	</string-array>
+ 	<string name="words_hunred">Cien</string>
+ 	<string name="words_thousand">Mil</string>
+ 	<string name="words_million">Millón</string>
+ 	<string name="words_billion">Billón</string>
+	<string-array name="CHORD_DESCRIPTORS">
+	    <item>major</item>
+	    <item>sus</item>	     
+   	    <item>minor</item>	    
+	    <item>aug</item>	    
+	   	<item>dim</item> 
+	   	<item>major 6th</item> 
+  		<item>major 7th</item> 
+  		<item>dom 7th</item> 
+	    <item>dom 7th (sus 4)</item>
+	    <item>minor 6th</item>	     
+   	    <item>minor (maj 7)</item>	    
+	    <item>minor 7th</item>	    
+	   	<item>Major 7th (#5)</item> 
+	   	<item>aug 7th</item> 
+  		<item>minor 7th (b5)</item> 
+  		<item>dim 7th</item> 
+  		<item>add 4</item>	
+ 	</string-array>	
+	<string-array name="DRUMS">
+	    <item>High Q</item>
+	    <item>Slap</item>	     
+   	    <item>Scratch Push</item>	    
+	    <item>Scratch Pull</item>	    
+	   	<item>Sticks</item> 
+	   	<item>Square Click</item> 
+  		<item>Metronome Click</item> 
+  		<item>Metronome Bell</item> 
+	    <item>Acoustic Bass Drum</item>
+	    <item>Slide Stick</item>	     
+   	    <item>Acoustic Snare</item>	    
+	    <item>Hand Clap</item>	    
+	   	<item>Electric Snare</item> 
+	   	<item>Low Floor Tom</item> 
+  		<item>Closed Hi-Hat</item> 
+  		<item>High Floor Tom</item> 
+  		<item>Pedal Hi-Hat</item>
+        <item>Low Tom</item>
+        <item>Open Hi-Hat</item>
+        <item>Low-Mid Tom</item>
+        <item>Hi-Mid Tom</item>
+        <item>Crash Cymbal 1</item>
+        <item>High Tom</item>
+        <item>Ride Cymbal 1</item>
+        <item>Chinese Cymbal</item>
+        <item>Ride Bell</item>
+        <item>Tambourine</item>
+        <item>Splash Cymbal</item>
+        <item>Cowbell</item>
+        <item>Crash Cymbal 2</item>
+        <item>Vibraslap</item>
+        <item>Ride Cymbal 2</item>
+        <item>High Bongo</item>
+        <item>Low Bongo</item>
+        <item>Mute Hi Conga</item>
+        <item>Open Hi Conga</item> 
+        <item>Low Conga</item>
+        <item>High Timbale</item>
+        <item>Low Timbale</item>
+        <item>High Agogo</item>
+        <item>Low Agogo</item>
+        <item>Cabasa</item>
+        <item>Maracas</item>
+        <item>Short Whistle</item>
+        <item>Long Whistle</item>
+        <item>Short Guiro</item>
+        <item>Long Guiro</item>
+        <item>Claves</item>
+        <item>Hi Wood Block</item>
+        <item>Low Wood Block</item>
+        <item>Mute Cuica</item>
+        <item>Open Cuica</item>
+        <item>Mute Triangle</item>
+        <item>Open Triangle</item>
+        <item>Shaker</item>        
+        <item>Jingle Bell</item>
+        <item>Bell Tree</item>
+        <item>Castinets</item>
+        <item>Mute Surdo</item>
+        <item>Open Surdo</item>
+ 	</string-array>			
+	<string name="unknown_drum">Unknown Drum</string>
+	<string name="Capo">Capo</string>
+	<string name="dash">dash</string>
+    <string-array name="MeasureIncChoices">
+        <item>1 Measure</item>
+        <item>2 Measures</item>
+        <item>3 Measures</item>
+        <item>4 Measures</item>
+        <item>5 Measures</item>
+        <item>10 Measures</item>        
+        <item>Segment by Repetition</item>
+        <item>Segment by Tab Sections</item>
+    </string-array>
+    <string-array name="MeasureIncArr">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>10</item>        
+        <item>Segment by Repetition</item>        
+        <item>Segment by Tab Sections</item>
+    </string-array>
+    <string-array name="PlaybackSpeedChoices">
+        <item>25%</item>
+        <item>50%</item>
+        <item>100%</item>
+        <item>125%</item>
+        <item>150%</item>
+    </string-array>
+    <string-array name="PlaybackSpeedArr">
+        <item>0.25</item>
+        <item>0.50</item>
+        <item>1.00</item>
+        <item>1.25</item>
+        <item>1.50</item>
+    </string-array>
+    <string-array name="empty_instruct">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>   
+    <string-array name="empty_instruct_2">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>        
+    </string-array>   
+    <string name="action_settings">test</string>
+    <string name="back">&#8592;</string>
+    <string name="forward">&#8594;</string>
+    <string name="up">&#8593;</string>
+    <string name="down">&#8595;</string>    
+    <string name="daidalos_hello">Hello World!</string>
+    <string name="daidalos_app_name">aFileDialog</string>
+    <color name="daidalos_gray">#888</color>
+    <color name="black">#000000</color>    
+    <color name="white">#ffffff</color>  
+	<color name="background_holo_light">#ff00ddff</color>    
+    <integer name="ACTIVATOR_DELAY">5000</integer>	
+</resources>
