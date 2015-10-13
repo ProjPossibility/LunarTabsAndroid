@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="jp.kshoji.driver.midi.test">
+
+    <uses-sdk android:minSdkVersion="22" android:targetSdkVersion="22" />
+
+    <application>
+        <uses-library android:name="android.test.runner" />
+    </application>
+
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+                     android:targetPackage="jp.kshoji.driver.midi.test"
+                     android:handleProfiling="false"
+                     android:functionalTest="false"
+                     android:label="Tests for jp.kshoji.driver.midi.test"/>
+</manifest>

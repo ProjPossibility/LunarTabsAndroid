@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory 
+		android:title="@string/hands_free_settings_title"
+		android:key="hands_free_settings">
+	    	    		
+		<CheckBoxPreference 
+			android:key="enable_voice_actions_pref"
+			android:summary="@string/enable_voice_actions_summary"
+			android:title="@string/enable_voice_actions_title" 
+			android:defaultValue="@bool/enable_voice_actions_default_value"
+		/>
+		
+		<CheckBoxPreference 
+			android:key="enable_voice_activated_metronome_pref"
+			android:summary="@string/metronome_summary"
+			android:title="@string/metronome_title" 
+			android:defaultValue="@bool/metronome_default_value"
+			android:dependency="enable_voice_actions_pref"
+		/>
+		
+		<CheckBoxPreference 
+			android:key="enable_stomp_mode_pref"
+			android:summary="@string/enable_stomp_mode_summary"
+			android:title="@string/enable_stomp_mode_title" 
+			android:defaultValue="@bool/enable_stomp_mode_default_value"
+		/>
+		
+		<Preference
+			android:key="calibrate_stomp_mode_pref"
+			android:title="@string/calibrate_stomp_mode_pref_title"
+			android:summary="@string/calibrate_stomp_mode_pref_summary"
+			android:dependency="enable_stomp_mode_pref"
+		/>
+		
+		<CheckBoxPreference 
+			android:key="enable_midi_following_pref"
+			android:summary="@string/enable_midi_following_summary"
+			android:title="@string/enable_midi_following_title" 
+			android:defaultValue="@bool/enable_midi_following_default_value"
+		/>
+										
+	</PreferenceCategory>
+	
+</PreferenceScreen>

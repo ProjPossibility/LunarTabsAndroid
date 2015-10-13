@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@android:id/text1"
+  android:singleLine="true"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:gravity="center|center_vertical"  
+  android:background="@color/white"
+  android:textColor="@color/black"        
+  android:textSize="20sp"/><!-- From: file:/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/src/main/res/layout/my_spinner.xml -->

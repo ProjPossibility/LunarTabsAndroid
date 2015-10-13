@@ -1,0 +1,153 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From LunarTabsAndroid:
+* .DS_Store
+* .gitignore
+* ic_launcher-web.png
+* proguard-project.txt
+From MIDIDriver:
+* .DS_Store
+* pom.xml
+* proguard.cfg
+* snapshots/
+* snapshots/jp/
+* snapshots/jp/kshoji/
+* snapshots/jp/kshoji/midi-driver/
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/maven-metadata.xml
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/maven-metadata.xml.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/maven-metadata.xml.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121012.034319-1.apklib
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121012.034319-1.apklib.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121012.034319-1.apklib.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121012.034319-1.pom
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121012.034319-1.pom.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121012.034319-1.pom.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121120.041805-2.apklib
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121120.041805-2.apklib.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121120.041805-2.apklib.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121120.041805-2.pom
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121120.041805-2.pom.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20121120.041805-2.pom.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130121.000724-3.apklib
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130121.000724-3.apklib.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130121.000724-3.apklib.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130121.000724-3.pom
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130121.000724-3.pom.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130121.000724-3.pom.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130206.102510-4.apklib
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130206.102510-4.apklib.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130206.102510-4.apklib.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130206.102510-4.pom
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130206.102510-4.pom.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130206.102510-4.pom.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130218.091845-6.apklib
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130218.091845-6.apklib.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130218.091845-6.apklib.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130218.091845-6.pom
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130218.091845-6.pom.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130218.091845-6.pom.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130525.011156-7.apklib
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130525.011156-7.apklib.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130525.011156-7.apklib.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130525.011156-7.pom
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130525.011156-7.pom.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130525.011156-7.pom.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130617.091625-8.apklib
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130617.091625-8.apklib.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130617.091625-8.apklib.sha1
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130617.091625-8.pom
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130617.091625-8.pom.md5
+* snapshots/jp/kshoji/midi-driver/0.0.1-SNAPSHOT/midi-driver-0.0.1-20130617.091625-8.pom.sha1
+* snapshots/jp/kshoji/midi-driver/maven-metadata.xml
+* snapshots/jp/kshoji/midi-driver/maven-metadata.xml.md5
+* snapshots/jp/kshoji/midi-driver/maven-metadata.xml.sha1
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.1.0
+
+Replaced Libraries with Dependencies:
+-------------------------------------
+The importer recognized the following library projects as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the source files in your project were of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the library replacement in the import wizard and try
+again:
+
+google-play-services_lib => [com.google.android.gms:play-services:+]
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In MIDIDriver:
+* AndroidManifest.xml => mIDIDriver/src/main/AndroidManifest.xml
+* assets/ => mIDIDriver/src/main/assets
+* res/ => mIDIDriver/src/main/res/
+* src/ => mIDIDriver/src/main/java/
+In LunarTabsAndroid:
+* AndroidManifest.xml => lunarTabsAndroid/src/main/AndroidManifest.xml
+* assets/ => lunarTabsAndroid/src/main/assets/
+* libs/achartengine-1.1.0.jar => lunarTabsAndroid/libs/achartengine-1.1.0.jar
+* libs/commons-codec-1.5.jar => lunarTabsAndroid/libs/commons-codec-1.5.jar
+* libs/jfugue-4.0.3.jar => lunarTabsAndroid/libs/jfugue-4.0.3.jar
+* res/ => lunarTabsAndroid/src/main/res/
+* src/ => lunarTabsAndroid/src/main/java/
+* src/.DS_Store => lunarTabsAndroid/src/main/resources/.DS_Store
+* src/com/.DS_Store => lunarTabsAndroid/src/main/resources/com/.DS_Store
+* src/com/PP/.DS_Store => lunarTabsAndroid/src/main/resources/com/PP/.DS_Store
+* src/com/PP/APIs/.DS_Store => lunarTabsAndroid/src/main/resources/com/PP/APIs/.DS_Store
+* src/com/PP/InstrumentModels/.DS_Store => lunarTabsAndroid/src/main/resources/com/PP/InstrumentModels/.DS_Store
+* src/com/PP/IntelliSeg/.DS_Store => lunarTabsAndroid/src/main/resources/com/PP/IntelliSeg/.DS_Store
+* src/com/PP/IntelliSeg/Abstract/.DS_Store => lunarTabsAndroid/src/main/resources/com/PP/IntelliSeg/Abstract/.DS_Store
+* src/com/PP/LunarTabsAndroid/.DS_Store => lunarTabsAndroid/src/main/resources/com/PP/LunarTabsAndroid/.DS_Store
+* src/com/PP/LunarTabsAndroid/Activities/.DS_Store => lunarTabsAndroid/src/main/resources/com/PP/LunarTabsAndroid/Activities/.DS_Store
+* src/org/.DS_Store => lunarTabsAndroid/src/main/resources/org/.DS_Store
+* src/org/herac/.DS_Store => lunarTabsAndroid/src/main/resources/org/herac/.DS_Store
+* src/org/herac/tuxguitar/.DS_Store => lunarTabsAndroid/src/main/resources/org/herac/tuxguitar/.DS_Store
+* src/org/herac/tuxguitar/gm/.DS_Store => lunarTabsAndroid/src/main/resources/org/herac/tuxguitar/gm/.DS_Store
+* src/org/herac/tuxguitar/graphics/.DS_Store => lunarTabsAndroid/src/main/resources/org/herac/tuxguitar/graphics/.DS_Store
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

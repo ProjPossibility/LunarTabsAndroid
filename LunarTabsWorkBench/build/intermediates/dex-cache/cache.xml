@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-963332b2d439c14f7fab7eeee621d50b4091e50e.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/internal_impl-22.2.0-c7e36f96a9d54d24f791c2aac24e33b6db6d0991.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/libs/jfugue-4.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="78cc0da19bc82b9e2ec65b9137b4917a65a90ff8">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/jfugue-4.0.3-348df5e555b0a9c6af09e097e5b3f1d529308a67.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3aed37c38c56679602255dd72ef356da5d327cda">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-f56dd10a5ef26a79ef61ec56cc6477c971a274eb.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="82825756edeeb3b56b15e73b2edd56e93da5a444">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-bd699b734fafa4f27bd54f9054bc97f21fab6702.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="325788a04b436a0bccbc5b4c54cf0f12ebdcbd2d">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-781664e66cda87db2f62a8c68d34a4c43b911f8f.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="993834cb17d07d51b92db89d2c330243592ebf77">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-7f5db23be7f6c96af550a78eeee21bf02d1f5f5f.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="dcb5b75baf05d92e61d5706737200ee55949f97b">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-61a05d514bd78b8d6c58edb7cbc19687a8d4f398.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/internal_impl-22.2.0-bc04a4cc29800db8359d39c32303359d00d12038.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="997773777cf3904c11d6764fe3b7668538220e49">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-27af1be8b22ea53158f1bbc7d95a684cb510239b.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3c729e6d76a36c5dc27e6a4c4009296f49eaa88a">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-a037ae56a377c29f23e5f619b9a5d9bacd3414e3.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/LunarTabsWorkBench/mIDIDriver/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ea94dc309f473d33485c612269f46c1e1f9df166">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-97d1ea37bad8883b4e4bbe2b007890a7513766c2.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="95758a2905669affbffc5ddd262921d375674fad">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-fe82d458a00e4eb37c006673956541d9fe185924.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/support-annotations-22.2.0-92cd5de095e56952d59e517302907d983f5b7406.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-measurement/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="482de223655d06253cc6a4955d653f8994169500">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-911674b6c29a0f524fdea955e5cfea00a694dbcf.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9cf8c0ef60847621c7ad00b4f78dbfc9daba4af2">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-4afb17caefd268dbb19c8d6345110fb2ba890e50.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d61920aba361832a9545a43fa8c9453eb02f18f7">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-e412cceb692f9e787ea507f96f3a7fd7773fdee6.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="97f3b099801a9ad9d70e835b9125273e986eb68d">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-a3531710f8c5cf684ae1491286d4a0f914a44891.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-35418414fad9366e0f2f4185647d810649e76c17.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3178362320bcf51228835b60ff978efadfd1f783">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-015ace9f968c02f066397ef5c4ea59cd0c00e518.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-9808da889a86dd6cb379f4542cef3e7fb4a94089.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="dcf8c83c3dead00a6c4fe313e95f7aaca20dc641">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-9aab86537e55360a889b8b21cc5a07a889ccf012.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="17449c47df35c754b257532052f1270c444f7993">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-99d0db3f20ad3a54f87b804927e9f2fdd8a86c47.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2a7e47da654546f9457deb6132364f1bf33a1857">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-06632979c275e7dfed4a6cab898c155974ec83ef.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/libs/commons-codec-1.5.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="cf993e250ff71804754ec2734a16f23c0be99f70">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/commons-codec-1.5-bfde1135ee59199bb319ba0eedeb3a8ae99f611e.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-daa729e6bbee640e64d85df687241d35f5a5823c.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="041d93cf0533591c29d1d7263b2fa114dbfb20bd">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-7f0812d134d8c96195adec7f77421c2faa0ce94c.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/libs/achartengine-1.1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9932e3fb9fbe54e80873e77f72a99f79e33b3250">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/achartengine-1.1.0-7fd1f6300d9734df370915339f9cbc9869aca1bb.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b92002cb2f0e11a226ac5bac6dff1dc2a9d0b774">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-aeedf406df4376adea52538ff3817a8cdb6c65cc.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3b05c18f60969ecc2ba49c0409c4b96be2d9cb0c">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-1689a51755902327351c6279a71c864d9bfeed15.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d294caf562c4c678b2ef351662a0ca6f1a4d06c0">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-a57a1e8c41a851a7c86cbd91d9e89da8aa09105f.jar" />
+    </item>
+    <item
+        jar="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d93480da1d303122ee67dc3bc23e6297bdef9951">
+        <dex dex="/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/build/intermediates/pre-dexed/release/classes-bf9c3a69365e776733e6f3b4e999cf7a7c55d9de.jar" />
+    </item>
+
+</items>

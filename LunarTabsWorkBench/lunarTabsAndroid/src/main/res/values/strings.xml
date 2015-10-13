@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lunar Tabs</string>
+	<string name="LoadTabFile">Load Tab File</string>
+	<string name="ChooseTrack">Choose Track: </string>
+	<string name="SetTabHomeDir">Set Tab Home Directory</string>
+	<string name="GenerateInstructions">Generate Instructions</string>
+	<string name="BAT">Breakfast_at_Tiffanys.gpx</string>
+	<string name="SectionIncrement">Set Section Increment</string>
+	<string name="PlaybackSpeed">Set Playback Speed</string>	
+	<string name="GoTo">Go To Section</string>
+	<string name="EnableStompMode">Enable Stomp Mode</string>
+	<string name="DisableStompMode">Disable Stomp Mode</string>
+	<string name="EnableMidiFollowing">Enable Midi Following</string>
+	<string name="DisableMidiFollowing">Disable Midi Following</string>	
+	<string name="CalibStompMode">Calibrate Stomp Mode</string>	
+	<string name="StompModeText"> Stomp Mode allows you to automate Lunar Tabs with your feet. Place your Android device down on the floor parallel to your feet. Sit comfortably with the guitar in your hands. In stomp mode, when you want to go to the next playing instruction, just stomp in front of your Android device. The near by vibration due to your foot stomp is picked up by your device\'s accelerometer. Best results are on carpet or with the phone placed on a towel if on a hard floor. WARNING: DO NOT STOMP ON YOUR ANDROID DEVICE. I REPEAT: STOMP NEAR YOUR ANDROID DEVICE BUT DO NOT STOMP ON YOUR ANDROID DEVICE. When you are ready to enable stomp mode, press OK.</string>
+	<string name="MidiFollowingText">With Midi Following, Lunar Tabs will follow along as you play chords. If your guitar is equipped with a Midi controller (such as Fishman Triple Play or Sonnus) or is a Midi guitar, simply plug in the USB receiver to your Android device using an On-The-Go cable. Now when you are practicing a guitar tab, Lunar Tabs will follow you as you play sequential instruction steps.</string>	<string name="EnableVoiceActions">Enable Voice Actions</string>
+	<string name="DisableVoiceActions">Disable Voice Actions</string>	
+	<string name="VoiceActionsTitle">Voice Actions</string>		
+	<string name="VoiceActionsYes">Enable Voice Actions?</string>
+	<string name="VoiceActionsNo">Cancel</string>							
+	<string name="VoiceActionsText">By enabling voice actions, you can automate the application with voice commands. The following voice commands are available: up, down, next, back, toggle, play, play next, sample, stomp on, stomp off, voice off.</string>			
+	<string name="OK_button_text">OK</string>
+	<string name="Cancel_button_text">Cancel</string>	
+    <string name="up_acc">Previous Instruction</string>
+    <string name="down_acc">Next Instruction</string>
+    <string name="back_acc">Previous Section</string>
+    <string name="forward_acc">Next Section</string>
+    <string name="ToggleModes">Toggle Modes</string>
+    <string name="PlayMeasure">Play Sample</string>
+    <string name="FILE_LOADED">File successfully loaded. Choose an instrument track.</string>
+	<string name="ERROR_FILE_NOT_LOADED">Error: File could not be loaded.</string>    
+	<string name="ERROR_NO_DATA">Error: Current track contains no data.</string>
+	<string name="ERROR_NO_FILE_LOADED">Error: No Tab File Loaded. Please load a tab file first.</string>
+	<string name="ERROR_FIRST_SECTION">Error: You are at the beginning of the track. No previous section.</string>
+	<string name="ERROR_LAST_SECTION">"Error: You are at the end of the track. No more sections."</string>	
+	<string name="ERROR_NO_INST_SELECTED">Error: No Instruction Selected.</string>
+	<string name="ERROR_NO_PREV_INST">Error: No previous instructions in section.</string>	
+	<string name="ERROR_NO_NEXT_INST">Error: No more instructions in section.</string>
+	<string name="HOME_DIR_SET_SUCCESS">Home directory successfully updated.</string>	        
+    <string name="daidalos_select">Select</string>
+    <string name="daidalos_cancel">Cancel</string>
+    <string name="daidalos_ok">OK</string>
+    <string name="daidalos_new_file">New</string>
+    <string name="daidalos_create_file">Create file</string>
+    <string name="daidalos_create_folder">Create folder</string>
+    <string name="daidalos_accept">Accept</string>
+    <string name="daidalos_enter_file_name">Enter the name of the file that you want to create</string>
+    <string name="daidalos_enter_folder_name">Enter the name of the folder that you want to create</string>
+    <string name="daidalos_yes">Yes</string>
+    <string name="daidalos_no">No</string>
+    <string name="daidalos_confirm_select_file">Are you sure that you want to select the file \'$file_name\'?</string>
+    <string name="daidalos_confirm_create_file">The file \'$file_name\' do not exists, are you sure that you want to create it?</string>
+    <string name="daidalos_confirm_select_folder">Are you sure that you want to select the folder \'$file_name\'?</string>
+    <string name="daidalos_confirm_create_folder">The folder \'$file_name\' do not exists, are you sure that you want to create it?</string>
+    <string name="stomper_calib_graph_title">Accelerometer Monitor</string>
+    <string name="stomper_calib_graph_x_axis_label">Time</string>
+    <string name="stomper_calib_graph_y_axis_label">Accel Reading</string>
+    <string name="stomper_calib_graph_accel_series_label">Accelerometer</string>
+    <string name="select_section_dialog_measure">Measure</string>
+    <string name="select_section_dialog_to_measure">to Measure</string>
+    <string name="stomper_enable_dialog_title">Enable Stomp Mode</string>
+    <string name="midi_following_dialog_title">Enable Midi Following</string>
+    	<string-array name="LANG_MOD">
+	    <item>Open</item>
+		<item>First</item>
+		<item>Second</item>
+		<item>Third</item>
+		<item>Fourth</item>
+		<item>Fifth</item>
+		<item>Sixth</item>
+		<item>Seventh</item>
+		<item>Eighth</item>
+		<item>Ninth</item>
+		<item>Tenth</item>
+		<item>Eleventh</item>
+		<item>Twelfth</item>
+		<item>Thirteenth</item>
+		<item>Fourteenth</item>
+		<item>Fifteenth</item>
+		<item>Sixteenth</item>
+		<item>Seventeenth</item>
+		<item>Eighteenth</item>
+		<item>Nineteenth</item>
+		<item>Twentieth</item>
+		<item>Twenty-first</item>
+		<item>Twenty-second</item>
+		<item>Twenty-third</item>
+		<item>Twenty-fourth</item>
+		<item>Twenty-fifth</item>
+		<item>Twenty-sixth</item>
+		<item>Twenty-seventh</item>
+		<item>Twenty-eight</item>
+		<item>Twenty-ninth</item>
+		<item>Thirtieth</item>
+		<item>Thirty-first</item>
+		<item>Thirty-second</item>
+		<item>Thirty-third</item>
+		<item>Thirty-fourth</item>
+		<item>Thirty-fifth</item>
+		<item>Thirty-sixth</item>
+		<item>Thirty-seventh</item>
+		<item>Thirty-eigth</item>
+		<item>Thirty-nineth</item>
+		<item>Fortieth</item>
+	</string-array>
+	<string-array name="VOICE_COMMANDS">	    
+	   	<item>Toggle</item>	
+		<item>Play</item>	
+		<item>Next</item>
+		<item>Back</item>	
+		<item>Up</item>
+		<item>Down</item>	
+		<item>Sample</item>
+		<item>Play next</item>
+		<item>Play previous</item>		
+		<item>Stomp On</item>
+		<item>Stomp Off</item>
+		<item>Voice Off</item>
+	</string-array>
+	<string-array name="VOICE_COMMANDS_DIRECT_MATCH">
+		<item>Metronome Off</item>
+		<item>Metronome Stop</item>		
+		<item>44 time</item>
+		<item>34 time</item>
+		<item>24 time</item>
+		<item>Metronome 1</item>
+		<item>Metronome 2</item>
+		<item>Metronome 3</item>
+		<item>Metronome 4</item>
+		<item>Metronome 5</item>
+		<item>Metronome 6</item>
+		<item>Metronome 7</item>
+		<item>Metronome 8</item>
+		<item>Metronome 9</item>
+		<item>Metronome 10</item>
+		<item>Metronome 11</item>
+		<item>Metronome 12</item>
+		<item>Metronome 13</item>
+		<item>Metronome 14</item>
+		<item>Metronome 15</item>
+		<item>Metronome 16</item>
+		<item>Metronome 17</item>
+		<item>Metronome 18</item>
+		<item>Metronome 19</item>
+		<item>Metronome 20</item>
+		<item>Metronome 21</item>
+		<item>Metronome 22</item>
+		<item>Metronome 23</item>
+		<item>Metronome 24</item>
+		<item>Metronome 25</item>
+		<item>Metronome 26</item>
+		<item>Metronome 27</item>
+		<item>Metronome 28</item>
+		<item>Metronome 29</item>
+		<item>Metronome 30</item>
+		<item>Metronome 31</item>
+		<item>Metronome 32</item>
+		<item>Metronome 33</item>
+		<item>Metronome 34</item>
+		<item>Metronome 35</item>
+		<item>Metronome 36</item>
+		<item>Metronome 37</item>
+		<item>Metronome 38</item>
+		<item>Metronome 39</item>
+		<item>Metronome 40</item>
+		<item>Metronome 41</item>
+		<item>Metronome 42</item>
+		<item>Metronome 43</item>
+		<item>Metronome 44</item>
+		<item>Metronome 45</item>
+		<item>Metronome 46</item>
+		<item>Metronome 47</item>
+		<item>Metronome 48</item>
+		<item>Metronome 49</item>
+		<item>Metronome 50</item>
+		<item>Metronome 51</item>
+		<item>Metronome 52</item>
+		<item>Metronome 53</item>
+		<item>Metronome 54</item>
+		<item>Metronome 55</item>
+		<item>Metronome 56</item>
+		<item>Metronome 57</item>
+		<item>Metronome 58</item>
+		<item>Metronome 59</item>
+		<item>Metronome 60</item>
+		<item>Metronome 61</item>
+		<item>Metronome 62</item>
+		<item>Metronome 63</item>
+		<item>Metronome 64</item>
+		<item>Metronome 65</item>
+		<item>Metronome 66</item>
+		<item>Metronome 67</item>
+		<item>Metronome 68</item>
+		<item>Metronome 69</item>
+		<item>Metronome 70</item>
+		<item>Metronome 71</item>
+		<item>Metronome 72</item>
+		<item>Metronome 73</item>
+		<item>Metronome 74</item>
+		<item>Metronome 75</item>
+		<item>Metronome 76</item>
+		<item>Metronome 77</item>
+		<item>Metronome 78</item>
+		<item>Metronome 79</item>
+		<item>Metronome 80</item>
+		<item>Metronome 81</item>
+		<item>Metronome 82</item>
+		<item>Metronome 83</item>
+		<item>Metronome 84</item>
+		<item>Metronome 85</item>
+		<item>Metronome 86</item>
+		<item>Metronome 87</item>
+		<item>Metronome 88</item>
+		<item>Metronome 89</item>
+		<item>Metronome 90</item>
+		<item>Metronome 91</item>
+		<item>Metronome 92</item>
+		<item>Metronome 93</item>
+		<item>Metronome 94</item>
+		<item>Metronome 95</item>
+		<item>Metronome 96</item>
+		<item>Metronome 97</item>
+		<item>Metronome 98</item>
+		<item>Metronome 99</item>
+		<item>Metronome 100</item>
+		<item>Metronome 101</item>
+		<item>Metronome 102</item>
+		<item>Metronome 103</item>
+		<item>Metronome 104</item>
+		<item>Metronome 105</item>
+		<item>Metronome 106</item>
+		<item>Metronome 107</item>
+		<item>Metronome 108</item>
+		<item>Metronome 109</item>
+		<item>Metronome 110</item>
+		<item>Metronome 111</item>
+		<item>Metronome 112</item>
+		<item>Metronome 113</item>
+		<item>Metronome 114</item>
+		<item>Metronome 115</item>
+		<item>Metronome 116</item>
+		<item>Metronome 117</item>
+		<item>Metronome 118</item>
+		<item>Metronome 119</item>
+		<item>Metronome 120</item>
+		<item>Metronome 121</item>
+		<item>Metronome 122</item>
+		<item>Metronome 123</item>
+		<item>Metronome 124</item>
+		<item>Metronome 125</item>
+		<item>Metronome 126</item>
+		<item>Metronome 127</item>
+		<item>Metronome 128</item>
+		<item>Metronome 129</item>
+		<item>Metronome 130</item>
+		<item>Metronome 131</item>
+		<item>Metronome 132</item>
+		<item>Metronome 133</item>
+		<item>Metronome 134</item>
+		<item>Metronome 135</item>
+		<item>Metronome 136</item>
+		<item>Metronome 137</item>
+		<item>Metronome 138</item>
+		<item>Metronome 139</item>
+		<item>Metronome 140</item>
+		<item>Metronome 141</item>
+		<item>Metronome 142</item>
+		<item>Metronome 143</item>
+		<item>Metronome 144</item>
+		<item>Metronome 145</item>
+		<item>Metronome 146</item>
+		<item>Metronome 147</item>
+		<item>Metronome 148</item>
+		<item>Metronome 149</item>
+		<item>Metronome 150</item>
+		<item>Metronome 151</item>
+		<item>Metronome 152</item>
+		<item>Metronome 153</item>
+		<item>Metronome 154</item>
+		<item>Metronome 155</item>
+		<item>Metronome 156</item>
+		<item>Metronome 157</item>
+		<item>Metronome 158</item>
+		<item>Metronome 159</item>
+		<item>Metronome 160</item>
+		<item>Metronome 161</item>
+		<item>Metronome 162</item>
+		<item>Metronome 163</item>
+		<item>Metronome 164</item>
+		<item>Metronome 165</item>
+		<item>Metronome 166</item>
+		<item>Metronome 167</item>
+		<item>Metronome 168</item>
+		<item>Metronome 169</item>
+		<item>Metronome 170</item>
+		<item>Metronome 171</item>
+		<item>Metronome 172</item>
+		<item>Metronome 173</item>
+		<item>Metronome 174</item>
+		<item>Metronome 175</item>
+		<item>Metronome 176</item>
+		<item>Metronome 177</item>
+		<item>Metronome 178</item>
+		<item>Metronome 179</item>
+		<item>Metronome 180</item>
+		<item>Metronome 181</item>
+		<item>Metronome 182</item>
+		<item>Metronome 183</item>
+		<item>Metronome 184</item>
+		<item>Metronome 185</item>
+		<item>Metronome 186</item>
+		<item>Metronome 187</item>
+		<item>Metronome 188</item>
+		<item>Metronome 189</item>
+		<item>Metronome 190</item>
+		<item>Metronome 191</item>
+		<item>Metronome 192</item>
+		<item>Metronome 193</item>
+		<item>Metronome 194</item>
+		<item>Metronome 195</item>
+		<item>Metronome 196</item>
+		<item>Metronome 197</item>
+		<item>Metronome 198</item>
+		<item>Metronome 199</item>
+		<item>Metronome 200</item>
+		<item>Metronome 201</item>
+		<item>Metronome 202</item>
+		<item>Metronome 203</item>
+		<item>Metronome 204</item>
+		<item>Metronome 205</item>
+		<item>Metronome 206</item>
+		<item>Metronome 207</item>
+		<item>Metronome 208</item>
+		<item>Metronome 209</item>
+		<item>Metronome 210</item>
+		<item>Metronome 211</item>
+		<item>Metronome 212</item>
+		<item>Metronome 213</item>
+		<item>Metronome 214</item>
+		<item>Metronome 215</item>
+		<item>Metronome 216</item>
+		<item>Metronome 217</item>
+		<item>Metronome 218</item>
+		<item>Metronome 219</item>
+		<item>Metronome 220</item>
+		<item>Metronome 221</item>
+		<item>Metronome 222</item>
+		<item>Metronome 223</item>
+		<item>Metronome 224</item>
+		<item>Metronome 225</item>
+		<item>Metronome 226</item>
+		<item>Metronome 227</item>
+		<item>Metronome 228</item>
+		<item>Metronome 229</item>
+		<item>Metronome 230</item>
+		<item>Metronome 231</item>
+		<item>Metronome 232</item>
+		<item>Metronome 233</item>
+		<item>Metronome 234</item>
+		<item>Metronome 235</item>
+		<item>Metronome 236</item>
+		<item>Metronome 237</item>
+		<item>Metronome 238</item>
+		<item>Metronome 239</item>
+		<item>Metronome 240</item>
+		<item>Metronome 241</item>
+		<item>Metronome 242</item>
+		<item>Metronome 243</item>
+		<item>Metronome 244</item>
+		<item>Metronome 245</item>
+		<item>Metronome 246</item>
+		<item>Metronome 247</item>
+		<item>Metronome 248</item>
+		<item>Metronome 249</item>
+		<item>Metronome 250</item>
+		<item>Metronome 251</item>
+		<item>Metronome 252</item>
+		<item>Metronome 253</item>
+		<item>Metronome 254</item>
+		<item>Metronome 255</item>
+		<item>Metronome 256</item>
+		<item>Metronome 257</item>
+		<item>Metronome 258</item>
+		<item>Metronome 259</item>
+		<item>Metronome 260</item>	    
+	</string-array>
+	<string name="guitar_inst_gen_string">string</string>
+	<string name="guitar_inst_gen_fret">string</string>
+	<string name="guitar_inst_gen_chord">chord</string>
+	<string name="guitar_inst_gen_sharp">sharp</string>		
+	<string name="inst_gen_tied">tied</string>
+	<string name="inst_gen_dotted">dotted</string>
+	<string name="inst_gen_double_dotted">double dotted</string>	
+	<string name="inst_gen_rest">Rest</string>
+	<string name="inst_gen_play_with">Play with</string>	
+	<string name="inst_gen_and">and</string>		
+	<string name="inst_gen_lyric">Lyric</string>			
+	<string-array name="INST_GEN_DURATIONS">
+	    <item>eighth note</item>
+	    <item>half note</item>	     
+   	    <item>quarter note</item>	    
+	    <item>sixteenth note</item>	    
+	   	<item>sixty-fourth note</item> 
+	   	<item>thirty-second note</item> 
+  		<item>whole note</item> 
+	</string-array>
+	<string-array name="INST_GEN_NOTE_EFFECTS">
+	    <item>accentuated emphasis</item>
+	    <item>pitch bend effect</item>	     
+   	    <item>dead note effect</item>	    
+	    <item>fade in</item>	    
+	   	<item>ghost note effect</item> 
+	   	<item>grace note effect</item> 
+  		<item>hammer-on</item> 
+  		<item>harmonic effect</item> 
+	   	<item>heavy accentuated emphasis</item> 
+  		<item>palm mute</item> 
+  		<item>pop</item> 
+	   	<item>slap</item> 
+  		<item>slide</item> 
+  		<item>tremolo bar</item> 
+	   	<item>stacatto</item> 
+  		<item>tap effect</item> 
+  		<item>tremolo picking</item> 
+  		<item>trill</item> 
+  		<item>vibrato</item> 
+ 	</string-array>	
+ 	<string name="repeat_inst_gen_repeat_measure">Repeat measure</string>
+ 	<string name="repeat_inst_gen_repeat_measures">Repeat measures</string>	
+ 	<string name="repeat_inst_gen_times">times</string>	
+	<string name="repeat_inst_gen_to">to</string>		
+	<string name="repeat_inst_gen_more_times">more times</string>
+	<string-array name="BASE_NUMBERS">
+	    <item>one</item>
+	    <item>two</item>	     
+   	    <item>three</item>	    
+	    <item>four</item>	    
+	   	<item>five</item> 
+	   	<item>six</item> 
+  		<item>seven</item> 
+  		<item>eight</item> 
+	   	<item>nine</item> 
+  		<item>ten</item> 
+  		<item>eleven</item> 
+	   	<item>twelve</item> 
+  		<item>thirteen</item> 
+  		<item>fourteen</item> 
+	   	<item>fifteen</item> 
+  		<item>sixteen</item> 
+  		<item>seventeen</item> 
+  		<item>eighteen</item> 
+  		<item>nineteen</item> 
+ 	</string-array>	
+	<string-array name="TENS_DIGIT">
+	    <item>twenty</item>
+	    <item>thirty</item>	     
+   	    <item>fourty</item>	    
+	    <item>fifty</item>	    
+	   	<item>sixty</item> 
+	   	<item>seventy</item> 
+  		<item>eighty</item> 
+  		<item>ninety</item> 
+ 	</string-array>	
+ 	<string name="words_hunred">Hundred</string>
+ 	<string name="words_thousand">Thousand</string>
+ 	<string name="words_million">Million</string>
+ 	<string name="words_billion">Billion</string>
+	<string-array name="CHORD_DESCRIPTORS">
+	    <item>major</item>
+	    <item>sus</item>	     
+   	    <item>minor</item>	    
+	    <item>aug</item>	    
+	   	<item>dim</item> 
+	   	<item>major 6th</item> 
+  		<item>major 7th</item> 
+  		<item>dom 7th</item> 
+	    <item>dom 7th (sus 4)</item>
+	    <item>minor 6th</item>	     
+   	    <item>minor (maj 7)</item>	    
+	    <item>minor 7th</item>	    
+	   	<item>Major 7th (#5)</item> 
+	   	<item>aug 7th</item> 
+  		<item>minor 7th (b5)</item> 
+  		<item>dim 7th</item> 
+  		<item>add 4</item>	
+ 	</string-array>	
+	<string-array name="DRUMS">
+	    <item>High Q</item>
+	    <item>Slap</item>	     
+   	    <item>Scratch Push</item>	    
+	    <item>Scratch Pull</item>	    
+	   	<item>Sticks</item> 
+	   	<item>Square Click</item> 
+  		<item>Metronome Click</item> 
+  		<item>Metronome Bell</item> 
+	    <item>Bass</item>
+	    <item>Slide Stick</item>	     
+   	    <item>Snare</item>	    
+	    <item>Hand Clap</item>	    
+	   	<item>Snare</item> 
+	   	<item>Low Floor Tom</item> 
+  		<item>Closed Hi-Hat</item> 
+  		<item>High Floor Tom</item> 
+  		<item>Pedal Hi-Hat</item>
+        <item>Low Tom</item>
+        <item>Open Hi-Hat</item>
+        <item>Low-Mid Tom</item>
+        <item>Hi-Mid Tom</item>
+        <item>Crash</item>
+        <item>High Tom</item>
+        <item>Ride Cymbal</item>
+        <item>Chinese Cymbal</item>
+        <item>Ride Bell</item>
+        <item>Tambourine</item>
+        <item>Splash Cymbal</item>
+        <item>Cowbell</item>
+        <item>Crash</item>
+        <item>Vibraslap</item>
+        <item>Ride Cymbal</item>
+        <item>High Bongo</item>
+        <item>Low Bongo</item>
+        <item>Mute Hi Conga</item>
+        <item>Open Hi Conga</item> 
+        <item>Low Conga</item>
+        <item>High Timbale</item>
+        <item>Low Timbale</item>
+        <item>High Agogo</item>
+        <item>Low Agogo</item>
+        <item>Cabasa</item>
+        <item>Maracas</item>
+        <item>Short Whistle</item>
+        <item>Long Whistle</item>
+        <item>Short Guiro</item>
+        <item>Long Guiro</item>
+        <item>Claves</item>
+        <item>Hi Wood Block</item>
+        <item>Low Wood Block</item>
+        <item>Mute Cuica</item>
+        <item>Open Cuica</item>
+        <item>Mute Triangle</item>
+        <item>Open Triangle</item>
+        <item>Shaker</item>        
+        <item>Jingle Bell</item>
+        <item>Bell Tree</item>
+        <item>Castinets</item>
+        <item>Mute Surdo</item>
+        <item>Open Surdo</item>
+ 	</string-array>			
+	<string name="unknown_drum">Unknown Drum</string> 	
+	<string name="Capo">Capo</string> 
+	<string name="dash">dash</string>	
+    <string-array name="MeasureIncChoices">
+        <item>1 Measure</item>
+        <item>2 Measures</item>
+        <item>3 Measures</item>
+        <item>4 Measures</item>
+        <item>5 Measures</item>
+        <item>10 Measures</item>      
+        <item>Entire Tab at Once</item>  
+        <item>Segment by Repetition</item>
+        <item>Segment by Tab Sections</item>
+    </string-array>
+    <string-array name="MeasureIncArr">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>10</item>        
+        <item>Entire Tab at Once</item>  
+        <item>Segment by Repetition</item>        
+        <item>Segment by Tab Sections</item>
+    </string-array>
+    <string-array name="PlaybackSpeedChoices">
+        <item>25%</item>
+        <item>50%</item>
+        <item>100%</item>
+        <item>125%</item>
+        <item>150%</item>
+    </string-array>
+    <string-array name="PlaybackSpeedArr">
+        <item>0.25</item>
+        <item>0.50</item>
+        <item>1.00</item>
+        <item>1.25</item>
+        <item>1.50</item>
+    </string-array>
+    <string-array name="empty_instruct">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>   
+    <string-array name="empty_instruct_2">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>        
+    </string-array>   
+    <string name="action_settings">test</string>
+    <string name="back">&#8592;</string>
+    <string name="forward">&#8594;</string>
+    <string name="up">&#8593;</string>
+    <string name="down">&#8595;</string>    
+    <string name="daidalos_hello">Hello World!</string>
+    <string name="daidalos_app_name">aFileDialog</string>
+    <color name="daidalos_gray">#888</color>
+    <color name="black">#000000</color>    
+    <color name="white">#ffffff</color>  
+	<color name="background_holo_light">#ff00ddff</color>    
+    <integer name="ACTIVATOR_DELAY">5000</integer>	
+    <string name="stomp_mode_enabled_notif">Stomp Mode is now on.</string>
+    <string name="stomp_mode_disabled_notif">Stomp Mode is now off.</string>
+    <string name="midi_following_enabled_notif">Midi Following is now on.</string>
+    <string name="midi_following_disabled_notif">Midi Following is now off.</string>    
+    <string name="voice_disabled_notif">Voice Commands are now disabled.</string>        
+    <string name="general_settings_title">General Settings</string>
+	<string name="set_tab_home_dir_title">Set Tab Home Directory</string>
+	<string name="set_tab_home_dir_summary">Choose home directory for your guitar tab files to enable quick access to your tab library.</string>
+	<string name="enable_google_drive_title">Google Drive Integration</string>
+	<string name="enable_google_drive_summary">Allow Lunar Tabs to load guitar tabs from your Google Drive.</string>
+	<bool name="enable_google_drive_default_value">false</bool>
+	<string name="adjust_vol_title">Dynamic Volume Control</string>
+	<string name="adjust_vol_summary">Dynamically adjusts application volume on start up.</string>
+	<string name="language_settings_title">Language Settings</string>
+	<string name="language_settings_summary">Set language used for Lunar Tabs instruction.</string>
+	<string-array name="supported_languages">
+	    <item>English</item>
+		<item>Spanish</item>    
+	</string-array>	
+	<string-array name="supported_languages_alias">
+	    <item>en-US</item>
+		<item>es-ES</item>    
+	</string-array>		
+	<string name="language_settings_dialog_title">Please select a language:</string>
+	<string name="language_settings_default_value">en-US</string>
+	<bool name="adjust_vol_default_value">false</bool>
+	<string name="hands_free_settings_title">Hands-Free Settings</string>
+	<string name="enable_voice_actions_title">Enable Voice Actions</string>
+	<string name="enable_voice_actions_summary">Use voice commands to automate Lunar Tabs.</string>
+	<bool name="enable_voice_actions_default_value">false</bool>
+	<string name="enable_stomp_mode_title">Enable Stomp Mode</string>
+	<string name="enable_stomp_mode_summary">Use foot stomps detected via accelerometer to control Lunar Tabs.</string>
+	<bool name="enable_stomp_mode_default_value">false</bool>
+	<string name="enable_midi_following_title">Enable Midi Following</string>
+	<string name="enable_midi_following_summary">Enable Lunar Tabs to follow you as you play (requires midi device).</string>
+	<bool name="enable_midi_following_default_value">false</bool>
+	<string name="calibrate_stomp_mode_pref_title">Calibrate Stomp Mode</string>
+	<string name="calibrate_stomp_mode_pref_summary">Calibrate sensitivity and responsiveness parameters of Stomp Mode.</string>
+	<string name="play_back_options_title">Playback Options</string>
+	<string name="instruction_settings_title">Instruction Settings</string>
+	<string name="utilities_title">Additional Utilities</string>
+	<string-array name="file_selection_methods">
+	    <item>Google Drive</item>
+	    <item>Phone Disk</item>
+	</string-array>
+	<string-array name="file_selection_methods_alias">
+		<item>Google Drive</item>
+		<item>Phone Disk</item>
+	</string-array>
+	<string name="file_selection_dialog_title">Get file from...</string>
+	<string name="set_section_increment_summary">Modify how instructions are grouped into sections.</string>
+	<string name="screen_reader_speed_title">Screen Reader Speed</string>
+	<string name="screen_reader_speed_summary">Modify speed of screen reader voice.</string>
+	<string-array name="screen_reader_speeds">
+	    <item>Slow</item>
+	    <item>Medium</item>
+	    <item>Normal</item>
+	    <item>Fast</item>
+	</string-array>
+	<string-array name="screen_reader_speeds_alias">
+	    <item>Slow</item>
+	    <item>Medium</item>
+	    <item>Normal</item>
+	    <item>Fast</item>
+	</string-array>
+	<string name="screen_reader_speed_default_value">Normal</string>	
+	<string name="playback_speed_default_value">1.00</string>	
+	<string name="playback_speed_summary">Adjust playback speed of midi synthesis.</string>
+	<string name="sel_pbtracks_title">Play/Mute Tracks</string>
+	<string name="sel_pbtracks_summary">Specify which tracks to include in playback and which ones to mute.</string>
+	<string name="sel_pbtracks_dialog_title">Checkmark tracks to include in playback:</string>
+	<string name="go_to_summary">Skip to a particular section of the tab file.</string>
+	<string name="Loading">Loading...</string>
+	<string name="metronome_title">Voice Activated Metronome</string>
+	<string name="metronome_summary">Enable metronome controlled with voice actions.</string>
+	<bool name="metronome_default_value">false</bool>
+	<string name="metronome_explanation">Press OK to activate voice-controlled metronome. You can say \"metronome 120\" to start a 120 tempo. Replace 120 with any other number. You can also say \"two four time,\" \"three four time\", or \"four four time\" to set a time signature. Say \"metronome stop\" to stop the metronome.</string>
+	<string name="calib_graph_title">Accelerometer Monitor</string>
+	<string name="calib_graph_x">Time</string>
+	<string name="calib_graph_y">Accel Reading</string>
+	<string-array name="calib_graph_legend">
+		<item>Accelerometer</item>
+		<item>Upper Sensitivity Threshold</item>
+		<item>Lower Sensitivity Threshold</item>
+	</string-array>
+	<string name="thresh_label">Thresh: </string>
+	<string name="delay_label">Delay: </string>
+	<string name="threshold_default_str">Threshold: 0.1</string>
+	<string name="delay_default_str">Delay: 2000ms</string>
+	<string name="increase_threshold">+ Threshold</string>
+	<string name="decrease_threshold">- Threshold</string>
+	<string name="increase_delay">+ Delay</string>
+	<string name="decrease_delay">- Delay</string>
+	<string name="increase_threshold_desc">Increase Threshold Setting</string>
+	<string name="decrease_threshold_desc">Decrease Threshold Setting</string>
+	<string name="increase_delay_desc">Increase Delay Setting</string>
+	<string name="decrase_delay_desc">Decrease Delay Setting</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- USB MIDI Standard -->
+    <usb-device class="1" subclass="3" />
+    <!-- YAMAHA -->
+    <usb-device vendor-id="1177" />
+    <!-- Roland -->
+    <usb-device vendor-id="1410" />
+    <!-- MOTU -->
+    <usb-device vendor-id="2045" />
+    <!-- vmeter -->
+    <usb-device vendor-id="5840" />
+</resources><!-- From: file:/Users/prateek/StudioProjects/LunarTabsWorkBench/mIDIDriver/src/main/res/xml/device_filter.xml --><!-- From: file:/Users/prateek/StudioProjects/LunarTabsWorkBench/mIDIDriver/build/intermediates/bundles/debug/res/xml/device_filter.xml -->

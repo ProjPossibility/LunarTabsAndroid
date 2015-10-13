@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory 
+		android:title="@string/general_settings_title"
+		android:key="general_settings">
+
+		<Preference
+			android:key="set_tab_home_dir_pref"
+			android:title="@string/set_tab_home_dir_title" 
+			android:summary="@string/set_tab_home_dir_summary"
+			/>
+		
+		<CheckBoxPreference 
+			android:key="enable_google_drive_pref"
+			android:summary="@string/enable_google_drive_summary"
+			android:title="@string/enable_google_drive_title" 
+			android:defaultValue="@bool/enable_google_drive_default_value"
+		/>
+
+		<ListPreference 
+		    android:summary="@string/language_settings_summary" 
+		    android:title="@string/language_settings_title" 
+		    android:key="language_pref" 
+		    android:entries="@array/supported_languages"
+		    android:entryValues="@array/supported_languages_alias" 
+		    android:dialogTitle="@string/language_settings_dialog_title"
+			android:defaultValue="@string/language_settings_default_value" 
+		/>
+									    	    		
+		<CheckBoxPreference 
+			android:key="adjust_vol_pref"
+			android:summary="@string/adjust_vol_summary"
+			android:title="@string/adjust_vol_title" 
+			android:defaultValue="@bool/adjust_vol_default_value"
+		/>
+		
+	</PreferenceCategory>
+	
+</PreferenceScreen>
+<!-- From: file:/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/src/main/res/xml/general_settings.xml -->

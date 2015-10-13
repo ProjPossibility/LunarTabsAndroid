@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory 
+		android:title="@string/play_back_options_title"
+		android:key="play_back_options">
+		
+		<ListPreference 
+		    android:summary="@string/playback_speed_summary" 
+		    android:title="@string/PlaybackSpeed" 
+		    android:key="playback_speed_pref" 
+		    android:entries="@array/PlaybackSpeedChoices"
+		    android:entryValues="@array/PlaybackSpeedArr" 
+		    android:dialogTitle="@string/PlaybackSpeed"
+			android:defaultValue="@string/playback_speed_default_value" 
+		/>
+		
+		<Preference 
+		    android:summary="@string/sel_pbtracks_summary" 
+		    android:title="@string/sel_pbtracks_title" 
+		    android:key="sel_pbtracks_pref"
+		/>
+											    	    				
+	</PreferenceCategory>
+	
+</PreferenceScreen>
+<!-- From: file:/Users/prateek/StudioProjects/LunarTabsWorkBench/lunarTabsAndroid/src/main/res/xml/playback_settings.xml -->
